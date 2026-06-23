@@ -1,0 +1,15 @@
+{
+  "name": "m12-crew-starter",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"],
+      "settings": {
+        "workbench.activityBar.location": "hidden",
+        "explorer.compactFolders": true,
+        "workbench.startupEditor": "none"
+      }
+    }
+  }
+}

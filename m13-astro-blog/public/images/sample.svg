@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#0f172a"/>
+  <text x="320" y="180" fill="#e2e8f0" font-size="28" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">範例圖片 sample.svg</text>
+  <text x="320" y="220" fill="#64748b" font-size="16" font-family="sans-serif" text-anchor="middle">把你的圖丟到 public/images/ 就能用</text>
+</svg>

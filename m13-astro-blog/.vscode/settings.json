@@ -1,0 +1,6 @@
+{
+  "workbench.activityBar.location": "hidden",
+  "workbench.statusBar.visible": true,
+  "explorer.compactFolders": true,
+  "workbench.startupEditor": "none"
+}

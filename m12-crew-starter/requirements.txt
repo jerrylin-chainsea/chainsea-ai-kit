@@ -1,0 +1,6 @@
+# 不另外 pin litellm，讓 crewai 解析相容版本（避免版本衝突）
+# 開課前用乾淨環境跑 `pip install -r requirements.txt`，再 `pip freeze > requirements.lock` 並 commit
+crewai==0.130.0
+python-dotenv==1.0.1
+pytest==8.3.4
+

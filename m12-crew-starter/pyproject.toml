@@ -1,0 +1,3 @@
+[tool.pytest.ini_options]
+# 讓 `pytest` 能找到 src/ 套件（不必改用 python -m pytest）
+pythonpath = ["."]

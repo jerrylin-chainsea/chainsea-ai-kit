@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>黃金路徑 Demo 預覽 ｜ 學員會做出什麼</title>
+<meta name="description" content="零安裝、開檔即看：三個模組學員最後會做出來的成品擬真畫面。" />
+<style>
+:root{
+  --paper:#f4f5f8;--panel:#fff;--ink:#0e1116;--soft:#454c59;--muted:#7b8395;
+  --line:#e4e7ee;--cobalt:#2347ff;--mint:#0f9d76;--wash:#eef1ff;
+  --sans:"PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+header{padding:84px 0 36px}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--cobalt);font-weight:700}
+h1{font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin:18px 0 0}
+.sub{font-size:19px;color:var(--soft);margin-top:18px;max-width:54ch}
+.note{margin-top:20px;font-family:var(--mono);font-size:13px;color:var(--muted);border-left:3px solid var(--cobalt);padding-left:14px}
+.block{padding:44px 0;border-top:1px solid var(--line)}
+.label{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+.label .m{font-family:var(--mono);font-size:13px;font-weight:700;color:#fff;background:var(--cobalt);border-radius:7px;padding:4px 10px}
+.label h2{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.label .cap{font-size:15px;color:var(--muted)}
+
+/* terminal (M12) */
+.term{background:#0c0f16;border:1px solid #232a3a;border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -45px rgba(10,15,40,.7)}
+.bar{display:flex;align-items:center;gap:7px;padding:12px 15px;background:#10131c;border-bottom:1px solid #232a3a}
+.bar i{width:11px;height:11px;border-radius:50%;display:block}
+.bar .t{margin-left:8px;font-family:var(--mono);font-size:12px;color:#6b7693}
+.scr{padding:18px 20px;font-family:var(--mono);font-size:13.5px;line-height:1.85;color:#cdd6ec}
+.scr .ln{white-space:pre-wrap}
+.cmd{color:#5be3c0}.role{color:#ffb347;font-weight:700}.dim{color:#6b7693}.js{color:#8fd3ff}.ok{color:#5be3c0}
+.outcard{margin-top:14px;background:#11151f;border:1px solid #232a3a;border-left:3px solid #ffb347;border-radius:10px;padding:14px 16px}
+.outcard .h{font-family:var(--mono);font-size:11.5px;color:#ffb347;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+
+/* browser (M13) */
+.brow{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -45px rgba(10,15,40,.45)}
+.brow .top{display:flex;align-items:center;gap:8px;background:#f1f2f6;border-bottom:1px solid var(--line);padding:11px 15px}
+.brow .top i{width:11px;height:11px;border-radius:50%;display:block}
+.brow .url{margin-left:8px;flex:1;background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-family:var(--mono);font-size:12px;color:#8a8f9c}
+.brow .body{padding:38px 44px 46px}
+.brow h3{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.brow .meta{color:#9aa0ad;font-size:14px;margin:6px 0 26px}
+.post{border-top:1px solid #eef0f4;padding:16px 0;display:flex;justify-content:space-between;align-items:center}
+.post b{font-weight:600;font-size:17px}.post span{color:#b3b8c2;font-size:13px;font-family:var(--mono)}
+
+/* ops board (M14) */
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cell{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 18px}
+.cell .h{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cell .v{font-size:16px;color:var(--soft);margin-top:8px;line-height:1.4}
+.cell.alert{border-color:#f0b24a;background:#fffaf0}
+.cell.alert .h{color:#c9831b}
+.cell.alert .v{color:#8a5b12}
+@media(max-width:720px){.board{grid-template-columns:1fr 1fr}.brow .body{padding:26px 24px 32px}}
+
+footer{padding:40px 0 80px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer a{color:var(--cobalt);text-decoration:none}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <span class="kicker">黃金路徑 Demo 預覽 ｜ 零安裝</span>
+  <h1>學員最後會做出來的東西</h1>
+  <p class="sub">這頁是「結果示意」，開檔即看、不用裝任何工具。下面三個畫面，就是三個模組課後學員手上真的會有的成品。</p>
+  <p class="note">想實際跑、想 fork 來改的可運作範本在 demo/m12-crew-starter、demo/m13-astro-blog、demo/m14-ops-drill。</p>
+</div></header>
+
+<!-- M12 -->
+<section class="block"><div class="wrap">
+  <div class="label"><span class="m">M12</span><h2>AI 營運決策助理</h2><span class="cap">讀資料 → 三角色分析 → 給出決策</span></div>
+  <div class="term">
+    <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">crew · python run.py</span></div>
+    <div class="scr">
+<div class="ln"><span class="cmd">$</span> python run.py</div>
+<div class="ln dim">讀取 data/sales_sample.csv（6 筆營運資料）…</div>
+<div class="ln"><span class="role">🧑‍🔬 資料檢查員</span> 6/2「原味鍋貼」數量 <span style="color:#ff8c8c">-5</span> 為負值，標記為異常，需人工確認</div>
+<div class="ln"><span class="role">📊 分析洞察員</span> 外送占比上升；6/3 單量 300 為平日 2.5 倍，集中於外送通路</div>
+<div class="ln"><span class="role">🧭 決策摘要員</span> 整理為符合「格式藍圖」的決策：</div>
+<div class="ln ok">✓ 三角色完成（runtime：GitHub Models · 免費額度）</div>
+    </div>
+    <div class="outcard">
+      <div class="h">決策摘要（結構化輸出）</div>
+      <div class="scr" style="padding:0;font-size:13px">
+<div class="ln js">{</div>
+<div class="ln js">  "insight": "外送訂單成長明顯，需查核 6/2 的負數紀錄",</div>
+<div class="ln js">  "anomalies": ["6/2 原味鍋貼數量為 -5"],</div>
+<div class="ln js">  "risk_level": "medium",</div>
+<div class="ln js">  "action_items": ["人工核對 6/2 銷售紀錄", "評估外送備料量"]</div>
+<div class="ln js">}</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- M13 -->
+<section class="block"><div class="wrap">
+  <div class="label"><span class="m">M13</span><h2>AI 個人品牌發布站</h2><span class="cap">公開上線、可放進履歷</span></div>
+  <div class="brow">
+    <div class="top"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
+      <span class="url">https://myname.github.io</span></div>
+    <div class="body">
+      <h3>我的品牌發布站</h3>
+      <div class="meta">用 AI 做出來、公開發布到網路上的個人站</div>
+      <div class="post"><b>我的第一篇文章</b><span>2026 · 06 · 17</span></div>
+      <div class="post"><b>我怎麼用 AI 學會做網站</b><span>2026 · 06 · 20</span></div>
+      <div class="post"><b>About ／ 關於我</b><span>→</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- M14 -->
+<section class="block"><div class="wrap">
+  <div class="label"><span class="m">M14</span><h2>AI 營運控制塔</h2><span class="cap">把整間公司開起來營運、處理異常</span></div>
+  <div class="board">
+    <div class="cell"><div class="h">對外層</div><div class="v">M13 發布站 · 社群 · 客服</div></div>
+    <div class="cell"><div class="h">內部營運</div><div class="v">排班 · 庫存 · 自動化</div></div>
+    <div class="cell"><div class="h">資料 / 決策</div><div class="v">M12 決策助理</div></div>
+    <div class="cell alert"><div class="h">⚠ 事件 A · 對外品牌</div><div class="v">錯誤價格 $5 → 應為 $50</div></div>
+    <div class="cell alert"><div class="h">⚠ 事件 B · 營運資料</div><div class="v">爆單缺料</div></div>
+    <div class="cell alert"><div class="h">⚠ 事件 C · 系統與 AI</div><div class="v">AI 建議失準</div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  整體課程設計與決策留檔於 <a href="../docs/U12-14_課程設計藍圖.md">docs/</a>　·　給課程組的完整展示頁：<a href="../showcase/index.html">showcase/index.html</a>
+</div></footer>
+</body>
+</html>

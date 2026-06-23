@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const base = import.meta.env.BASE_URL; // 部署到 project Pages 時會自動帶上 /repo 前綴
+---
+
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>我的品牌發布站</title>
+  </head>
+  <body>
+    <h1>我的品牌發布站</h1>
+    <p>用 AI agent 做出來、公開發布的個人站。</p>
+    <ul>
+      {posts.map((p) => (
+        <li>
+          <a href={`${base}blog/${p.id}/`}>{p.data.title}</a>
+        </li>
+      ))}
+    </ul>
+    <p><a href={`${base}about/`}>About</a></p>
+  </body>
+</html>
