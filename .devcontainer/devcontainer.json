@@ -1,0 +1,10 @@
+{
+  "name": "AI 應用實戰課 學員包",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "postCreateCommand": "pip install -r m12-crew-starter/requirements.txt || true",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "ms-toolsai.jupyter", "astro-build.astro-vscode"]
+    }
+  }
+}

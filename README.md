@@ -1,5 +1,17 @@
 # AI 應用實戰課｜學員包(U12 – U14)
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HanLi-Chainsea/chainsea-ai-course-kit)
+
+## 🚀 線上一鍵開始(不用裝任何東西)
+
+1. 按上面的 **Open in GitHub Codespaces** 徽章 → 等它幫你開好雲端環境(第一次約一兩分鐘)。
+2. 開好後,直接打開 [`m12-crew-starter/M12_課1_教學筆記本.ipynb`](./m12-crew-starter/M12_課1_教學筆記本.ipynb),**從上往下一格一格按 ▶**。
+3. 還沒設金鑰也能跑、能學;設好金鑰(見下方)重跑那一格,就會看到真的 AI 三角色輸出。
+
+> M13 做網站時,你會在同一個環境 `cd m13-astro-blog && npm install && npm run dev` —— 親手**打開一個前端專案**。
+
+---
+
 這是給**學員**用的一份完整教材包。配合簡報,照著做,你會做出三個能用、能上線的成果:
 
 | 模組 | 你會做出 | 資料夾 | 照著做的手冊 |
