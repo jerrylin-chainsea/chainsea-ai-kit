@@ -10,55 +10,53 @@
   html,body { height:100%; overflow:hidden; background:#f3ead9; }
   #app { position:fixed; inset:0; }
   .hud { position:absolute; pointer-events:none; }
-  .card { background:rgba(255,255,255,.85); backdrop-filter:blur(6px); border:1px solid #eaddcb;
-          border-radius:16px; padding:11px 16px; box-shadow:0 10px 30px -16px rgba(60,40,10,.4); }
-  #brandTag { top:18px; left:18px; }
-  #brandTag .name { font-size:24px; font-weight:800; color:var(--ink); }
-  #brandTag .sub { font-size:13px; color:#8a7a60; margin-top:2px; }
-  #stats { top:18px; right:18px; text-align:right; min-width:160px; }
-  #stats .day { font-size:13px; color:#8a7a60; }
-  #stats .rev { font-size:28px; font-weight:900; color:var(--orange); line-height:1.1; }
-  #stats .status { font-size:13px; margin-top:3px; color:#0e9b63; font-weight:700; }
+  .card { background:rgba(255,255,255,.8); backdrop-filter:blur(6px); border:1px solid #eaddcb;
+          border-radius:14px; padding:9px 13px; box-shadow:0 8px 24px -16px rgba(60,40,10,.4); }
+  #brandTag { top:14px; left:14px; }
+  #brandTag .name { font-size:20px; font-weight:800; color:var(--ink); }
+  #brandTag .sub { font-size:12px; color:#8a7a60; margin-top:1px; }
+  #stats { top:14px; right:14px; text-align:right; min-width:140px; }
+  #stats .day { font-size:12px; color:#8a7a60; }
+  #stats .rev { font-size:24px; font-weight:900; color:var(--orange); line-height:1.1; }
+  #stats .status { font-size:12px; margin-top:2px; color:#0e9b63; font-weight:700; }
   #stats .status.busy { color:#c0392b; }
-  .panel { bottom:18px; left:18px; width:340px; }
-  .panel .h { font-size:12px; font-weight:800; letter-spacing:.08em; color:var(--orange); margin-bottom:7px; }
-  /* M12 四欄 */
-  #m12 .row { display:flex; gap:8px; font-size:13px; line-height:1.4; padding:4px 6px; border-radius:8px; transition:background .3s; }
+  .panel { bottom:62px; left:14px; width:268px; opacity:.95; }
+  .panel .h { font-size:11px; font-weight:800; letter-spacing:.05em; color:var(--orange); margin-bottom:5px; }
+  #m12 .row { display:flex; gap:6px; font-size:12px; line-height:1.35; padding:3px 5px; border-radius:7px; transition:background .3s; }
   #m12 .row.active { background:#fff0e3; }
   #m12 .k { color:#8a7a60; white-space:nowrap; font-weight:700; }
   #m12 .v.hi { color:#c0392b; font-weight:800; }
-  /* M14 日誌 */
   #m14 { display:none; }
-  #m14 .log { display:flex; flex-direction:column; gap:5px; }
-  #m14 .li { font-size:13px; line-height:1.35; color:var(--ink); padding:5px 8px; background:#eef7f1; border-radius:8px; border-left:3px solid #0e9b63; }
+  #m14 .log { display:flex; flex-direction:column; gap:4px; }
+  #m14 .li { font-size:12px; line-height:1.3; color:var(--ink); padding:4px 7px; background:#eef7f1; border-radius:7px; border-left:3px solid #0e9b63; }
   #m14 .li.warn { background:#fdecea; border-left-color:#c0392b; }
-  #m14 .empty { font-size:13px; color:#8a7a60; }
-  #controls { left:50%; bottom:20px; transform:translateX(-50%); pointer-events:auto; display:flex; gap:10px; }
-  .btn { pointer-events:auto; cursor:pointer; border:1px solid #eaddcb; border-radius:999px; padding:11px 18px;
+  #m14 .empty { font-size:12px; color:#8a7a60; }
+  #controls { left:50%; bottom:16px; transform:translateX(-50%); pointer-events:auto; }
+  .btn { pointer-events:auto; cursor:pointer; border:1px solid #eaddcb; border-radius:999px; padding:10px 18px;
          font-size:15px; font-weight:700; background:#fff; color:var(--ink); box-shadow:0 8px 22px -14px rgba(60,40,10,.5); white-space:nowrap; }
   .btn.on { background:var(--orange); color:#fff; border-color:var(--orange); }
+  #hint { right:14px; bottom:16px; font-size:11px; color:#a59a82; }
   #loading { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; font-size:20px; color:#8a7a60; background:#f3ead9; z-index:5; }
 </style>
 </head>
 <body>
 <div id="loading">載入小店中… 🏪</div>
 <div id="app"></div>
-<div class="hud card" id="brandTag"><div class="name" id="brandName">我的小店</div><div class="sub" id="modeSub">M12:三個 AI 角色幫你看資料、給建議</div></div>
+<div class="hud card" id="brandTag"><div class="name" id="brandName">我的小店</div><div class="sub" id="modeSub">M12:三角色看資料、給建議</div></div>
 <div class="hud card" id="stats"><div class="day" id="dayLabel">第 1 天</div><div class="rev" id="revLabel">$0</div><div class="status" id="statusLabel">正常營運</div></div>
 <div class="hud card panel" id="m12">
-  <div class="h">M12 決策摘要(三角色接力產出 · 給建議)</div>
+  <div class="h">M12 決策摘要(三角色給建議)</div>
   <div class="row" data-f="anom"><span class="k">① 檢查</span><span class="v" id="vAnom">-</span></div>
   <div class="row" data-f="insight"><span class="k">② 分析</span><span class="v" id="vInsight">-</span></div>
   <div class="row" data-f="action"><span class="k">③ 決策</span><span class="v" id="vAction">-</span></div>
   <div class="row" data-f="risk"><span class="k">風險</span><span class="v hi" id="vRisk">-</span></div>
 </div>
 <div class="hud card panel" id="m14">
-  <div class="h">🤖 AI 自動經營日誌(agent 自己處置,不用人決定)</div>
-  <div class="log" id="m14log"><div class="empty">營運中… 出狀況時 agent 會自己動手</div></div>
+  <div class="h">🤖 AI 自動經營日誌(agent 自己處置)</div>
+  <div class="log" id="m14log"><div class="empty">營運中… 出狀況 agent 會自己動手</div></div>
 </div>
-<div class="hud" id="controls">
-  <button class="btn on" id="modeBtn">模式:M12 給建議</button>
-</div>
+<div class="hud" id="controls"><button class="btn on" id="modeBtn">模式:M12 給建議</button></div>
+<div class="hud" id="hint">🖱 拖曳轉視角 · 滾輪縮放</div>
 
 <script src="data.js" onerror="void 0"></script>
 <script type="importmap">
@@ -71,27 +69,31 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { clone as skClone } from 'three/addons/utils/SkeletonUtils.js';
 
-// 預設通用範例(學員自己的店);跑 M12 筆記本會產生 data.js 覆蓋成你算出來的
 const D = window.SHOP_DATA || {
   brand: "我的小店",
-  insight: "這是範例。跑 M12 筆記本後,這裡會換成你算出來的洞察",
+  insight: "這是範例。跑 M12 筆記本後,這裡換成你算出來的洞察",
   anomalies: ["範例:某筆數量是負數", "範例:某筆數量異常大"],
   risk_level: "中",
   action_items: ["範例:先確認那兩筆", "範例:該補貨的補貨", "範例:外送加開一條線"],
 };
 document.getElementById('brandName').textContent = D.brand;
 document.getElementById('vRisk').textContent = D.risk_level || "-";
-
-let MODE = new URLSearchParams(location.search).get('mode') || 'm12';  // 'm12' | 'm14'
+let MODE = new URLSearchParams(location.search).get('mode') || 'm12';
 
 const app=document.getElementById('app');
 const renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
 app.appendChild(renderer.domElement);
-const scene=new THREE.Scene(); scene.background=new THREE.Color('#f3ead9'); scene.fog=new THREE.Fog('#f3ead9',26,46);
-const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,0.1,100);
+const scene=new THREE.Scene(); scene.background=new THREE.Color('#f3ead9'); scene.fog=new THREE.Fog('#f3ead9',28,50);
+const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,0.1,200); camera.position.set(11.5,7.6,13.5);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.target.set(0,1.5,0.4); controls.enableDamping=true; controls.dampingFactor=0.08;
+controls.maxPolarAngle=Math.PI*0.49; controls.minDistance=8; controls.maxDistance=30; controls.enablePan=false;
+controls.autoRotate=true; controls.autoRotateSpeed=0.55;
+controls.addEventListener('start',()=>{controls.autoRotate=false;});
 scene.add(new THREE.HemisphereLight('#fff6e8','#d8c4a0',1.0));
 const sun=new THREE.DirectionalLight('#ffd9a0',1.5); sun.position.set(6,13,7); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
 sun.shadow.camera.near=1; sun.shadow.camera.far=44; Object.assign(sun.shadow.camera,{left:-16,right:16,top:16,bottom:-16}); sun.shadow.radius=6; scene.add(sun);
@@ -119,22 +121,23 @@ function plant(x,z){const g=new THREE.Group();const pot=new THREE.Mesh(new THREE
 function crate(x,z,r=0){const m=new THREE.Mesh(new RoundedBoxGeometry(0.8,0.8,0.8,2,0.08),mat('#d8a86a'));m.position.set(x,0.4,z);m.rotation.y=r;m.castShadow=true;scene.add(m);return m;}
 function lantern(x,y,z){const g=new THREE.Group();const b=new THREE.Mesh(new THREE.SphereGeometry(0.32,16,12),new THREE.MeshStandardMaterial({color:'#e8533a',emissive:'#e2570d',emissiveIntensity:0.5,roughness:0.5}));b.scale.y=0.85;
   const cap=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.12,10),mat('#8a4a2a'));cap.position.y=0.34;g.add(b,cap);g.position.set(x,y,z);scene.add(g);return g;}
-plant(-3.6,0.6);plant(3.7,0.4);plant(-2.8,-2.2);crate(3.4,-1.4);crate(3.9,-1.0,0.4);crate(3.6,-1.9,0.8);
-const lanterns=[lantern(-2.7,3.0,0.6),lantern(2.7,3.0,0.6)];
+plant(-4.0,-1.2);plant(4.0,0.2);plant(-3.0,-2.6);crate(3.6,-1.4);crate(4.0,-1.0,0.4);crate(3.7,-1.9,0.8);
+lantern(-2.7,3.0,0.6);lantern(2.7,3.0,0.6);
 
-const steamN=26,steamGeo=new THREE.BufferGeometry(),sp=new Float32Array(steamN*3);
+const steamN=24,steamGeo=new THREE.BufferGeometry(),sp=new Float32Array(steamN*3);
 for(let i=0;i<steamN;i++){sp[i*3]=(Math.random()-0.5)*1.4;sp[i*3+1]=Math.random()*2;sp[i*3+2]=-1.2+(Math.random()-0.5)*1.4;}
 steamGeo.setAttribute('position',new THREE.BufferAttribute(sp,3));
-const steam=new THREE.Points(steamGeo,new THREE.PointsMaterial({color:'#fff',size:0.5,transparent:true,opacity:0.35,depthWrite:false}));steam.position.set(0,3.6,0);scene.add(steam);
+const steam=new THREE.Points(steamGeo,new THREE.PointsMaterial({color:'#fff',size:0.5,transparent:true,opacity:0.32,depthWrite:false}));steam.position.set(0,3.6,0);scene.add(steam);
 
 const coins=[],coinGeo=new THREE.CylinderGeometry(0.26,0.26,0.07,16);
 const coinMat=new THREE.MeshStandardMaterial({color:'#ffcf4d',emissive:'#b97c00',emissiveIntensity:0.25,metalness:0.6,roughness:0.3});
 function coinAt(x,z){const c=new THREE.Mesh(coinGeo,coinMat.clone());c.rotation.x=Math.PI/2;c.position.set(x,2.4,z);c.castShadow=true;scene.add(c);coins.push({c,v:2.2+Math.random()});}
 
-function labelSprite(text,color){const c=document.createElement('canvas');c.width=320;c.height=80;const x=c.getContext('2d');
+function labelTex(text,color){const c=document.createElement('canvas');c.width=320;c.height=80;const x=c.getContext('2d');
   x.fillStyle=color;x.beginPath();x.roundRect(6,6,308,68,18);x.fill();
-  x.fillStyle='#fff';x.font='bold 34px "PingFang TC","Noto Sans TC",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(text,160,42);
-  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));s.scale.set(1.7,0.42,1);return s;}
+  x.fillStyle='#fff';x.font='bold 36px "PingFang TC","Noto Sans TC",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(text,160,42);
+  return new THREE.CanvasTexture(c);}
+function labelSprite(text,color){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTex(text,color),transparent:true}));s.scale.set(1.4,0.35,1);return s;}
 function bubbleTex(text){const c=document.createElement('canvas');c.width=480;c.height=190;const x=c.getContext('2d');x.clearRect(0,0,480,190);
   x.fillStyle='#fff';x.strokeStyle='#eaddcb';x.lineWidth=4;x.beginPath();x.roundRect(8,8,464,140,26);x.fill();x.stroke();
   x.beginPath();x.moveTo(70,148);x.lineTo(54,184);x.lineTo(110,148);x.fillStyle='#fff';x.fill();
@@ -146,39 +149,37 @@ const m12rows={}; document.querySelectorAll('#m12 .row').forEach(r=>m12rows[r.da
 const vAnom=document.getElementById('vAnom'),vInsight=document.getElementById('vInsight'),vAction=document.getElementById('vAction');
 function setActive(f){for(const k in m12rows)m12rows[k].classList.toggle('active',k===f);}
 
-let day=1,revenue=0,dayTimer=0; let anomI=0,actI=0;
+let day=1,revenue=0,dayTimer=0,anomI=0,actI=0;
 const revLabel=document.getElementById('revLabel'),dayLabel=document.getElementById('dayLabel'),statusLabel=document.getElementById('statusLabel');
 const modeBtn=document.getElementById('modeBtn'),modeSub=document.getElementById('modeSub');
+function relabel(){ agents.forEach(a=>{a.lab.material.map=labelTex(MODE==='m12'?a.m12:a.m14,a.color);a.lab.material.needsUpdate=true;}); }
 function applyMode(){
-  document.getElementById('m12').style.display = MODE==='m12'?'block':'none';
-  document.getElementById('m14').style.display = MODE==='m14'?'block':'none';
-  modeBtn.textContent = '模式:'+(MODE==='m12'?'M12 給建議':'M14 自動經營');
-  modeSub.textContent = MODE==='m12' ? 'M12:三個 AI 角色幫你看資料、給建議' : 'M14:出狀況時 agent 自己動手顧店(不用人決定)';
+  document.getElementById('m12').style.display=MODE==='m12'?'block':'none';
+  document.getElementById('m14').style.display=MODE==='m14'?'block':'none';
+  modeBtn.textContent='模式:'+(MODE==='m12'?'M12 給建議':'M14 自動經營');
+  modeSub.textContent=MODE==='m12'?'M12:三角色看資料、給建議':'M14:agent 自己動手顧店(不用人決定)';
 }
-modeBtn.onclick=()=>{ MODE = MODE==='m12'?'m14':'m12'; applyMode(); };
+modeBtn.onclick=()=>{MODE=MODE==='m12'?'m14':'m12';applyMode();relabel();};
 applyMode();
 
-// ── GLTF ──
 const loader=new GLTFLoader(); const load=u=>new Promise(r=>loader.load(u,r));
 const mixers=[],agents=[],customers=[]; let foxGLTF,duckGLTF,robotAnims;
-const AGENT_DEF=[{role:"資料檢查員",color:"#2f6fd0",x:-5.3},{role:"分析洞察員",color:"#e2570d",x:-3.0},{role:"決策摘要員",color:"#0e9b63",x:-0.7}];
+const AGENT_DEF=[{m12:"資料檢查員",m14:"監控員",color:"#2f6fd0",x:-4.4},{m12:"分析洞察員",m14:"處置員",color:"#e2570d",x:-2.2},{m12:"決策摘要員",m14:"把關員",color:"#0e9b63",x:0.0}];
 let ready=false, pipeStage=0, pipeT=0.8;
-
 function clipAct(mx,anims,name){const c=THREE.AnimationClip.findByName(anims,name); return c?mx.clipAction(c):null;}
 function setAgentAnim(a,name,once=false){ if(a.cur===name)return; const nx=a.acts[name]; if(!nx)return;
-  if(a.curAct){a.curAct.fadeOut(0.2);} nx.reset(); nx.setLoop(once?THREE.LoopOnce:THREE.LoopRepeat); nx.clampWhenFinished=once; nx.fadeIn(0.2).play(); a.curAct=nx; a.cur=name; }
+  if(a.curAct)a.curAct.fadeOut(0.2); nx.reset(); nx.setLoop(once?THREE.LoopOnce:THREE.LoopRepeat); nx.clampWhenFinished=once; nx.fadeIn(0.2).play(); a.curAct=nx; a.cur=name; }
 
 Promise.all([load('./assets/RobotExpressive.glb'),load('./assets/Fox.glb'),load('./assets/Duck.glb')]).then(([robot,fox,duck])=>{
   foxGLTF=fox; duckGLTF=duck; robotAnims=robot.animations;
   AGENT_DEF.forEach((d)=>{
-    const g=skClone(robot.scene); g.scale.setScalar(0.34); g.position.set(d.x,0,3.4); g.rotation.y=0.15; g.traverse(o=>{if(o.isMesh)o.castShadow=true;}); scene.add(g);
+    const g=skClone(robot.scene); g.scale.setScalar(0.32); g.position.set(d.x,0,3.4); g.rotation.y=0.12; g.traverse(o=>{if(o.isMesh)o.castShadow=true;}); scene.add(g);
     const mx=new THREE.AnimationMixer(g);
-    const acts={ Idle:clipAct(mx,robotAnims,'Idle'), Walking:clipAct(mx,robotAnims,'Walking'), Wave:clipAct(mx,robotAnims,'Wave'), Running:clipAct(mx,robotAnims,'Running') };
-    mixers.push(mx);
-    const disc=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.7,0.08,20),mat(d.color,0.6)); disc.position.set(d.x,0.04,3.4); disc.receiveShadow=true; scene.add(disc);
-    const lab=labelSprite(d.role,d.color); lab.position.set(d.x,2.5,3.4); scene.add(lab);
-    const bub=new THREE.Sprite(new THREE.SpriteMaterial({map:bubbleTex('...'),transparent:true,opacity:0})); bub.scale.set(3.0,1.2,1); bub.position.set(d.x,3.5,3.4); scene.add(bub);
-    const a={g,mx,acts,curAct:null,cur:null,bub,disc,home:new THREE.Vector3(d.x,0,3.4),state:'idle',_bubLife:0,...d};
+    const acts={Idle:clipAct(mx,robotAnims,'Idle'),Walking:clipAct(mx,robotAnims,'Walking'),Wave:clipAct(mx,robotAnims,'Wave')}; mixers.push(mx);
+    const disc=new THREE.Mesh(new THREE.CylinderGeometry(0.66,0.66,0.08,20),mat(d.color,0.6)); disc.position.set(d.x,0.04,3.4); disc.receiveShadow=true; scene.add(disc);
+    const lab=labelSprite(MODE==='m12'?d.m12:d.m14,d.color); lab.position.set(d.x,2.35,3.4); scene.add(lab);
+    const bub=new THREE.Sprite(new THREE.SpriteMaterial({map:bubbleTex('...'),transparent:true,opacity:0})); bub.scale.set(2.5,1.0,1); bub.position.set(d.x,3.3,3.4); scene.add(bub);
+    const a={g,mx,acts,curAct:null,cur:null,bub,disc,lab,home:new THREE.Vector3(d.x,0,3.4),state:'idle',_bubLife:0,...d};
     setAgentAnim(a,'Idle'); agents.push(a);
   });
   ready=true; document.getElementById('loading').style.display='none'; tick();
@@ -186,63 +187,65 @@ Promise.all([load('./assets/RobotExpressive.glb'),load('./assets/Fox.glb'),load(
 
 function spawnCustomer(){ const useFox=Math.random()<0.6; const src=useFox?foxGLTF:duckGLTF;
   const g=skClone(src.scene); g.scale.setScalar(useFox?0.018:0.0024); g.traverse(o=>{if(o.isMesh)o.castShadow=true;});
-  const ang=(Math.random()*0.8+0.1)*Math.PI; g.position.set(Math.cos(ang)*8,0,Math.abs(Math.sin(ang))*7+1.5);
+  const ang=(Math.random()*0.7+0.15)*Math.PI; g.position.set(Math.cos(ang)*8,0,Math.abs(Math.sin(ang))*7+1.5);
   let mx=null; if(useFox&&src.animations.length){mx=new THREE.AnimationMixer(g); const w=THREE.AnimationClip.findByName(src.animations,'Walk')||src.animations[0]; mx.clipAction(w).play(); mixers.push(mx);}
   scene.add(g); customers.push({g,mx,useFox}); }
-
-function speak(a,text,life=2.4){ a.bub.material.map=bubbleTex(text); a.bub.material.needsUpdate=true; a.bub.material.opacity=1; a._bubLife=life;
-  const w=a.acts.Wave; if(w){w.reset(); setAgentAnim(a,'Wave',true);} }
+function speak(a,text,life=2.4){ a.bub.material.map=bubbleTex(text); a.bub.material.needsUpdate=true; a.bub.material.opacity=1; a._bubLife=life; setAgentAnim(a,'Wave',true); }
 function addCoins(n,base){ for(let k=0;k<n;k++) setTimeout(()=>{revenue+=base+(Math.random()*18|0); revLabel.textContent='$'+revenue.toLocaleString(); coinAt((Math.random()-0.5)*2,2.0);},k*150); }
 
-// ── M12:三角色接力給建議 ──
+// M12:三角色接力給建議
 function stepM12(dt){ pipeT-=dt; if(pipeT>0)return; const a=agents[pipeStage];
   if(pipeStage===0){const t=D.anomalies[anomI++%D.anomalies.length]; vAnom.textContent=t; setActive('anom'); speak(a,"抓到:"+t);}
   if(pipeStage===1){vInsight.textContent=D.insight; setActive('insight'); speak(a,D.insight);}
   if(pipeStage===2){const t=D.action_items[actI++%D.action_items.length]; vAction.textContent=t; setActive('action'); speak(a,"建議:"+t); addCoins(3,28);}
-  pipeStage=(pipeStage+1)%3; pipeT=1.6;
+  pipeStage=(pipeStage+1)%3; pipeT=1.7;
 }
 
-// ── M14:agent 偵測 → 自己動手處置(自動經營)──
+// M14:監控偵測 → 處置員自己動手(低風險) / 把關員升級給人(高風險)
 const M14_EVENTS=[
-  {label:"泡菜內餡 缺料",agent:0,act:"已自動補貨:泡菜內餡",kind:'restock'},
-  {label:"網站價格標錯",agent:2,act:"已自動撤下錯價、發更正",kind:'price'},
-  {label:"午餐爆單",agent:1,act:"已自動加開外送線",kind:'surge'},
-  {label:"AI 建議沒依據",agent:2,act:"已暫停採用、要求依據",kind:'pause'},
+  {label:"泡菜內餡 缺料", stop:"把該品項設售完", follow:"自動補貨", risk:"low", kind:'restock'},
+  {label:"網站價格標錯", stop:"撤下錯價頁", follow:"發更正並補償", risk:"high", kind:'price'},
+  {label:"午餐爆單 外送+40%", stop:"暫停吃不下的通路", follow:"加開外送線", risk:"low", kind:'surge'},
+  {label:"AI 建議沒依據", stop:"暫停採用該建議", follow:"要求附依據再採用", risk:"low", kind:'pause'},
+  {label:"退款異常暴增", stop:"凍結自動退款", follow:"決定退款政策", risk:"high", kind:'refund'},
 ];
-let evTimer=3, evIdx=0, activeEv=null, actor=null, alertSprite=null, restockCrates=[];
+let evTimer=2.5, evIdx=0, activeEv=null, evPhase=null, phaseT=0, actor=null, alertSprite=null, restock=[];
 const m14log=document.getElementById('m14log');
 function pushLog(text,warn){ const e=m14log.querySelector('.empty'); if(e)e.remove();
-  const d=document.createElement('div'); d.className='li'+(warn?' warn':''); d.textContent=text; m14log.prepend(d);
-  while(m14log.children.length>4) m14log.lastChild.remove(); }
-function showAlert(label){ if(!alertSprite){alertSprite=new THREE.Sprite(new THREE.SpriteMaterial({transparent:true})); alertSprite.scale.set(3.4,1.0,1); alertSprite.position.set(0,5.0,-0.5); scene.add(alertSprite);}
+  const d=document.createElement('div'); d.className='li'+(warn?' warn':''); d.textContent=text; m14log.prepend(d); while(m14log.children.length>4) m14log.lastChild.remove(); }
+function showAlert(label){ if(!alertSprite){alertSprite=new THREE.Sprite(new THREE.SpriteMaterial({transparent:true})); alertSprite.scale.set(3.2,0.95,1); alertSprite.position.set(0,5.0,-0.4); scene.add(alertSprite);}
   alertSprite.material.map=bubbleTex("⚠ "+label); alertSprite.material.needsUpdate=true; alertSprite.material.opacity=1; }
-function stepM14(dt){ if(activeEv){ // 處置進行中
-    if(actor.state==='going'){ const tgt=new THREE.Vector3(actor.x*0.25,0,1.5); actor.g.position.lerp(tgt,Math.min(1,dt*2.4)); actor.g.lookAt(0,0,2.6); setAgentAnim(actor,'Walking');
-      if(actor.g.position.distanceTo(tgt)<0.4){ actor.state='acting'; actor._t=1.4; speak(actor,"處置中:"+activeEv.label,1.6);} }
-    else if(actor.state==='acting'){ actor._t-=dt; if(actor._t<=0){ doFix(activeEv); pushLog("✓ "+activeEv.act); actor.state='returning';
-        if(alertSprite)alertSprite.material.opacity=0; statusLabel.textContent='正常營運'; statusLabel.classList.remove('busy'); } }
-    else if(actor.state==='returning'){ actor.g.position.lerp(actor.home,Math.min(1,dt*2.4)); actor.g.lookAt(0,0,2.6); setAgentAnim(actor,'Walking');
-      if(actor.g.position.distanceTo(actor.home)<0.3){ actor.g.position.copy(actor.home); actor.g.rotation.y=0.15; setAgentAnim(actor,'Idle'); actor.state='idle'; activeEv=null; actor=null; } }
+function clearAlert(){ if(alertSprite)alertSprite.material.opacity=0; }
+function doFix(ev){ if(ev.kind==='restock'){for(let i=0;i<3;i++){const c=crate(-0.8+i*0.8,2.9,0);c.scale.setScalar(0.01);restock.push({c,t:0});}addCoins(2,20);}
+  else if(ev.kind==='surge'){addCoins(5,34);} else if(ev.kind==='pause'){addCoins(1,12);} }
+function stepM14(dt){
+  if(activeEv){ phaseT-=dt;
+    if(evPhase==='detect'){ if(phaseT<=0){ pushLog("✓ 止血(自動):"+activeEv.stop); evPhase='do'; phaseT=0.2;
+        if(activeEv.risk==='low'){ actor=agents[1]; actor.state='going'; }
+        else { speak(agents[2],"⏫ 升級給人:"+activeEv.follow,2.6); pushLog("⏫ 升級待人核准:"+activeEv.follow,true); statusLabel.textContent='待人核准'; phaseT=2.4; } } }
+    else if(evPhase==='do'){
+      if(activeEv.risk==='low'&&actor){
+        if(actor.state==='going'){ const tgt=new THREE.Vector3(0.6,0,1.5); actor.g.position.lerp(tgt,Math.min(1,dt*2.4)); actor.g.lookAt(0,0,2.6); setAgentAnim(actor,'Walking');
+          if(actor.g.position.distanceTo(tgt)<0.4){actor.state='acting';actor._t=1.2;speak(actor,"處置中:"+activeEv.follow,1.4);} }
+        else if(actor.state==='acting'){ actor._t-=dt; if(actor._t<=0){doFix(activeEv);pushLog("✓ 已自動:"+activeEv.follow);actor.state='returning';clearAlert();statusLabel.textContent='正常營運';statusLabel.classList.remove('busy');} }
+        else if(actor.state==='returning'){ actor.g.position.lerp(actor.home,Math.min(1,dt*2.4)); setAgentAnim(actor,'Walking');
+          if(actor.g.position.distanceTo(actor.home)<0.3){actor.g.position.copy(actor.home);actor.g.rotation.y=0.12;setAgentAnim(actor,'Idle');actor.state='idle';actor=null;activeEv=null;} }
+      } else if(phaseT<=0){ clearAlert(); statusLabel.textContent='正常營運'; statusLabel.classList.remove('busy'); activeEv=null; }
+    }
     return; }
-  evTimer-=dt; if(evTimer<=0){ activeEv=M14_EVENTS[evIdx++%M14_EVENTS.length]; actor=agents[activeEv.agent]; actor.state='going';
-    showAlert(activeEv.label); pushLog("⚠ 偵測:"+activeEv.label, true); statusLabel.textContent='處置中…'; statusLabel.classList.add('busy'); evTimer=6.5; }
+  evTimer-=dt; if(evTimer<=0){ activeEv=M14_EVENTS[evIdx++%M14_EVENTS.length]; evPhase='detect'; phaseT=1.4;
+    speak(agents[0],"偵測:"+activeEv.label,1.6); showAlert(activeEv.label); pushLog("⚠ 偵測:"+activeEv.label,true);
+    statusLabel.textContent='處置中…'; statusLabel.classList.add('busy'); evTimer=7; }
 }
-function doFix(ev){ if(ev.kind==='restock'){ for(let i=0;i<3;i++){const c=crate(-0.8+i*0.8,2.9,0); c.scale.setScalar(0.01); restockCrates.push({c,t:0});} addCoins(2,20); }
-  else if(ev.kind==='surge'){ addCoins(5,34); }
-  else if(ev.kind==='price'){ sign.material.map=signTex(D.brand); sign.material.needsUpdate=true; addCoins(2,16); }
-  else if(ev.kind==='pause'){ addCoins(1,12); } }
 
 const clock=new THREE.Clock();
 function tick(){ const dt=Math.min(clock.getDelta(),0.05),tt=clock.elapsedTime;
-  mixers.forEach(m=>m.update(dt));
-  const a=Math.sin(tt*0.18)*0.5; camera.position.set(Math.sin(a)*12.5,7.2,12.6); camera.lookAt(0,1.6,0.6);
+  mixers.forEach(m=>m.update(dt)); controls.update();
   agents.forEach(ag=>{ if(ag._bubLife>0){ag._bubLife-=dt; ag.bub.material.opacity=Math.min(1,ag._bubLife); if(ag._bubLife<=0&&ag.state==='idle')setAgentAnim(ag,'Idle');} else ag.bub.material.opacity=0;
-    ag.bub.position.set(ag.g.position.x,3.4+Math.sin(tt*2)*0.05,ag.g.position.z); });
+    ag.bub.position.set(ag.g.position.x,3.3+Math.sin(tt*2)*0.05,ag.g.position.z); ag.lab.position.x=ag.g.position.x; ag.lab.position.z=ag.g.position.z; });
   if(ready){ if(MODE==='m12')stepM12(dt); else stepM14(dt); }
-  // 補貨木箱彈出
-  for(let i=restockCrates.length-1;i>=0;i--){const o=restockCrates[i]; o.t+=dt; o.c.scale.setScalar(Math.min(1,o.t*3)); if(o.t>4){o.c.scale.multiplyScalar(0.92); if(o.c.scale.x<0.05){scene.remove(o.c);restockCrates.splice(i,1);}}}
+  for(let i=restock.length-1;i>=0;i--){const o=restock[i]; o.t+=dt; o.c.scale.setScalar(Math.min(1,o.t*3)); if(o.t>4){o.c.scale.multiplyScalar(0.92); if(o.c.scale.x<0.05){scene.remove(o.c);restock.splice(i,1);}}}
   if(alertSprite&&alertSprite.material.opacity>0) alertSprite.position.y=5.0+Math.sin(tt*3)*0.08;
-  // 顧客
   spawnCustomer._t=(spawnCustomer._t||0)-dt; if(spawnCustomer._t<=0&&customers.length<6&&ready){spawnCustomer(); spawnCustomer._t=1.6*(0.7+Math.random());}
   for(let i=customers.length-1;i>=0;i--){const o=customers[i],p=o.g.position;const dir=new THREE.Vector3(0,0,2.6).sub(p);const d=dir.length();
     if(d<0.8){scene.remove(o.g);customers.splice(i,1);}else{dir.normalize();p.addScaledVector(dir,dt*(o.useFox?2.0:1.3));o.g.lookAt(0,p.y,2.6);}}

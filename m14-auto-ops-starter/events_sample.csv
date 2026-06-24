@@ -1,0 +1,6 @@
+time,kind,detail
+10:05,stockout,泡菜內餡 缺料
+10:30,wrongprice,原味鍋貼 在網站標成 1 元
+11:50,surge,午餐爆單 外送 +40%
+13:10,bad_ai,M12 給的建議說不出依據
+14:20,refund_spike,退款量異常暴增
