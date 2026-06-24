@@ -1,10 +1,14 @@
 {
   "name": "AI 應用實戰課 學員包",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "postCreateCommand": "pip install -r m12-crew-starter/requirements.txt || true",
+  "postCreateCommand": "python3 -m pip install --upgrade pip ipykernel jupyter && python3 -m ipykernel install --user --name course --display-name 'Python 3 (課程)' && python3 -m pip install -r m12-crew-starter/requirements.txt || true",
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python", "ms-toolsai.jupyter", "astro-build.astro-vscode"]
+      "extensions": ["ms-python.python", "ms-toolsai.jupyter", "astro-build.astro-vscode"],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python3",
+        "python.terminal.activateEnvironment": false
+      }
     }
   }
 }
