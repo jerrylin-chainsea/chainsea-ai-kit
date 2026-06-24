@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>我的 AI 小店</title>
+<style>
+  :root { --orange:#e2570d; --ink:#181a1f; --cream:#f6efe4; }
+  * { margin:0; box-sizing:border-box; font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif; }
+  html,body { height:100%; overflow:hidden; background:#f3ead9; }
+  #app { position:fixed; inset:0; }
+  .hud { position:absolute; pointer-events:none; }
+  .card { background:rgba(255,255,255,.82); backdrop-filter:blur(6px); border:1px solid #eaddcb;
+          border-radius:18px; padding:12px 18px; box-shadow:0 10px 30px -16px rgba(60,40,10,.4); }
+  #brandTag { top:20px; left:20px; }
+  #brandTag .name { font-size:26px; font-weight:800; color:var(--ink); letter-spacing:-.01em; }
+  #brandTag .sub { font-size:14px; color:#8a7a60; margin-top:2px; }
+  #stats { top:20px; right:20px; text-align:right; min-width:170px; }
+  #stats .day { font-size:14px; color:#8a7a60; }
+  #stats .rev { font-size:30px; font-weight:900; color:var(--orange); line-height:1.1; }
+  #stats .rev.glow { text-shadow:0 0 18px rgba(226,87,13,.45); }
+  #toast { left:50%; bottom:96px; transform:translateX(-50%); max-width:520px; text-align:center;
+           font-size:18px; color:var(--ink); opacity:0; transition:opacity .5s; }
+  #toast b { color:var(--orange); }
+  #controls { left:50%; bottom:22px; transform:translateX(-50%); pointer-events:auto; display:flex; gap:12px; align-items:center; }
+  .btn { pointer-events:auto; cursor:pointer; border:none; border-radius:999px; padding:12px 22px; font-size:17px; font-weight:700;
+         background:#fff; color:var(--ink); border:1px solid #eaddcb; box-shadow:0 8px 22px -14px rgba(60,40,10,.5); }
+  .btn.on { background:var(--orange); color:#fff; border-color:var(--orange); }
+  .hint { position:absolute; left:20px; bottom:22px; font-size:13px; color:#a59a82; max-width:300px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="hud card" id="brandTag"><div class="name" id="brandName">我的小店</div><div class="sub">a shop that runs on AI 🍳</div></div>
+<div class="hud card" id="stats"><div class="day" id="dayLabel">第 1 天</div><div class="rev" id="revLabel">$0</div></div>
+<div class="hud" id="toast"></div>
+<div class="hud" id="controls"><button class="btn on" id="aiBtn">🤖 AI 介入:開</button></div>
+<div class="hint">這是「你的小店」的視覺化成果。把 brand 換成你的店名、接上 M12 的數據,就是你個人網站的展示。</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+// ── 學員可改的資料(接 M12 輸出 / 自己填)──
+const SHOP_DATA = window.SHOP_DATA || {
+  brand: "大甲鍋貼",
+  aiTips: ["看了今天的資料 📊", "泡菜內餡快缺料,建議補貨", "外送佔比上升,加開一條線", "週五晚尖峰,排班 +1", "原味鍋貼毛利最穩,主打它"],
+};
+document.getElementById('brandName').textContent = SHOP_DATA.brand;
+
+const app = document.getElementById('app');
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+app.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#f3ead9');
+scene.fog = new THREE.Fog('#f3ead9', 22, 40);
+
+const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 0.1, 100);
+camera.position.set(8, 6.5, 10);
+camera.lookAt(0, 1.4, 0);
+
+// 燈光(柔和、可愛)
+scene.add(new THREE.HemisphereLight('#fff6e8', '#d8c4a0', 0.95));
+const sun = new THREE.DirectionalLight('#ffd9a0', 1.5);
+sun.position.set(6, 12, 6); sun.castShadow = true;
+sun.shadow.mapSize.set(1024,1024); sun.shadow.camera.near=1; sun.shadow.camera.far=40;
+sun.shadow.camera.left=-12; sun.shadow.camera.right=12; sun.shadow.camera.top=12; sun.shadow.camera.bottom=-12;
+sun.shadow.radius = 6; scene.add(sun);
+
+const mat = (c,r=0.85,m=0) => new THREE.MeshStandardMaterial({ color:c, roughness:r, metalness:m });
+
+// 地面(圓形廣場)
+const ground = new THREE.Mesh(new THREE.CylinderGeometry(13,13,0.6,48), mat('#e9d9bd'));
+ground.position.y = -0.3; ground.receiveShadow = true; scene.add(ground);
+const plaza = new THREE.Mesh(new THREE.CylinderGeometry(7.4,7.4,0.62,48), mat('#f0e6d2'));
+plaza.position.y = -0.28; plaza.receiveShadow = true; scene.add(plaza);
+
+// 小店
+const shop = new THREE.Group(); scene.add(shop);
+const body = new THREE.Mesh(new RoundedBoxGeometry(5,3.4,4,4,0.45), mat('#f6c89a'));
+body.position.y = 1.7; body.castShadow = body.receiveShadow = true; shop.add(body);
+const roof = new THREE.Mesh(new THREE.ConeGeometry(3.25,1.5,4), mat('#c0633a'));
+roof.position.y = 3.95; roof.rotation.y = Math.PI/4; roof.castShadow = true; shop.add(roof);
+// 門
+const door = new THREE.Mesh(new RoundedBoxGeometry(1.3,2.0,0.2,3,0.2), mat('#8a4a2a'));
+door.position.set(0,1.0,2.02); shop.add(door);
+// 窗(暖光)
+const winMat = new THREE.MeshStandardMaterial({ color:'#ffe2a8', emissive:'#ffb347', emissiveIntensity:0.7, roughness:0.4 });
+for (const x of [-1.6,1.6]) { const w=new THREE.Mesh(new RoundedBoxGeometry(1.0,1.0,0.15,3,0.15),winMat); w.position.set(x,1.9,2.0); shop.add(w); }
+// 遮陽棚(條紋)
+for (let i=0;i<7;i++){ const s=new THREE.Mesh(new THREE.BoxGeometry(0.72,0.12,0.9), mat(i%2?'#e2570d':'#fff4e6'));
+  s.position.set(-2.16+i*0.72, 2.95, 2.35); s.rotation.x=-0.5; s.castShadow=true; shop.add(s); }
+// 招牌(用 canvas 寫店名)
+function signTexture(text){ const c=document.createElement('canvas'); c.width=512; c.height=160; const x=c.getContext('2d');
+  x.fillStyle='#fff7ec'; x.fillRect(0,0,512,160); x.fillStyle='#e2570d'; x.lineWidth=10; x.strokeStyle='#e2570d'; x.strokeRect(8,8,496,144);
+  x.fillStyle='#3a2a18'; x.font='bold 84px "PingFang TC","Noto Sans TC",sans-serif'; x.textAlign='center'; x.textBaseline='middle';
+  x.fillText(text, 256, 86); const t=new THREE.CanvasTexture(c); t.anisotropy=4; return t; }
+const sign = new THREE.Mesh(new THREE.PlaneGeometry(2.9,0.9), new THREE.MeshBasicMaterial({ map:signTexture(SHOP_DATA.brand) }));
+sign.position.set(0,2.5,2.03); shop.add(sign);
+
+// AI 店員機器人(圓圓的、會 bob)
+const bot = new THREE.Group(); bot.position.set(3.6,0,2.9); bot.scale.setScalar(0.9); scene.add(bot);
+const botBody = new THREE.Mesh(new RoundedBoxGeometry(1.1,1.3,1.0,5,0.4), mat('#cfe3ff',0.5,0.1)); botBody.position.y=1.0; botBody.castShadow=true; bot.add(botBody);
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.62,24,24), mat('#eaf3ff',0.4)); head.position.y=2.05; head.castShadow=true; bot.add(head);
+const faceMat = new THREE.MeshBasicMaterial({ color:'#2b3a55' });
+for (const ex of [-0.22,0.22]){ const eye=new THREE.Mesh(new THREE.SphereGeometry(0.08,12,12),faceMat); eye.position.set(ex,2.1,0.55); bot.add(eye); }
+const antenna = new THREE.Mesh(new THREE.SphereGeometry(0.12,12,12), new THREE.MeshStandardMaterial({color:'#e2570d',emissive:'#e2570d',emissiveIntensity:0.6}));
+antenna.position.y=2.85; bot.add(antenna);
+const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,0.5), mat('#9bb0d0')); stick.position.y=2.6; bot.add(stick);
+
+// 顧客(可愛膠囊)
+const customers=[]; const custColors=['#f4a6a6','#a6d4f4','#bfe3b0','#f7d488','#d3b0e3'];
+function spawnCustomer(){ const g=new THREE.Group(); const col=custColors[(Math.random()*custColors.length)|0];
+  const b=new THREE.Mesh(new THREE.CapsuleGeometry(0.34,0.5,4,12), mat(col)); b.position.y=0.6; b.castShadow=true; g.add(b);
+  for (const ex of [-0.13,0.13]){ const e=new THREE.Mesh(new THREE.SphereGeometry(0.05,8,8),faceMat); e.position.set(ex,0.92,0.3); g.add(e); }
+  const ang=Math.random()*Math.PI*2; g.position.set(Math.cos(ang)*7, 0, Math.sin(ang)*7+2);
+  scene.add(g); customers.push({ g, t:0 }); }
+
+// 金幣(成交時冒出,往上飄)
+const coins=[]; const coinGeo=new THREE.CylinderGeometry(0.28,0.28,0.07,18);
+const coinMat=new THREE.MeshStandardMaterial({ color:'#ffcf4d', emissive:'#b97c00', emissiveIntensity:0.25, metalness:0.6, roughness:0.3 });
+function spawnCoin(){ const c=new THREE.Mesh(coinGeo,coinMat.clone()); c.rotation.x=Math.PI/2;
+  c.position.set((Math.random()-0.5)*2, 2.6, 2.4); c.castShadow=true; scene.add(c); coins.push({ c, v:2.2+Math.random() }); }
+
+// 思考泡泡(精靈)
+function bubbleTexture(text){ const c=document.createElement('canvas'); c.width=512; c.height=200; const x=c.getContext('2d');
+  x.clearRect(0,0,512,200); x.fillStyle='#ffffff'; x.strokeStyle='#eaddcb'; x.lineWidth=4;
+  const r=28,w=496,h=150,ox=8,oy=8; x.beginPath(); x.moveTo(ox+r,oy); x.arcTo(ox+w,oy,ox+w,oy+h,r); x.arcTo(ox+w,oy+h,ox,oy+h,r); x.arcTo(ox,oy+h,ox,oy,r); x.arcTo(ox,oy,ox+w,oy,r); x.fill(); x.stroke();
+  x.beginPath(); x.moveTo(80,oy+h); x.lineTo(60,oy+h+40); x.lineTo(120,oy+h); x.fillStyle='#fff'; x.fill();
+  x.fillStyle='#2b2118'; x.font='600 40px "PingFang TC","Noto Sans TC",sans-serif'; x.textAlign='center'; x.textBaseline='middle';
+  // 自動換行
+  const words=[...text]; let line=''; const lines=[]; for(const ch of words){ if(x.measureText(line+ch).width>440){lines.push(line);line=ch;} else line+=ch; } lines.push(line);
+  lines.slice(0,2).forEach((ln,i)=> x.fillText(ln,256,55+i*48));
+  const t=new THREE.CanvasTexture(c); return t; }
+const bubble = new THREE.Sprite(new THREE.SpriteMaterial({ map:bubbleTexture('...'), transparent:true, opacity:0 }));
+bubble.scale.set(4.2,1.65,1); bubble.position.set(3.9,3.7,2.9); scene.add(bubble);
+
+// HUD / 狀態
+let aiOn=true, day=1, revenue=0, dayTimer=0, spawnTimer=0, tipTimer=2, tipIdx=0, bubbleLife=0;
+const revLabel=document.getElementById('revLabel'), dayLabel=document.getElementById('dayLabel'), toast=document.getElementById('toast');
+const aiBtn=document.getElementById('aiBtn');
+aiBtn.onclick=()=>{ aiOn=!aiOn; aiBtn.classList.toggle('on',aiOn); aiBtn.textContent=`🤖 AI 介入:${aiOn?'開':'關'}`;
+  revLabel.classList.toggle('glow',aiOn); antenna.material.emissiveIntensity=aiOn?0.6:0.05; };
+revLabel.classList.add('glow');
+function showAITip(){ const tip=SHOP_DATA.aiTips[tipIdx % SHOP_DATA.aiTips.length]; tipIdx++;
+  bubble.material.map=bubbleTexture(tip); bubble.material.needsUpdate=true; bubbleLife=3.2;
+  toast.innerHTML=`🤖 AI 建議:<b>${tip}</b>`; toast.style.opacity=1; clearTimeout(showAITip._t); showAITip._t=setTimeout(()=>toast.style.opacity=0,3000); }
+
+// 主迴圈
+const clock=new THREE.Clock();
+function tick(){
+  const dt=Math.min(clock.getDelta(),0.05); const tt=clock.elapsedTime;
+  // 相機慢慢繞
+  const a=tt*0.12; camera.position.set(Math.cos(a)*12.5, 6.6+Math.sin(tt*0.4)*0.3, Math.sin(a)*12.5); camera.lookAt(0,1.5,0);
+  // 機器人 bob + 天線閃
+  bot.position.y=Math.sin(tt*2)*0.12; head.rotation.y=Math.sin(tt*0.8)*0.2;
+  // 顧客走向門口
+  spawnTimer-=dt; const rate=aiOn?1.1:2.0;
+  if(spawnTimer<=0 && customers.length<7){ spawnCustomer(); spawnTimer=rate*(0.6+Math.random()); }
+  for(let i=customers.length-1;i>=0;i--){ const o=customers[i]; const p=o.g.position;
+    const dir=new THREE.Vector3(0,0,2.2).sub(p); const d=dir.length();
+    if(d<0.6){ scene.remove(o.g); customers.splice(i,1); spawnCoin(); revenue+=aiOn?(28+Math.random()*22|0):(15+Math.random()*12|0);
+      revLabel.textContent='$'+revenue.toLocaleString(); }
+    else { dir.normalize(); p.addScaledVector(dir, dt*1.8); o.g.position.y=Math.abs(Math.sin(tt*6))*0.12; o.g.lookAt(0,p.y,2.2); } }
+  // 金幣上飄
+  for(let i=coins.length-1;i>=0;i--){ const o=coins[i]; o.c.position.y+=o.v*dt; o.c.rotation.z+=dt*4; o.c.material.opacity-=dt*0.5; o.c.material.transparent=true;
+    if(o.c.position.y>5){ scene.remove(o.c); coins.splice(i,1); } }
+  // AI 建議泡泡
+  if(aiOn){ tipTimer-=dt; if(tipTimer<=0){ showAITip(); tipTimer=4.5; } }
+  if(bubbleLife>0){ bubbleLife-=dt; bubble.material.opacity=Math.min(1,bubbleLife)* (bubbleLife>2.8?(3.2-bubbleLife)/0.4:1); bubble.position.y=4.0+Math.sin(tt*2)*0.05; }
+  else bubble.material.opacity=0;
+  // 天數
+  dayTimer+=dt; if(dayTimer>5){ dayTimer=0; day++; dayLabel.textContent='第 '+day+' 天'; }
+  renderer.render(scene,camera); requestAnimationFrame(tick);
+}
+addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+tick();
+window.__shopReady = true;
+</script>
+</body>
+</html>
