@@ -320,7 +320,7 @@ const Homework: Page = () => (
     </div></div><Foot label="U14 · 課1 · 回家作業" /></div>
 );
 const Next: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>下一堂預告</Eyebrow><Title size={54}>突發狀況來了:<br /><span style={{ color: C.orange }}>用五步,把它處理掉</span></Title><div style={{ fontSize: 32, color: C.muted, marginTop: 28, lineHeight: 1.5 }}>下一堂我們投三輪異常事件(還記得那個缺料提醒嗎),練習用 AI 止血、判斷、交接。今天辛苦了。</div></div><Foot label="U14 · 課1 · 下一堂" /></div>
+  <div style={fill}><div style={pad}><Eyebrow>下一堂預告</Eyebrow><Title size={54}>突發狀況來了:<br /><span style={{ color: C.orange }}>讓 AI 自己處置</span></Title><div style={{ fontSize: 32, color: C.muted, marginTop: 28, lineHeight: 1.5 }}>下一堂讓 agent 自己偵測、自動止血、小事自己處理;只有高風險才升級給你。你的角色:劃紅線。今天辛苦了。</div></div><Foot label="U14 · 課1 · 下一堂" /></div>
 );
 
 export const meta: SlideMeta = { title: 'U14 課1：正常營業日 + 一年營運史', createdAt: '2026-06-22T11:30:00.000Z' };
@@ -361,7 +361,7 @@ export const notes: (string | undefined)[] = [
   '今天最重要的一句:同一間店,AI 第 6 個月才進來,你看資料走向就此岔開。不是一次很猛,是每天都在顧,累積起來就是看得見的差距。',
   '收尾,今天三件事:確認這是我的公司加一張地圖、跑一次正常的一天、AI 每天做事一年差很多。',
   '回家作業只有一件:保留今天跑通的正常營業日版本,確認組內角色分工。選做是修一個次要小問題,但不要破壞成功版本。',
-  '下一堂,突發狀況來了。還記得那個缺料提醒嗎?我們投三輪異常事件,練習用 AI 止血、判斷、交接。今天辛苦大家了。',
+  '下一堂,突發狀況來了。還記得那個缺料提醒嗎?下一堂讓 agent 自己偵測、自動止血、小事自己處理,只有高風險才升級給你。你的角色是劃紅線。今天辛苦大家了。',
 ];
 export default [
   Cover, Recall, Outcome, Why, Roadmap,
