@@ -1,0 +1,17 @@
+{
+  "//": "專案層 MCP 設定。用 Claude Code 打開這個資料夾就會問你是否啟用；啟用後打 /mcp 應看到這三台。GitHub MCP 需要個人 PAT、不寫在這裡（見 README）。",
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["chrome-devtools-mcp@latest"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    }
+  }
+}
