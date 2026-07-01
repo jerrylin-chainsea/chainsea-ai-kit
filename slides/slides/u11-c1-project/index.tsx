@@ -258,6 +258,19 @@ const Roadmap: Page = () => {
 const Rules: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>上課三個約定</Eyebrow><Title>照流程,每段都有過關點</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 44, maxWidth: 1450 }}><SuccessRow>只看老師指定的畫面,不要自行亂裝或亂改。</SuccessRow><SuccessRow>每段最後用檢查點對齊,過了再往下。</SuccessRow><SuccessRow>任何錯誤訊息先停下來,整段保留,不要急著關掉。</SuccessRow></div></div><Foot label="U11 · 課1 · 規則" /></div>
 );
+const Guardrails: Page = () => (
+  <div style={fill}><div style={pad}><Eyebrow>全堂防呆機制</Eyebrow><Title size={52}>每次動手,都照這四步</Title>
+    <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginTop: 38 }}>
+      {[
+        ['1', '先看位置', 'Terminal 提示字要在 web-lab;Git 要在正確 repo。'],
+        ['2', '先看狀態', 'Git 動作前先 status;AI 動手前先 plan。'],
+        ['3', '小步執行', '一次只改一件事,不要同時改十個需求。'],
+        ['4', '立刻驗證', '看 localhost、git diff、必要時 npm run build。'],
+      ].map(([n, t, d]) => <div key={n} style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '24px 22px' }}><div style={{ fontFamily: mono, fontSize: 27, color: C.orange, fontWeight: 800 }}>{n}</div><div style={{ fontSize: 30, fontWeight: 800, marginTop: 10 }}>{t}</div><div style={{ fontSize: 22, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>{d}</div></div>)}
+    </div>
+    <div style={{ marginTop: 26 }}><Harvest>防呆不是多做事,是每一步都留一個「我有沒有站錯地方」的檢查點。</Harvest></div>
+  </div><Foot label="U11 · 課1 · 防呆" /></div>
+);
 const Tools: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>今天會碰到的工具</Eyebrow><Title size={52}>這不是工具大全,是重要角色</Title><div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 16, marginTop: 38 }}><ToolCard img={vscodeDevShot} name="VSCode" role="看專案與裝外掛" /><ToolCard img={gitShot} name="Git" role="本機版本紀錄" /><ToolCard img={githubShot} name="GitHub" role="雲端與協作" /><ToolCard img={nodeShot} name="Node.js" role="跑網頁專案" /><ToolCard img={npmShot} name="npm" role="裝套件與跑 scripts" /></div></div><Foot label="U11 · 課1 · 工具" /></div>
 );
@@ -357,6 +370,26 @@ const RemoteRoles: Page = () => (
     <div style={{ marginTop: 28 }}><Harvest>日常推自己的 origin;要拿老師更新,才 pull upstream。</Harvest></div>
   </div><Foot label="U11 · 課1 · GitHub" /></div>
 );
+const PushGuard: Page = () => (
+  <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 760px', gap: 46, alignItems: 'center' }}>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <Eyebrow>段 2 · push 前防呆</Eyebrow><Title size={48}>先確認你要推到哪裡</Title>
+      <Lead>只要 <Key>origin</Key> 是自己的 repo,之後 <Key>git push</Key> 就會推到自己的 GitHub。看到老師 repo 就先停。</Lead>
+      <Pitfall items={[
+        ['origin 還是老師 repo:', '先 git remote rename origin upstream,再 add 自己的 origin。'],
+        ['Invalid username or token:', 'GitHub 不接受密碼。改用 VSCode/GitHub 登入、GitHub CLI,或 Personal Access Token。'],
+        ['不知道現在會推去哪:', '不要猜,先 git remote -v。'],
+      ]} />
+    </div>
+    <Term title="push 前檢查" rows={[
+      ['cmd', 'git remote -v'],
+      ['ok', 'origin    https://github.com/你的帳號/你的repo.git'],
+      ['out', 'upstream  https://github.com/HanLi-Chainsea/chainsea-ai-course-kit.git'],
+      ['cmd', 'git status'],
+      ['out', 'nothing to commit, working tree clean'],
+    ]} />
+  </div><Foot label="U11 · 課1 · GitHub 防呆" /></div>
+);
 const GitPush: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · push</Eyebrow><Title size={50}>push:把本機 commit 推上 GitHub</Title><Lead>commit 只存在你電腦。push 才會把那筆版本送到雲端倉庫。</Lead><Harvest>本機 Git 管版本,GitHub 管分享與協作。</Harvest></div><Term title="TERMINAL" rows={[['cmd', 'git push origin main'], ['ok', 'To github.com:your/repo.git'], ['ok', 'main -> main']]} /></div><Foot label="U11 · 課1 · GitHub" /></div>;
 const GitPull: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · pull</Eyebrow><Title size={50}>pull:把別人的更新拉下來</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28 }}>{[['git clone <網址>', '第一次:複製一整份專案'], ['git pull', '之後:抓雲端最新版並合併'], ['git fetch', '只看看雲端有什麼,先不合併']].map(([a, b]) => <div key={a} style={{ display: 'grid', gridTemplateColumns: '330px 1fr', gap: 20, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '18px 24px', maxWidth: 1480 }}><span style={{ fontFamily: mono, fontSize: 24, color: C.orange, fontWeight: 800 }}>{a}</span><span style={{ fontSize: 25 }}>{b}</span></div>)}<Analogy>多人合作前先 pull,像開共享文件前先同步最新版。</Analogy></div></div><Foot label="U11 · 課1 · GitHub" /></div>;
 const BranchWhy: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · branch</Eyebrow><Title size={50}>branch:開一個平行宇宙來改</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>分支像另開一個存檔格。在新分支上怎麼改,都不會動到 main 主線。</Analogy><Think q="AI 會改很多檔,我怎麼降低風險?" a={<span>先開分支給 AI 改。滿意再合併,不滿意就丟掉分支。</span>} /></div></div><Foot label="U11 · 課1 · Git" /></div>;
@@ -367,6 +400,18 @@ const GitPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · 
 const Break2: Page = () => <BreakSlide note="回來換今天的第一個 AI 夥伴:Claude Code。" />;
 
 const Sec3: Page = () => <Section no="3" title="Claude Code:你的第一個 AI 夥伴" time="2:15 - 3:10" sub="住在 VSCode / 終端機裡的 AI 助手。今天學斜線指令、擴充選單與 Modes。" />;
+const AIGuard: Page = () => (
+  <div style={fill}><div style={pad}><Eyebrow>段 3 / 4 · AI 動手前防呆</Eyebrow><Title size={48}>先把 AI 關在安全範圍內</Title>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28 }}>
+      <Checkpoint items={['先開 feature 分支或確認剛 commit 過', '先用 Plan / Ask before edits,不要一開始 Full Access', '提示詞寫清楚:只改哪個檔案、不要改哪裡', '改完必看 git diff,再跑 localhost 或 npm run build']} />
+      <Term title="給 AI 的安全提示範本" size={22} rows={[
+        ['cmd', '請先讀 src/data.js,只提出計畫,不要改檔。'],
+        ['cmd', '如果要修改,只能改 src/data.js 的店名與標語。'],
+        ['cmd', '完成後列出改了哪些檔案,我會用 git diff 檢查。'],
+      ]} />
+    </div>
+  </div><Foot label="U11 · 課1 · AI 防呆" /></div>
+);
 const CCWhat: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · Claude Code</Eyebrow><Title size={52}>它不是聊天網頁,它住在專案裡</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>Claude Code 看得到你的檔案、能改檔、能跑指令。像一個能動手的助理坐在 VSCode 裡。</Analogy><Think q="那我直接叫它全改就好?" a={<span>先別。你要用模式管權限,用 Git 看它做了什麼。</span>} /></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
 const CCTerm: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · 對話示意</Eyebrow><Title size={46}>你交代任務,它回報動作</Title><Lead>重點不是讓它自由發揮,是要求它說清楚「會改哪裡、怎麼驗收」。</Lead></div><Term title="Claude Code" size={21} rows={[['cmd', '請把首頁標題放大一點,先說你會改哪裡'], ['ok', '我會查看 src/App.jsx 與 styles.css'], ['out', '計畫:只改 hero title 的字級'], ['dim', '等待你同意...']]} /></div><Foot label="U11 · 課1 · Claude Code" /></div>;
 const CCSlash: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 900px', gap: 40, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · slash commands</Eyebrow><Title size={48}>打一個 /,叫出控制台</Title><Lead>斜線指令不是要背,是你需要時叫出工具狀態、模型、用量、壓縮上下文。</Lead></div><CmdMenu title="Claude Code 常用指令" items={[['/model', '切換模型'], ['/effort', '調整思考深度'], ['/usage', '查看用量'], ['/compact', '壓縮上下文'], ['/goal', '設定任務目標'], ['/btw', '插入問題']]} /></div><Foot label="U11 · 課1 · Claude Code" /></div>;
@@ -398,6 +443,7 @@ export const notes: (string | undefined)[] = [
   '先講為什麼。AI 很會做事,但工程流程不是只問一句話。你需要知道專案在哪,怎麼跑,怎麼存回來,再讓 AI 動手。',
   '今天路線四段:VSCode 是工作台,Git 和 GitHub 是版本與協作,Claude Code 和 Codex 是兩個 AI 助手。',
   '上課三個約定:不要自由探索、每段都有檢查點、錯誤訊息不要關掉。',
+  '全堂防呆機制:每次動手都先看位置、先看狀態、小步執行、立刻驗證。這四步會貫穿 VSCode、Git 與 AI 工具。',
   '今天會碰到的基本工具:VSCode、Git、GitHub、Node、npm。它們各自有一個清楚角色。',
   '先做環境檢查。今天主線只需要 Node、npm、Git,看到版本號就能繼續。',
   '段一開始。VSCode 是你的專案工作台,今天先認畫面、裝外掛、用 npm 跑網站。',
@@ -417,7 +463,8 @@ export const notes: (string | undefined)[] = [
   '看到海風小店畫面,段一最重要的任務就完成了。',
   '常見卡住點:終端機找不到、站錯資料夾、npm run dev 停住。逐一對照即可。',
   '休息。回來進 Git 和 GitHub。',
-  '段二開始。先改 data.js 裡的店名,製造一個 Git 可以追蹤的改動。',
+  '段二開始。這段會從本機 Git 存檔,一路接到 GitHub、remote、push、pull、branch 和 tag。',
+  '先改 data.js 裡的店名,製造一個 Git 可以追蹤的改動。',
   'Git 是存檔系統。之後 AI 改完,我們就靠 Git 看它動了哪些地方。',
   'git status 看現在改了什麼。它只看狀態,不會改檔案。',
   'git diff 看具體改動。紅色是原本,綠色是改完。',
@@ -426,6 +473,7 @@ export const notes: (string | undefined)[] = [
   '學生第一步會從老師公開 repo clone 教材。clone 後 origin 先指向老師 repo,這是正常的。',
   '接著學生要在 GitHub 建自己的空 repo,把老師 repo 改名 upstream,再把自己的 repo 加成 origin,最後 git push -u origin main。',
   '記住兩個 remote 角色:origin 是自己的作業 repo,upstream 是老師的原始教材 repo。日常 push 到 origin;要拿老師更新才 pull upstream main。',
+  'push 前一定做防呆檢查:git remote -v 看到 origin 是自己的 repo,upstream 是老師 repo。Invalid username or token 代表不能用密碼,要改用 VSCode/GitHub 登入、GitHub CLI 或 token。',
   'push 是把本機 commit 推上 GitHub。commit 是本機, push 是雲端。',
   'clone、pull、fetch 是從雲端拿東西回來。多人合作前常常先 pull。',
   'branch 是平行宇宙。在分支上改,main 主線可以保持乾淨。',
@@ -434,6 +482,8 @@ export const notes: (string | undefined)[] = [
   '團隊常見流程:main、feature、commit、PR、merge。今天先看懂概念。',
   'Git 常見卡住點:站錯資料夾、身份未設定、push 被拒絕。',
   '休息。回來看 Claude Code。',
+  '段三開始。Claude Code 是第一個 AI 夥伴,但在認識指令前,先建立 AI 動手前的共同防呆流程。',
+  'AI 動手前的共同防呆:先有分支或 commit,先用 Plan 或 Ask before edits,提示詞限制檔案範圍,改完一定看 git diff 並驗證。',
   'Claude Code 是住在專案裡的 AI 助手,不是單純聊天網頁。',
   '對話示意:你要它先說會改哪裡,不是一開始就讓它亂改。',
   '斜線指令是 Claude Code 的控制台。今天知道 model、effort、usage、compact、goal、btw。',
@@ -442,6 +492,7 @@ export const notes: (string | undefined)[] = [
   'Modes 決定它能不能自己動手。新手先用 Ask before edits 或 Plan Mode。',
   'Claude Code 的重點是叫得動也管得住:目標、模式、diff。',
   '短休息,最後看 Codex。',
+  '段四開始。Codex 是 OpenAI 的 AI 開發助手,和 Claude Code 同類,但介面與設定名稱不同。',
   'Codex 是 OpenAI 的同類工具。工具名不同,控制邏輯相通。',
   'Codex 也有 slash commands。先用 /status 看狀態,用 /goal 定任務。',
   '核准權限有三段:Chat、Agent、Agent Full Access。權限越大越快,風險也越高。',
@@ -456,10 +507,10 @@ export const notes: (string | undefined)[] = [
 ];
 
 export default [
-  Cover, Outcome, Why, Roadmap, Rules, Tools, Precheck,
+  Cover, Outcome, Why, Roadmap, Rules, Guardrails, Tools, Precheck,
   Sec1, VSIntro, RegExplorer, RegEditor, RegTerminal, RegOthers, ExtWhat, ExtRecommend, OpenProject, CodeTouchMap, CdPage, NpmWhat, RunProject, Localhost, WebReal, VsPit, Break1,
-  Sec2, EditDo, GitHead, GitStatus, GitDiff, GitCommit, GitHubWhat, CloneFromTeacher, OwnRepoFlow, RemoteRoles, GitPush, GitPull, BranchWhy, BranchPage, TagPage, GitFlowPage, GitPit, Break2,
-  Sec3, CCWhat, CCTerm, CCSlash, CCCompact, CCMenuPage, CCModes, CCTakeaway, Break3,
+  Sec2, EditDo, GitHead, GitStatus, GitDiff, GitCommit, GitHubWhat, CloneFromTeacher, OwnRepoFlow, RemoteRoles, PushGuard, GitPush, GitPull, BranchWhy, BranchPage, TagPage, GitFlowPage, GitPit, Break2,
+  Sec3, AIGuard, CCWhat, CCTerm, CCSlash, CCCompact, CCMenuPage, CCModes, CCTakeaway, Break3,
   Sec4, CodexWhat, CodexSlash, CodexApproval, CodexReasoning, CodexPlan, CodexPit,
   SecEnd, Recap, Punchline, Homework, Next,
 ] satisfies Page[];
