@@ -43,6 +43,22 @@
 - [ ] Codex 產出不穩：使用標準版 `sendLineAlert.js`
 - [ ] 現場網路不穩：payload 產生與 mock 驗收即完成
 
+## C3 加做 · Flex Message
+
+- [ ] `node line-lab/sendLineAlert.js --flex` 會產生 `line-lab/line-flex-payload.json`
+- [ ] Flex message 有 `type: "flex"`、`altText`、`contents.type: "bubble"`
+- [ ] `--flex` 模式仍遵守 mock / `LINE_REAL_SEND=1` / `--confirm`
+- [ ] `git diff -- package.json` 沒有輸出
+
+## C3 加做 · Dashboard 手動通知
+
+- [ ] Dashboard 顯示營運通知人工審核面板
+- [ ] Dashboard 有 payload preview
+- [ ] 未勾人工審核 checkbox 時，不顯示 `--confirm` 真送指令
+- [ ] token 沒有進前端
+- [ ] Network 沒有呼叫 `https://api.line.me`
+- [ ] 真送仍只由終端機執行
+
 ## 通用驗收
 
 - [ ] AI 修改前有明確限制

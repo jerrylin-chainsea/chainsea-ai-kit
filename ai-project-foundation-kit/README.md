@@ -36,6 +36,13 @@ data-lab/report.json
 ../m11-materials/u11-c3-line-oa-lab.md
 ```
 
+加做講義：
+
+```text
+../m11-materials/u11-c3-flex-message-lab.md
+../m11-materials/u11-c3-dashboard-manual-notify-lab.md
+```
+
 LINE OA 真送前置：
 
 1. 登入 LINE Developers Console，未登入會進 LINE Business ID。

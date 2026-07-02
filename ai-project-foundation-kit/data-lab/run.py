@@ -6,10 +6,7 @@ data-lab / run.py
 讀 data/sales.csv,做最簡單的資料檢查,印出固定四欄:
     insight / anomalies / risk_level / action_items
 
-⚠️ 教學用「固定錯誤」(C3 Debug 練習要修的地方):
-    規格說 risk_level 只能是 low / medium / high,
-    但這支程式目前會把它「翻成中文」印出來(輕微 / 中等 / 嚴重)。
-    跑跑看,你會看到 risk_level 是「嚴重」。那就是要修的 bug。
+資料合約規定 risk_level 只能是 low / medium / high。
 """
 import csv
 import json
@@ -80,11 +77,7 @@ def check(rows):
     else:
         level = "high"
 
-    # ⚠️ 這裡是 C3 要修的 bug:把英文等級「翻成中文」再印出來,
-    #    違反「risk_level 只能是 low / medium / high」的規格。
-    #    正確做法:直接用 level,不要這行轉換。
-    zh = {"low": "輕微", "medium": "中等", "high": "嚴重"}
-    risk_level = zh[level]
+    risk_level = level
 
     action_items = []
     if anomalies:

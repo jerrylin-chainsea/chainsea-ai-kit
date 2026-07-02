@@ -1,6 +1,6 @@
 {
   "report_date": "2026-07-02",
-  "risk_level": "嚴重",
+  "risk_level": "high",
   "total_revenue": 128400,
   "anomaly_count": 5,
   "top_product": "耳掛咖啡",
