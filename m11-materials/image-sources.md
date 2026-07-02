@@ -44,6 +44,18 @@
 
 - Claude Code:`shift+tab` 循環 Default → Auto-Accept Edits → Plan;Plan mode 只計畫不改檔;面板底部可點選模式;`/plan`、`/model` 指令;Windows 上 shift+tab 可能跳過 Plan(用 /plan 或點選)。來源:`code.claude.com/docs/en/vs-code`、Claude Code 模式相關文件。
 - Codex:核准模式 **Chat / Agent / Agent (Full Access)**;reasoning effort **low / medium / high**;模型選單。來源:`developers.openai.com/codex/ide`、VS Code Marketplace 擴充頁。
+
+## 四、U11-C3 LINE OA 官方文件截圖
+
+擷取日期:2026-07-02。擷取工具:Chrome DevTools MCP。用途:支撐 C3「真的設定 LINE OA」照做講義。
+
+| 檔案 | 內容 | 來源 |
+|---|---|---|
+| `screenshots/u11-c3-line-oa/line-getting-started.png` | LINE Messaging API Getting started:建立 LINE Official Account、啟用 Messaging API | https://developers.line.biz/en/docs/messaging-api/getting-started/ |
+| `screenshots/u11-c3-line-oa/line-build-a-bot.png` | Build a bot:channel access token、webhook URL、QR code 加好友 | https://developers.line.biz/en/docs/messaging-api/building-bot/ |
+| `screenshots/u11-c3-line-oa/line-get-user-ids.png` | Get user IDs:userId 不是 LINE ID,可從 Basic settings 或 webhook 取得 | https://developers.line.biz/en/docs/messaging-api/getting-user-ids/ |
+| `screenshots/u11-c3-line-oa/line-reference-token-push.png` | Messaging API reference:channel access token 與 push endpoint | https://developers.line.biz/en/reference/messaging-api/ |
+| `screenshots/u11-c3-line-oa/line-console-login.png` | LINE Developers Console 未登入時會進 LINE Business ID 登入頁 | https://developers.line.biz/console/ |
 - ⚠️ 模型版本號(Opus 4.x / Sonnet 4.x 等)會隨版本更新,簡報以「依你安裝顯示」呈現,**講師可依現場版本口頭補充或改字**。
 
 ## 四、講師上課前自行補拍(瀏覽器擷取不到的本機/插件實機畫面)
