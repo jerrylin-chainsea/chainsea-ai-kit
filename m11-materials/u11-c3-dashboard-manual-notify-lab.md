@@ -1,229 +1,99 @@
-# U11-C3 加做講義：Dashboard 設置手動通知
+# U11-C3 加做講義：請 AI 擴充 Dashboard
 
-目標：在 `web-lab` 加一個「營運通知人工審核面板」。Dashboard 只負責審核與複製指令，不在前端送 LINE，不放 token。
+> **重要**：Dashboard 手動通知面板**已升為 C3 主線**，並且**內建在 starter**（`web-lab/src/Dashboard.jsx`），
+> 不再需要請 AI 從零建立、也**不再把資料手寫進 App.jsx 常數**（資料只有一個來源：`data-lab/report.json`）。
+> 主線流程見 `u11-c3-line-oa-lab.md` 與 starter 的 `U3/STEP-01..03.md`。
+>
+> 本檔保留給**進階組加做**：讓 AI 在允許範圍內「擴充」現成的 Dashboard，練一次完整的 planner → 人審 → implementer → reviewer。
 
-## 1. 回到專案
+## 0. 允許檔案（比主線更嚴）
 
-```bash
-cd ai-project-foundation-kit
+```text
+✅ web-lab/src/Dashboard.jsx
+✅ web-lab/src/styles.css(僅「營運異常 Dashboard」區塊內追加)
+⛔ reportContract.js(與 line-lab/sendLineAlert.js 是雙胞胎,不動)
+⛔ App.jsx、data.js、package.json、line-lab/ 全部
 ```
 
-確認 LINE 腳本正常：
+## 1. 確認主線正常
 
 ```bash
 node line-lab/sendLineAlert.js
 ```
 
-預期：
+預期 mock 成功；Dashboard 六步卡可走通。主線沒過，先回主線講義。
+
+## 2. 貼 planner 卡（先計畫，不動手）
 
 ```text
-payload written: line-lab\line-alert-payload.json
-[mock] LINE_REAL_SEND is not 1, no request sent.
+你現在扮演 planner。
+先不要改檔，也不要執行寫入動作。
+
+請先閱讀：
+- AGENTS.md
+- CLAUDE.md
+- data-lab/report.json
+- web-lab/src/Dashboard.jsx
+
+任務：
+我要完成「營運異常 Dashboard + LINE mock 通知」中的下一步：
+在 Dashboard 的 reviewer checklist 區塊，新增一項「<你想加的檢查項>」。
+
+限制：
+1. 只能修改：web-lab/src/Dashboard.jsx
+2. 不要新增套件
+3. 不要改 package.json
+4. 不要重構
+5. 不要動 reportContract.js
+6. 不要把資料手寫成前端常數
+
+請只用以下格式回答：
+A. 你準備修改的檔案
+B. 每個檔案各改什麼
+C. 資料合約會如何被使用
+D. 驗收方式
+E. 可能風險
+F. 哪一步需要人類拍板
 ```
 
-## 2. 貼 Prompt 1：新增人工通知 Dashboard
+人審四題（檔案／套件／package.json／重構傾向）都安全才放行。
 
-把下面整段貼給 Codex：
+## 3. 貼 implementer 卡
 
 ```text
-請在 web-lab 新增「營運通知人工審核面板」。
+你現在扮演 implementer。
+請依照「剛剛已核准的計畫」實作。
 
-需求：
-1. 只修改 web-lab/src/App.jsx、web-lab/src/styles.css。
-2. 不新增套件。
-3. 不改 package.json。
-4. 不改 line-lab/sendLineAlert.js。
-5. 不重構整個前端。
-6. 不把 token 放進前端。
+限制：
+1. 只能修改：web-lab/src/Dashboard.jsx
+2. 不要新增套件
+3. 不要改 package.json
+4. 不要重構
+5. 如果超出原計畫，先停下來回報，不可直接修改
 
-畫面要包含：
-1. risk_level
-2. total_revenue
-3. anomaly_count
-4. top_product
-5. top_channel
-6. action_items
-7. LINE payload preview
-8. 「我已人工審核通知內容」checkbox
-9. checkbox 未勾選時，不顯示 --confirm 真送指令
-10. checkbox 勾選後，顯示真送指令：
-    LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
-
-資料可先用 data-lab/report.json 的固定內容手動寫在 App.jsx 常數中。
-完成後請回報實際修改的檔案。
+完成後請固定回報：
+A. 實際修改的檔案
+B. 每個檔案改了什麼
+C. 哪裡對應到資料合約
+D. 我現在要怎麼手動驗收
+E. 哪些地方你沒有改
 ```
 
-預期 Codex 回報：
+## 4. 驗收
 
-```text
-修改：
-- web-lab/src/App.jsx
-- web-lab/src/styles.css
-```
+- 畫面：新的 checklist 項目出現，其他六步卡行為不變（回歸檢查）。
+- Console 沒有紅色錯誤；Network 仍然零請求。
+- `git diff`：只有 `Dashboard.jsx`（若計畫含樣式則加 `styles.css` 的 Dashboard 區塊）。
+- `git diff -- web-lab/package.json` 沒有輸出。
 
-## 3. 啟動 Dashboard
+## 5. reviewer + build + commit
+
+貼 `prompts/07-reviewer.md` 的 reviewer 卡 → Verdict PASS 後：
 
 ```bash
-cd web-lab
-npm run dev
-```
-
-打開終端機顯示的 localhost。
-
-預期畫面：
-
-```text
-營運通知人工審核面板
-risk_level: high
-total_revenue: NT$128,400
-anomaly_count: 5
-top_product: 耳掛咖啡
-top_channel: LINE
-action_items 清單
-LINE payload preview
-人工審核 checkbox
-```
-
-## 4. 驗收 checkbox 行為
-
-先不要勾 checkbox。
-
-預期：
-
-```text
-只能看到 mock 指令：
-node line-lab/sendLineAlert.js
-
-看不到 --confirm 真送指令。
-```
-
-勾選 checkbox。
-
-預期：
-
-```text
-出現真送指令：
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
-```
-
-## 5. Console 驗收
-
-打開瀏覽器 DevTools Console。
-
-預期：
-
-```text
-沒有紅色錯誤
-沒有 token
-沒有 LINE_CHANNEL_ACCESS_TOKEN
-```
-
-## 6. Network 驗收
-
-打開 DevTools Network。
-
-重新整理頁面。
-
-預期：
-
-```text
-沒有呼叫 https://api.line.me
-沒有 POST /v2/bot/message/push
-```
-
-重點：Dashboard 不送 LINE，真送只在終端機做。
-
-## 7. mock 指令驗收
-
-回到 `ai-project-foundation-kit`：
-
-```bash
-cd ..
-node line-lab/sendLineAlert.js
-```
-
-預期：
-
-```text
-payload written: line-lab\line-alert-payload.json
-[mock] LINE_REAL_SEND is not 1, no request sent.
-```
-
-## 8. 人工審核後真送
-
-確認 Dashboard checkbox 已勾選，再回終端機執行。
-
-Bash / macOS / Git Bash：
-
-```bash
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
-```
-
-PowerShell：
-
-```powershell
-$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --confirm
-```
-
-成功預期：
-
-```text
-LINE API success: 200
-```
-
-## 9. 貼 Prompt 2：請 Codex 做檢查，不改檔
-
-把下面整段貼給 Codex：
-
-```text
-請檢查目前 Dashboard 手動通知流程。
-不要改檔。
-請確認：
-1. token 是否沒有進前端
-2. package.json 是否沒有修改
-3. Dashboard 是否只是人工審核與複製指令
-4. 真送是否仍只能由終端機 --confirm 執行
-5. 還需要人工確認什麼
-```
-
-## 10. Build 驗收
-
-```bash
-cd web-lab
-npm run build
-```
-
-預期：
-
-```text
-built
-```
-
-## 11. Git 驗收
-
-回到 `ai-project-foundation-kit`：
-
-```bash
-cd ..
-git status
-git diff
-git diff -- web-lab/package.json
-git diff -- package.json
-```
-
-預期：
-
-```text
-web-lab/package.json 沒有 diff
-package.json 沒有 diff
-.env 不在 commit 裡
-```
-
-## 12. Commit
-
-```bash
+cd web-lab && npm run build && cd ..
 git add .
-git commit -m "新增 Dashboard 手動通知審核面板"
-git push
+git commit -m "加做:擴充 Dashboard reviewer checklist"
 ```
 
+> 收束一句：**擴充功能也走同一條流程** —— planner、人審、implementer、reviewer、build、commit，一步都不省。

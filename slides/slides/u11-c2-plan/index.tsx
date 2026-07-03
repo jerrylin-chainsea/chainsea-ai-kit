@@ -253,8 +253,27 @@ const Roadmap: Page = () => (
     <div style={{ fontSize: 27, color: C.muted, marginTop: 44, lineHeight: 1.55, textAlign: 'center' }}>先寫 <Key>AGENTS.md</Key> / <Key>CLAUDE.md</Key> → 定義功能 → 第一輪做出來 → 需求變更再來一輪 → reviewer 檢查 → git 收尾。<br />橘色的步驟是<O>你拍板</O>,藍色是 AI,綠色是驗收動作。中間休息一次。</div>
   </div><Foot label="U11 · 課2 · 路線" /></div>
 );
+const MainlineDoD: Page = () => (
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>你現在在哪條流水線</Eyebrow><Title size={46}>整門課只做一個作品:營運異常 Dashboard</Title>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 28, maxWidth: 1520 }}>
+      <div style={{ fontFamily: mono, fontSize: 25, background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '20px 26px', lineHeight: 1.6 }}>資料進來 → 檢查資料 → <span style={{ color: C.orange, fontWeight: 800 }}>資料合約 → AI 串接功能(今天)</span> → Dashboard 呈現 → ReAct 修錯 → reviewer 驗收 → build / commit</div>
+      <Lead>今天的守則檔與 workflow,都是為了下一堂能安全地把功能做出來。<B>data-lab/report.json</B> 是整個作品的資料合約 —— 欄位固定、值有規則,畫面與通知都吃同一份。</Lead>
+      <Harvest>AI 做出來不算完成,通過驗收才算完成。驗收包含:畫面/輸出/diff/build/human review。</Harvest>
+    </div>
+  </div><Foot label="U11 · 課2 · 主線" /></div>
+);
 // ══════════ 段 1:專案守則檔 ══════════
 const Sec1: Page = () => <Section no="1" title="把規則寫進 repo:AGENTS.md / CLAUDE.md" time="0:12 - 0:30" sub="AI 不該每次都從零理解你的專案。團隊守則寫成檔案放進 repo,每個 AI 進來都先讀它。" />;
+const PainDemo: Page = () => (
+  <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '620px 1fr', gap: 46, alignItems: 'center' }}>
+    <div className="ts-rise"><ClaudePanel mode="default" convo={[{ who: 'user', text: '幫我把首頁標語改一下就好。' }, { who: 'ai', text: '已完成!我順便重排了版面、統一了配色、還把 App.jsx 拆成三個元件,並更新了 package.json…' }, { who: 'user', text: '(git status:7 個檔案被改)' }]} /></div>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div><Eyebrow>段 1 · 先痛一次 · 老師示範</Eyebrow><Title size={46}>只叫它改標語,它動了 7 個檔</Title></div>
+      <Lead>這就是<B>沒有護欄的 AI</B>:能力很強、熱心過頭。你要的是一行,它給你一次「大翻修」。記住這個 diff 的樣子 ──</Lead>
+      <Harvest>這就是為什麼要有 AGENTS.md / CLAUDE.md,以及等一下的 planner → 人審 → implementer 流程。</Harvest>
+    </div>
+  </div><Foot label="U11 · 課2 · 段1" /></div>
+);
 const WhyRules: Page = () => (
   <div style={fill}><div style={{ ...pad }}><Eyebrow>段 1 · 為什麼需要守則檔</Eyebrow><Title size={54}>新同事報到,第一件事是看團隊守則</Title>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 32 }}>
@@ -523,13 +542,15 @@ const PlannerPrompt1: Page = () => (
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構整個專案
+5. 需要新增檔案,先說明原因,不可直接做
 
-請輸出:
-1. 會改哪些檔案
-2. 每個檔案改什麼
-3. 推薦邏輯會放在哪裡
-4. 驗收方式
-5. 可能風險`}</PromptCard>
+請只用以下格式回答:
+A. 你準備修改的檔案
+B. 每個檔案各改什麼
+C. 資料(data.js 欄位)會如何被使用
+D. 驗收方式
+E. 可能風險
+F. 哪一步需要人類拍板`}</PromptCard>
     </div>
   </div><Foot label="U11 · 課2 · 段4" /></div>
 );
@@ -559,16 +580,22 @@ const ImplPrompt1: Page = () => (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}><Eyebrow>段 4 · Prompt 卡 2 · implementer</Eyebrow><span style={{ fontFamily: mono, fontSize: 20, color: OK, fontWeight: 700 }}>● 計畫核准後,切出 Plan Mode 再貼</span></div>
     <Title size={44}>換 implementer 上場,照核准的計畫做</Title>
     <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: '1fr 600px', gap: 30, marginTop: 22, alignItems: 'start', maxWidth: 1620 }}>
-      <PromptCard size={22} label="implementer prompt">{`你現在扮演 implementer。
-
-請照剛剛核准的計畫實作。
+      <PromptCard size={20} label="implementer prompt">{`你現在扮演 implementer。
+請依照「剛剛已核准的計畫」實作。
 
 限制:
 1. 只能修改 AGENTS.md 允許的檔案
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構整個專案
-5. 完成後列出實際改了哪些檔案`}</PromptCard>
+5. 超出原計畫,先停下來回報,不可直接修改
+
+完成後請固定回報:
+A. 實際修改的檔案
+B. 每個檔案改了什麼
+C. 哪裡對應到資料欄位
+D. 我現在要怎麼手動驗收
+E. 哪些地方你沒有改`}</PromptCard>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <Atom n={1} act={<>按 <Key>shift</Key>+<Key>tab</Key> 切出 Plan Mode(回 default)。</>} see="面板底部不再是 plan mode。" />
         <Atom n={2} act={<>貼上左邊的 prompt,送出。</>} see="它開始逐檔修改、會請你允許。" />
@@ -634,11 +661,13 @@ const PlannerPrompt2: Page = () => (
 4. rating >= 4.0
 5. 推薦理由要說明「庫存不多,適合促銷」
 
-請先列出:
-1. 需要改哪些檔案
-2. 推薦邏輯要改哪一段
-3. 可能風險
-4. 驗收方式`}</PromptCard>
+請只用以下格式回答:
+A. 你準備修改的檔案
+B. 每個檔案各改什麼
+C. 資料(data.js 欄位)會如何被使用
+D. 驗收方式
+E. 可能風險
+F. 哪一步需要人類拍板`}</PromptCard>
     </div>
   </div><Foot label="U11 · 課2 · 段5" /></div>
 );
@@ -658,15 +687,22 @@ const ExecPrompt2: Page = () => (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}><Eyebrow>段 5 · Prompt 卡 4 · 執行第二輪</Eyebrow><span style={{ fontFamily: mono, fontSize: 20, color: OK, fontWeight: 700 }}>● 核准後,切出 Plan Mode 再貼</span></div>
     <Title size={44}>放行,照第二輪計畫改</Title>
     <div className="ts-rise" style={{ marginTop: 22, maxWidth: 1560 }}>
-      <PromptCard size={22} label="execute prompt · 第二輪">{`請照剛剛核准的第二輪計畫修改。
+      <PromptCard size={21} label="execute prompt · 第二輪">{`你現在扮演 implementer。
+請照剛剛核准的第二輪計畫修改。
 
 限制不變:
 1. 只能改 src/data.js、src/App.jsx、src/styles.css
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構
+5. 超出原計畫,先停下來回報
 
-完成後列出實際改了哪些檔案。`}</PromptCard>
+完成後請固定回報:
+A. 實際修改的檔案
+B. 每個檔案改了什麼
+C. 哪裡對應到資料欄位
+D. 我現在要怎麼手動驗收
+E. 哪些地方你沒有改`}</PromptCard>
     </div>
   </div><Foot label="U11 · 課2 · 段5" /></div>
 );
@@ -687,18 +723,19 @@ const ReviewerPrompt: Page = () => (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}><Eyebrow>段 6 · Prompt 卡 5 · reviewer</Eyebrow><span style={{ fontFamily: mono, fontSize: 20, color: OK, fontWeight: 700 }}>● reviewer 只檢查、不修改</span></div>
     <Title size={44}>換 reviewer 上場,對著守則查 diff</Title>
     <div className="ts-rise" style={{ marginTop: 22, maxWidth: 1560 }}>
-      <PromptCard size={21} label="reviewer prompt">{`你現在扮演 reviewer。
-
-請根據 AGENTS.md 和 CLAUDE.md 檢查目前 git diff。
+      <PromptCard size={19} label="reviewer prompt(Pass / Block 格式)">{`你現在扮演 reviewer。
+請根據 AGENTS.md、CLAUDE.md、目前需求與 git diff 做檢查。
 不要改檔。
 
-請回報:
-1. 實際改了哪些檔案
-2. 是否有超出允許範圍
-3. 是否有修改 package.json
-4. 是否有過度重構
-5. 功能是否符合第二輪需求
-6. 還需要人工檢查什麼`}</PromptCard>
+請固定輸出:
+Verdict:PASS 或 BLOCK
+Changed Files:實際改了哪些檔
+Scope Check:是否超出允許範圍
+Package Check:是否修改 package.json / 新增套件
+UI Check:功能是否符合第二輪需求
+Regression Risk:最可能壞掉的地方
+Human Review:人還要親自看什麼
+Next Step:PASS 下一步做什麼;BLOCK 先修什麼`}</PromptCard>
     </div>
   </div><Foot label="U11 · 課2 · 段6" /></div>
 );
@@ -713,7 +750,7 @@ const DiffCmds: Page = () => (
   </div><Foot label="U11 · 課2 · 段6" /></div>
 );
 const ReadReview: Page = () => {
-  const items = [['改的檔案清單', '和核准的計畫一致嗎?'], ['超界修改', 'reviewer 有沒有點名任何允許清單以外的檔?'], ['過度重構', '有沒有「順便重寫」的段落?'], ['人工檢查建議', 'reviewer 說還要人看什麼,就去看什麼']];
+  const items = [['Verdict', '第一行就是結論:PASS 進下一步;BLOCK 照 Next Step 先修'], ['Scope / Package Check', '有沒有點名允許清單以外的檔、動 package.json?'], ['Regression Risk', '它說最可能壞掉的地方,就去看那裡'], ['Human Review', 'reviewer 說還要人看什麼,就去看什麼']];
   return (
     <div style={fill}><div style={pad}><Eyebrow>段 6 · 讀 reviewer 回報</Eyebrow><Title size={52}>回報回來,重點看這四格</Title>
       <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 22, marginTop: 36, maxWidth: 1540 }}>
@@ -754,7 +791,7 @@ const BuildVerify: Page = () => (
 const ReviewPit: Page = () => (
   <div style={fill}><div style={{ ...pad }}><Eyebrow>段 6 · 卡住了?+ 檢查點</Eyebrow><Title size={50}>Reviewer 段常見狀況</Title>
     <div className="ts-rise" style={{ marginTop: 30, maxWidth: 1500 }}><Pitfall items={[['git diff -- package.json 有輸出:', '出事了。用上一頁的救援 prompt,把無關修改還原。'], ['reviewer 說有超界,但 diff 看起來沒有:', '以 git diff 為準;AI 的回報要驗證,不要照單全收。'], ['build 一直紅字:', '把完整錯誤貼給 Claude Code 修;修不動就舉手,不要硬 commit。']]} /></div>
-    <div style={{ marginTop: 20 }}><Checkpoint items={['reviewer 六項回報都拿到了', 'git diff -- package.json 沒有輸出', 'npm run build 綠燈通過']} /></div>
+    <div style={{ marginTop: 20 }}><Checkpoint items={['reviewer 回報第一行是 Verdict,而且你對照過 diff', 'git diff -- package.json 沒有輸出', 'npm run build 綠燈通過']} /></div>
   </div><Foot label="U11 · 課2 · 段6" /></div>
 );
 
@@ -833,15 +870,15 @@ const Homework: Page = () => (
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 34, maxWidth: 1500 }}>
       <Atom n={1} act={<>把智慧推薦區塊 <B>push 到自己的 repo</B>(課堂上沒完成的,回家補完)。</>} see="GitHub 上看得到最新 commit。" />
       <Atom n={2} act={<>截圖兩張:<B>網站畫面</B> + 終端機跑 <Key>git log --oneline -1</Key> 的結果。</>} see="畫面有推薦區塊、log 有你的 commit。" />
-      <Atom n={3} act={<>把 <B>reviewer 的六項回報</B>複製下來,一起貼到作業區。</>} see="老師會看它有沒有抓到重點。" />
+      <Atom n={3} act={<>把 <B>reviewer 的固定回報(Verdict 開頭)</B>複製下來,一起貼到作業區。</>} see="老師會看它有沒有抓到重點。" />
     </div>
   </div><Foot label="U11 · 課2 · 作業" /></div>
 );
 const NextClass: Page = () => (
   <div style={fill}><div style={{ ...pad }}><Eyebrow>下一堂預告</Eyebrow><Title size={54}>畫面會做了,資料呢?</Title>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 32 }}>
-      <Lead>推薦區塊靠的是 <Key>data.js</Key> 裡的資料。下一堂進資料的世界:<B>AI 講得很順,不代表資料是對的</B> ── 我們學怎麼檢查資料異常、要求固定格式輸出、修 AI 的錯。</Lead>
-      <Harvest>今天你學會帶 AI 團隊;下一堂,學會不被 AI 唬住。</Harvest>
+      <Lead>下一堂進主線核心:在<B>營運異常 Dashboard</B> 上按按鈕走完「載入 → 檢查合約 → payload 預覽 → 人工審核 → mock 送出」,再親手弄壞 <Key>report.json</Key>、看擋牌出現、用 ReAct 修好。</Lead>
+      <Harvest>今天你學會帶 AI 團隊;下一堂,學會不被 AI 唬住 ── 資料合約就是防線。</Harvest>
     </div>
   </div><Foot label="U11 · 課2 · 預告" /></div>
 );
@@ -857,7 +894,9 @@ export const notes: (string | undefined)[] = [
   '所以本堂 punchline:Vibe Coding 不是亂感覺,是有護欄的快速迭代。速度是 AI 給的,護欄是你架的。規則寫進 repo、流程固定節奏、每輪都有人把關,這樣的快才能交付。',
   '今天下課前,你的 repo 會多五樣東西:AGENTS.md、CLAUDE.md、智慧推薦區塊功能、一輪 planner-implementer-reviewer 分工、一次完整 git 收尾。再強調一次:prompt 全部老師提供,你們不用自己發明。',
   '今天的主線一條走到底:先寫守則檔、定義功能、第一輪做出來、需求變更再一輪、reviewer 檢查、git 收尾。看顏色:橘色的步驟是你拍板,藍色是 AI 做事,綠色是驗收動作。中間休息一次。',
+  '把今天放回整門課的流水線:整門課只做一個作品,營運異常 Dashboard。今天的守則檔與 workflow 是為了下一堂能安全做出功能;data-lab/report.json 是資料合約,畫面與通知都吃同一份。唸一次 DoD:AI 做出來不算完成,通過驗收才算完成 —— 畫面、輸出、diff、build、human review。這句每一堂都會出現。',
   '段一,把規則寫進 repo。AI 不該每次都從零理解你的專案,團隊守則寫成檔案放進 repo,每個 AI 進來都先讀它。',
+  '先痛一次,老師示範:只叫 AI 改標語,不加任何限制。看它順便重排版面、統一配色、還動了 package.json,git status 七個檔被改。讓學生記住這個 diff 的樣子 —— 這就是為什麼需要守則檔和固定流程。示範完記得 git restore 還原。',
   '為什麼需要守則檔?打個比方,AI 每次開新對話就像新同事第一天報到:能力很強,但不知道哪些檔能動、怎麼驗收。你可以每次口頭交代,或者把守則寫成檔案放門口。與其每次用嘴管 AI,不如把規則寫進 repo。',
   'AGENTS.md 是什麼?三件事:它是通用的 agent rule file,不是只給 Claude;內容寫專案的遊戲規則,怎麼跑、哪些檔可改不可改、驗收指令;而且跨工具通用,Codex 和其他 coding agent 也讀得懂。',
   'CLAUDE.md 是什麼?它是 Claude Code 的專案記憶,Claude Code 每次啟動主要讀這個檔;可以寫 Claude 專屬規則,像動手前先 Plan Mode;還可以用 @AGENTS.md 一行把共用規則引進來,不用抄兩份。',
@@ -912,12 +951,12 @@ export const notes: (string | undefined)[] = [
   '一頁帶過 Codex。為什麼我們同時寫 AGENTS.md?因為 Claude Code 主要讀 CLAUDE.md,CLAUDE.md 可以 @AGENTS.md 引入共用規則,而 Codex 和其他 coding agent 讀得懂 AGENTS.md。共用守則寫在 AGENTS.md,未來換工具規則直接跟著走。今天的 workflow 不是 Claude 專屬,是你帶任何 coding agent 的方法。',
   '今天最重要的一句:會 vibe coding 不稀奇,能讓 AI 每一輪都照流程交付,才是真本事。規則在 repo 裡、計畫先過人、diff 見真章、build 過才交付,這套你今天做完了一整輪。',
   '作業三樣:把智慧推薦區塊 push 到自己的 repo;截圖兩張,網站畫面加 git log --oneline -1;把 reviewer 六項回報貼到作業區。',
-  '下一堂預告:畫面會做了,資料呢?推薦區塊靠 data.js 的資料,下一堂進資料的世界:AI 講得很順不代表資料是對的,我們學檢查資料異常、要求固定格式、修 AI 的錯。今天辛苦了。',
+  '下一堂預告:畫面會做了,資料呢?下一堂進主線核心:在營運異常 Dashboard 上按按鈕走完載入、檢查合約、payload 預覽、人工審核、mock 送出,再親手弄壞 report.json 看擋牌出現、用 ReAct 修好。資料合約就是防線。今天辛苦了。',
 ];
 
 export default [
-  Cover, RecapC1, VibeDef, VibeGood, VibeRisk, VibePunch, TodayTask, Roadmap,
-  Sec1, WhyRules, WhatAgentsMd, WhatClaudeMd, FileRelation, RuleLimits, AgentsSkeleton, AgentsContent, ClaudeContent, RulesPit,
+  Cover, RecapC1, VibeDef, VibeGood, VibeRisk, VibePunch, TodayTask, Roadmap, MainlineDoD,
+  Sec1, PainDemo, WhyRules, WhatAgentsMd, WhatClaudeMd, FileRelation, RuleLimits, AgentsSkeleton, AgentsContent, ClaudeContent, RulesPit,
   Sec2, WhatWorkflow, TodayFlow, HumanGates, WhatSubAgent, ThreeRoles,
   Sec3, FeatureLook, FeatureSpec, DataRules, FileScope, AcceptUI, AcceptGit,
   Sec4, PreCheck, PlannerPrompt1, PlanReview1, PlanSample, ImplPrompt1, WatchList, DevVerify1, Round1Pit,

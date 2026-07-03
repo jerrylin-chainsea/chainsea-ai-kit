@@ -5,6 +5,7 @@ const path = require("node:path");
 const ROOT = path.resolve(__dirname, "..");
 const REPORT_PATH = path.join(ROOT, "data-lab", "report.json");
 const PAYLOAD_PATH = path.join(__dirname, "line-alert-payload.json");
+const FLEX_PAYLOAD_PATH = path.join(__dirname, "line-flex-payload.json");
 const ENV_PATH = path.join(__dirname, ".env");
 const LINE_PUSH_URL = "https://api.line.me/v2/bot/message/push";
 const ALLOWED_RISK_LEVELS = new Set(["low", "medium", "high"]);
@@ -31,6 +32,7 @@ function readReport() {
   return JSON.parse(fs.readFileSync(REPORT_PATH, "utf8"));
 }
 
+// 注意:web-lab/src/reportContract.js 是這段檢查的雙胞胎,改其中一邊請同步改另一邊。
 function assertReportContract(report) {
   const missing = [
     "risk_level",
@@ -89,9 +91,91 @@ function buildPayload(report) {
   };
 }
 
-function writePayload(payload) {
-  fs.writeFileSync(PAYLOAD_PATH, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  console.log(`payload written: ${path.relative(ROOT, PAYLOAD_PATH)}`);
+function buildFlexField(label, value) {
+  return {
+    type: "box",
+    layout: "baseline",
+    spacing: "sm",
+    contents: [
+      {
+        type: "text",
+        text: label,
+        color: "#666666",
+        size: "sm",
+        flex: 2,
+      },
+      {
+        type: "text",
+        text: String(value),
+        color: "#111111",
+        size: "sm",
+        flex: 4,
+        wrap: true,
+      },
+    ],
+  };
+}
+
+function buildFlexMessage(report) {
+  const actionItems =
+    report.action_items.length > 0
+      ? report.action_items.map((item, index) => `${index + 1}. ${item}`)
+      : ["(none)"];
+
+  return {
+    type: "flex",
+    altText: "營運異常通知",
+    contents: {
+      type: "bubble",
+      body: {
+        type: "box",
+        layout: "vertical",
+        spacing: "md",
+        contents: [
+          {
+            type: "text",
+            text: "營運異常通知",
+            weight: "bold",
+            size: "lg",
+            wrap: true,
+          },
+          { type: "separator" },
+          buildFlexField("risk_level", report.risk_level),
+          buildFlexField("total_revenue", formatMoney(report.total_revenue)),
+          buildFlexField("anomaly_count", report.anomaly_count),
+          buildFlexField("top_product", report.top_product),
+          buildFlexField("top_channel", report.top_channel),
+          { type: "separator" },
+          {
+            type: "text",
+            text: "action_items",
+            weight: "bold",
+            size: "sm",
+            color: "#666666",
+          },
+          ...actionItems.map((item) => ({
+            type: "text",
+            text: item,
+            size: "sm",
+            color: "#111111",
+            wrap: true,
+          })),
+        ],
+      },
+    },
+  };
+}
+
+function buildFlexPayload(report) {
+  return {
+    to: process.env.LINE_TARGET_ID || MOCK_TARGET_ID,
+    messages: [buildFlexMessage(report)],
+  };
+}
+
+function writePayload(payload, payloadPath = PAYLOAD_PATH) {
+  fs.writeFileSync(payloadPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  console.log(`payload written: ${path.relative(ROOT, payloadPath)}`);
 }
 
 async function sendToLine(payload) {
@@ -122,8 +206,9 @@ async function main() {
   const report = readReport();
   assertReportContract(report);
 
-  const payload = buildPayload(report);
-  writePayload(payload);
+  const flexMode = process.argv.includes("--flex");
+  const payload = flexMode ? buildFlexPayload(report) : buildPayload(report);
+  writePayload(payload, flexMode ? FLEX_PAYLOAD_PATH : PAYLOAD_PATH);
 
   const realSend = process.env.LINE_REAL_SEND === "1";
   const confirmed = process.argv.includes("--confirm");

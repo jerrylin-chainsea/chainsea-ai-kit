@@ -1,49 +1,89 @@
 # ai-project-foundation-kit
 
-這是 M11/U11「AI 專案操作與協作開發基礎課」的練習專案。全班操作同一份教材，重點不是自由發想，而是照固定劇本讓 AI coding agent 完成可驗收交付。
+這是 M11/U11「**AI 驅動開發流程**」模組的練習專案。海風小店只是載體，你真正要學會的是一條**可重複的交付流程**。全班操作同一份教材，重點不是自由發想，而是照固定劇本讓 AI coding agent 完成可驗收交付。
 
-主線：打開專案 → 跑起來 → 請 AI 先讀、先計畫、不要亂改 → 小範圍實作 → mock 驗收 → 修錯 → git diff 收尾。
+整門課只做一個作品：
+
+> **營運異常 Dashboard + LINE mock notifier** ——
+> 資料合約驅動畫面與通知 payload，通過人工審核、ReAct 修錯、reviewer、build、commit 完成交付。
+
+主線（一條線走到底）：
+
+```text
+資料進來 → 檢查資料 → 資料合約 → AI 串接功能 → Dashboard 呈現
+       → ReAct 修錯 → reviewer 驗收 → build / commit / push
+```
+
+**學生從這裡開始：[`START-HERE.md`](./START-HERE.md)**（含一鍵啟動、DoD、四堂地圖）。
 
 ## 資料夾
 
 ```text
 ai-project-foundation-kit/
-  web-lab/          # C1/C2 使用的海風小店前端
-  data-lab/         # C3 使用的 report.json 營運資料合約
-  line-lab/         # C3 LINE OA 營運異常通知腳本
-  prompts/          # 固定 prompt 卡
-  .claude/          # Claude Code commands / skills 範例
-  .mcp.json         # MCP 設定範例
+  START-HERE.md      # 學生入口:主線圖 + DoD + 一鍵啟動
+  start-m11.bat      # Windows 一鍵啟動(裝套件 + 開瀏覽器)
+  start-m11.command  # macOS 一鍵啟動
+  U1/ U2/ U3/ U4/    # 每堂:STEP-*.md / PROMPT-CARD.md / ACCEPTANCE.md / PITFALL.md
+  web-lab/           # 作品本體:海風小店首頁 + 營運異常 Dashboard
+  data-lab/          # report.json:唯一資料來源(資料合約)
+  line-lab/          # LINE OA 通知腳本(mock 優先,真送雙重確認)
+  prompts/           # 固定 prompt 卡完整版(01–07)
+  .claude/           # Claude Code commands / skills 範例
+  .mcp.json          # MCP 設定範例
 ```
 
-## C3：LINE OA 營運異常通知系統
+## 完成的定義（DoD）
 
-C3 不再是 Dashboard / 資料驗收 / 查錯課。C3 是一堂固定步驟的 AI 企業程式開發實作課：
+> AI 做出來不算完成。通過驗收才算完成。
+> 驗收包含：**畫面 ／ 輸出 ／ diff ／ build ／ human review**。
+
+## 主線核心：一份資料合約，兩道防線
+
+`data-lab/report.json` 是唯一資料來源，欄位固定：
 
 ```text
-data-lab/report.json
-→ Codex 產生 LINE push message payload
-→ 人類審核通知內容
-→ mock 模式驗收
-→ LINE OA 真實發送示範
-→ ReAct 修指定錯誤
-→ git diff / build / commit / push
+report_date / risk_level / total_revenue / anomaly_count / top_product / top_channel / action_items
 ```
 
-完整照做講義在：
+`risk_level` 只能是 `low / medium / high`。同一份合約有兩個消費者、兩道防線：
 
-```text
-../m11-materials/u11-c3-line-oa-lab.md
+| 消費者 | 檔案 | 防線行為 |
+|---|---|---|
+| 畫面 | `web-lab/src/Dashboard.jsx`（經 `reportContract.js`） | 合約沒過 → 紅色擋牌，payload／mock／真送指令全部消失 |
+| 通知 | `line-lab/sendLineAlert.js` | 合約沒過 → 送出前阻擋並提示資料合約錯誤 |
+
+`web-lab/src/reportContract.js` 與 `line-lab/sendLineAlert.js` 是**雙胞胎**：檢查規則與錯誤訊息逐字相同，改一邊必須同步另一邊。
+
+## web-lab：作品本體
+
+```bash
+cd web-lab
+npm install
+npm run dev     # http://localhost:5180
+npm run build
 ```
 
-加做講義：
+- 「海風小店」首頁：U1/U2 的練習範圍（`src/data.js` 管文字）。
+- 「營運異常 Dashboard」：U3/U4 主戰場，button-first 流程 —— 載入範例 → 檢查資料合約 → payload 預覽 → 人工審核 checkbox → mock 送出 → 勾選後才顯示可複製的真送指令 → reviewer checklist。
+- Dashboard 直接 import `data-lab/report.json`（dev server 已設 `fs.allow`），**前端不存第二份資料、沒有任何 token、永遠不呼叫 api.line.me**。
 
-```text
-../m11-materials/u11-c3-flex-message-lab.md
-../m11-materials/u11-c3-dashboard-manual-notify-lab.md
+## line-lab：LINE 通知（mock 優先）
+
+```bash
+node line-lab/sendLineAlert.js            # mock:產 payload,不發送
+node line-lab/sendLineAlert.js --flex     # 加做:Flex Message 版
 ```
 
-LINE OA 真送前置：
+腳本會：讀 `data-lab/report.json` → 驗證資料合約 → 產生 payload 寫入 `line-lab/line-alert-payload.json` → 預設 mock。真送需要**兩道**確認：
+
+```bash
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js             # 沒 --confirm → [blocked]
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm   # 才會真送
+```
+
+PowerShell：`$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --confirm`
+
+### LINE OA 真送前置（老師示範／進階組；主線到 mock 為止）
 
 1. 登入 LINE Developers Console，未登入會進 LINE Business ID。
 2. 先建立 LINE Official Account。
@@ -52,88 +92,19 @@ LINE OA 真送前置：
 5. 從 Basic settings 的 `Your user ID` 或 webhook event 取得 target userId。
 6. 填入 `line-lab/.env`，人工審核後才用 `--confirm` 真送。
 
-### 固定檔案
+## 安全規則
 
-| 檔案 | 用途 |
-|---|---|
-| `data-lab/report.json` | 營運資料合約，固定欄位給程式讀 |
-| `line-lab/sendLineAlert.js` | 讀 report、產生 payload、mock 或真送 LINE |
-| `line-lab/.env.example` | token / targetId / real-send 範本，不是真 token |
-| `line-lab/line-alert-payload.json` | 腳本產出的 LINE push message payload |
-
-### C3 驗收指令
-
-```bash
-cd ai-project-foundation-kit
-node line-lab/sendLineAlert.js
-cat line-lab/line-alert-payload.json
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
-git status
-git diff
-git diff -- package.json
-git add .
-git commit -m "新增 LINE OA 營運異常通知流程"
-```
-
-PowerShell 可用：
-
-```powershell
-$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js
-$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --confirm
-```
-
-### 安全規則
-
-- 預設 mock 模式，不真的發送 LINE。
+- 預設 mock 模式，不真的發送 LINE；真送只在終端機發生，網頁不會幫你送。
 - 只有 `LINE_REAL_SEND=1` 且加上 `--confirm` 才允許呼叫 LINE API。
-- 真送需要 `LINE_CHANNEL_ACCESS_TOKEN` 與 `LINE_TARGET_ID`。
 - token 不可寫死在程式碼，不可放前端，不可 commit `.env`。
 - 不新增 npm 套件，不修改 `package.json`。
 - API 失敗時要看 status code 與 response body。
 
-## web-lab
+## 老師側教材
 
-```bash
-cd web-lab
-npm install
-npm run dev
-npm run build
-```
-
-`web-lab` 是 C1/C2 的前端練習素材。C3 不改前端。
-
-## data-lab
-
-`data-lab/report.json` 是 C3 固定輸入，不需要學生自由設計欄位。
-
-`risk_level` 只能是：
-
-```text
-low
-medium
-high
-```
-
-如果變成 `嚴重` 這類中文值，C3 指定用 ReAct 分析，最後只做最小修正：在送出前阻擋並提示資料合約錯誤。
-
-## line-lab
-
-```bash
-node line-lab/sendLineAlert.js
-```
-
-腳本會：
-
-1. 讀取 `data-lab/report.json`
-2. 驗證資料合約
-3. 產生 LINE push message payload
-4. 寫入 `line-lab/line-alert-payload.json`
-5. 預設 mock，不發送 LINE
-6. 真送時呼叫 `https://api.line.me/v2/bot/message/push`
+教案、驗收清單、prompt 卡、講義在 [`../m11-materials/`](../m11-materials/)。學生日常操作以本資料夾的 `U1/`–`U4/` 為準。
 
 ## 需要的工具
 
 - Node.js 18+：跑 web-lab 與 line-lab
-- Python 3：保留給 data-lab 舊練習使用
-- Codex 或 Claude Code：讀專案、改檔、跑指令、看 diff、debug
+- Claude Code 或 Codex：讀專案、改檔、跑指令、看 diff、debug

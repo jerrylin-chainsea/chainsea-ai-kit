@@ -16,9 +16,10 @@ description: 程式跑出來不對、要修錯時使用。用 ReAct(先想→做
 - 只改必要檔案,不順手重構、不新增套件
 - 改完回報:改了哪裡、為什麼、使用者要怎麼確認修好了
 
-**第三步:驗證。** 重跑一次(例如 `python run.py`),確認錯誤消失、輸出符合規格。
+**第三步:驗證。** 重跑一次(例如 `node line-lab/sendLineAlert.js`,或看 Dashboard 畫面),確認錯誤消失、輸出符合規格。
 
-範例:`data-lab/run.py` 的 `risk_level` 印出中文「嚴重」,但規格只能是 `low / medium / high`。
-修正方向:移除把英文等級翻成中文的那段轉換,直接輸出 `level`。修完 `risk_level` 應為 `high`。
+範例:`data-lab/report.json` 的 `risk_level` 被改成中文「嚴重」,但資料合約只允許 `low / medium / high`
+—— Dashboard 出現紅色擋牌、腳本送出前阻擋。
+修正方向:最小修改,把值改回合約允許值。修完擋牌消失、`node line-lab/sendLineAlert.js` 恢復 mock 成功。
 
 **保底**:一次沒修好 → 回到第一步重新分析,一次只改一個地方、每改一步就跑一次看結果。

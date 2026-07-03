@@ -2,6 +2,10 @@
 
 目標：把原本 text message 改成可選的 Flex Message。照做後會多一個 `--flex` 模式，仍然保留 mock、人工審核、`--confirm`。
 
+> **注意**：目前 starter 的 `sendLineAlert.js` **已內建 `--flex`**。
+> 用內建版的班級：跳過第 2 步，直接從第 3 步開始驗收。
+> 想練「AI 實作功能」的班級：老師先發未含 `--flex` 的版本，再照第 2 步請 AI 加上。
+
 官方文件：
 
 - Send Flex Messages: https://developers.line.biz/en/docs/messaging-api/using-flex-messages/
@@ -153,7 +157,7 @@ payload written: line-lab\line-flex-payload.json
 [blocked] LINE_REAL_SEND=1 but --confirm missing; no request sent.
 ```
 
-## 7. 真實發送 Flex Message
+## 7. 真實發送 Flex Message（老師示範／進階組；需先完成主線講義附錄的 LINE 前置）
 
 Bash / macOS / Git Bash：
 

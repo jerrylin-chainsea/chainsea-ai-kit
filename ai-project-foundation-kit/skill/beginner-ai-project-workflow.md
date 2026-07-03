@@ -40,7 +40,7 @@ description: 初學者用 AI 操作 starter 專案時使用
    - 高風險決策要人工確認
 
 6. 最後提醒
-   - npm run dev 或 python run.py
+   - npm run dev 或 node line-lab/sendLineAlert.js
    - git status
    - git diff
    - 確認沒問題後再 commit

@@ -126,6 +126,7 @@ const SectionSlide = ({ slide }: { slide: SlideSpec }) => (
       <div style={{ marginTop: 22 }}><Title size={88}>{slide.title}</Title></div>
       {slide.lead ? <div style={{ marginTop: 28, fontSize: 34, color: 'rgba(255,255,255,.72)', lineHeight: 1.5, maxWidth: 1380 }}>{slide.lead}</div> : null}
     </div>
+    {slide.footer ? <div style={{ position: 'absolute', left: 108, bottom: 42, fontFamily: mono, fontSize: 21, color: 'rgba(255,255,255,.55)' }}>📖 {slide.footer}</div> : null}
   </div>
 );
 
@@ -266,27 +267,31 @@ No errors`}</pre>
 );
 
 const slides: SlideSpec[] = [
-  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '用 Codex 串接 LINE OA\n完成營運異常通知系統', lead: '這不是自由探索課。今天照固定劇本，用 AI coding agent 完成外部平台整合，並用人工審核、mock、ReAct、git diff 控制交付。' },
-  { kind: 'flow', eyebrow: '今日主線', title: '固定流程，不自由設計', steps: ['report.json', 'Codex 產生\nLINE payload', '人類審核', 'mock 驗收', 'LINE 真送示範', 'ReAct 修錯', 'git diff\ncommit push'] },
-  { kind: 'cards', eyebrow: '今日成果畫面', title: '最後要交付什麼', cards: [
-    { title: '一份資料合約', body: 'data-lab/report.json 固定欄位、固定允許值。' },
-    { title: '一支通知腳本', body: 'line-lab/sendLineAlert.js，只用 Node 內建能力。' },
-    { title: '一份 payload', body: 'line-alert-payload.json 有 to 與 messages。' },
-    { title: '一套驗收流程', body: 'mock、--confirm、ReAct、git diff/build/commit。' },
+  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '營運異常 Dashboard\n用按鈕走完一次可交付的通知流程', lead: '這不是自由探索課。今天在畫面上按按鈕走完主線：載入資料、檢查合約、預覽 payload、人工審核、mock 送出；再親手弄壞資料、用 ReAct 修好。指令只剩三類：啟動、build、commit。' },
+  { kind: 'flow', eyebrow: '你現在在哪條流水線', footer: 'U11·C3 ｜ 講義:START-HERE.md(主線圖)', title: '今日主線：按鈕優先，固定流程', steps: ['載入\nreport.json', '檢查\n資料合約', 'payload\n預覽', '人工審核\ncheckbox', 'mock 送出', 'ReAct\n修錯', 'build · diff\ncommit'] },
+  { kind: 'cards', eyebrow: '完成的定義 · DoD', footer: 'U11·C3 ｜ 講義:START-HERE.md(DoD)', title: 'AI 做出來不算完成，通過驗收才算完成', cards: [
+    { title: '畫面', body: 'Dashboard 六步卡走通、擋牌能出現也能消失。', color: C.orange },
+    { title: '輸出', body: '[mock]、[blocked]、合約錯誤三句親眼看過。', color: C.blue },
+    { title: 'diff', body: 'git diff 只有本堂允許檔案。', color: C.amber },
+    { title: 'build', body: 'npm run build 綠色通過。', color: C.red },
+    { title: 'human review', body: 'checkbox 是你勾的、修正是你放行的。', color: '#5a6270' },
   ] },
-  { kind: 'bullets', eyebrow: '企業場景', title: '為什麼企業開發常要接外部平台', bullets: ['系統不只在自己網站裡運作，還要通知 LINE、Slack、Email、CRM。', '外部平台有 token、payload、限制、錯誤碼，不能靠感覺串。', 'AI coding agent 的價值是幫你照規格做整合，不是自由發想功能。', '真正交付前，要能 mock 驗收、人工審核、看 diff。'] },
+  { kind: 'cards', eyebrow: '今日成果畫面', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '最後要交付什麼', cards: [
+    { title: '一個可互動 Dashboard', body: '載入 → 檢查 → 預覽 → 審核 → mock 全通。' },
+    { title: '一份 payload 預覽', body: '與 line-lab/line-alert-payload.json 逐字相同。' },
+    { title: '一次 ReAct 修錯', body: '擋牌出現 → 最小修正 → 恢復綠色。' },
+    { title: '一次乾淨收尾', body: 'build 通過、diff 乾淨、commit 完成。' },
+  ] },
+  { kind: 'bullets', eyebrow: '企業場景', footer: 'U11·C3 ｜ 講義:U3/STEP-01(開頭)', title: '為什麼企業開發常要接外部平台', bullets: ['系統不只在自己網站裡運作，還要通知 LINE、Slack、Email、CRM。', '外部平台有 token、payload、限制、錯誤碼，不能靠感覺串。', 'AI coding agent 的價值是幫你照規格做整合，不是自由發想功能。', '真正交付前，要能 mock 驗收、人工審核、看 diff。'] },
 
-  { kind: 'section', sectionNo: '1', time: '0:00 - 0:20', title: '開場：企業場景與今日成果', lead: '先講清楚今天不是做 Dashboard，是做一個營運異常通知流程。' },
-  { kind: 'cards', eyebrow: '段 1 · 課堂邊界', title: '今天的最高原則', cards: [
+  { kind: 'section', sectionNo: '1', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:15 - 1:20', title: '按鈕走主線：載入 → 檢查 → 預覽', lead: '一鍵啟動，切到「營運異常 Dashboard」。今天大多數操作都在同一個畫面上，照 1 → 2 → 3 的順序按。' },
+  { kind: 'cards', eyebrow: '段 1 · 課堂邊界', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §0 允許檔案', title: '今天的最高原則', cards: [
     { title: '固定劇本', body: '學生照老師步驟做，輸出要可預期。', color: C.orange },
-    { title: '固定 prompt', body: '四段 prompt 原文複製，不自行改需求。', color: C.blue },
-    { title: '固定 payload', body: '只做一則 text message，不做 Flex、不做選單。', color: C.amber },
-    { title: '固定驗收', body: '照指令跑，不因 AI 回報成功就相信。', color: C.red },
+    { title: '固定 prompt', body: 'Prompt 卡原文複製，不自行改需求。', color: C.blue },
+    { title: '按鈕優先', body: '主線在畫面上完成；指令只剩啟動、build、commit。', color: C.amber },
+    { title: '固定驗收', body: '照驗收單走，不因 AI 回報成功就相信。', color: C.red },
   ] },
-  { kind: 'review', eyebrow: '段 1 · 成果畫面', title: '通知送出前，先進人工審核區', lead: '這張就是今天 Human-in-the-loop 的位置：AI 產生內容，人決定能不能送。' },
-
-  { kind: 'section', sectionNo: '2', time: '0:20 - 0:45', title: '認 report.json 與 LINE OA payload', lead: 'report.json 是程式可讀的資料合約；payload 是交給 LINE API 的固定格式。' },
-  { kind: 'code', eyebrow: '段 2 · report.json', title: '這份資料合約今天固定使用', label: 'ai-project-foundation-kit/data-lab/report.json', code: `{
+  { kind: 'code', eyebrow: '段 1 · report.json', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2(合約複習:U2/STEP-01)', title: '整個作品的唯一資料來源', label: 'ai-project-foundation-kit/data-lab/report.json', code: `{
   "report_date": "2026-07-02",
   "risk_level": "high",
   "total_revenue": 128400,
@@ -298,133 +303,108 @@ const slides: SlideSpec[] = [
     "暫停把異常列納入週報。"
   ]
 }` },
-  { kind: 'cards', eyebrow: '段 2 · 合約欄位', title: '每個欄位都會進通知內容', cards: [
+  { kind: 'cards', eyebrow: '段 1 · 合約欄位', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '每個欄位都會進畫面與通知', cards: [
     { title: 'risk_level', body: '只能是 low / medium / high。格式錯就阻擋。' },
-    { title: 'total_revenue', body: '營收金額，通知中顯示為 NT$ 格式。' },
+    { title: 'total_revenue', body: '營收金額，畫面與通知顯示為 NT$ 格式。' },
     { title: 'anomaly_count', body: '異常筆數，讓營運知道嚴重程度。' },
     { title: 'top_product / top_channel', body: '用來說明異常最相關的商品與通路。' },
     { title: 'action_items', body: '通知收件人下一步要做什麼。' },
   ] },
-  { kind: 'payload', eyebrow: '段 2 · payload', title: 'LINE API 要的是 JSON payload，不是段落作文' },
-
-  { kind: 'section', sectionNo: '3', time: '0:45 - 1:15', title: 'LINE Messaging API 基本觀念', lead: '只講今天會用到的：token、targetId、payload、限制。' },
-  { kind: 'cards', eyebrow: '段 3 · 白話說明', title: 'LINE OA / Messaging API 是什麼', cards: [
-    { title: 'LINE OA', body: '企業或組織的官方帳號。' },
-    { title: 'Messaging API', body: '讓程式透過官方帳號發送訊息。' },
-    { title: 'Push message', body: '主動把訊息送到 userId、groupId 或 roomId。' },
-    { title: 'Text message', body: '今天固定只用 type: text，避免設計分歧。' },
+  { kind: 'bullets', eyebrow: '段 1 · 一份合約，兩道防線', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §0(雙胞胎)', title: '同一份 report.json，餵給兩個下游', bullets: ['畫面：web-lab Dashboard 直接讀 report.json，不另存副本。', '通知：line-lab/sendLineAlert.js 讀同一份檔產生 payload。', '合約沒過：畫面出紅色擋牌、腳本在送出前阻擋 —— 同一句錯誤訊息。', 'reportContract.js 與 sendLineAlert.js 是雙胞胎檔案，今天兩邊都不改。'] },
+  { kind: 'cards', eyebrow: '段 1 · Button 1-3', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '照順序按，每按一步就驗一步', cards: [
+    { title: '1 載入範例 report.json', body: '畫面出現 high 徽章、NT$128,400、異常 5 筆、3 條 action items。', color: C.orange },
+    { title: '2 檢查資料合約', body: '綠色「資料合約通過：必要欄位齊全，risk_level = high」。', color: C.blue },
+    { title: '3 生成 payload 預覽', body: '上半通知文字、下半 payload JSON。與 line-alert-payload.json 逐字相同。', color: C.amber },
   ] },
-  { kind: 'cards', eyebrow: '段 3 · 官方設定路徑', title: '真的要送 LINE，先照官方流程設定 OA', cards: [
-    { title: '1. Business ID', body: '登入 LINE Developers Console；未登入會進 LINE Business ID 登入頁。' },
-    { title: '2. 建立 OA', body: '先建立 LINE Official Account，不能直接從 Developers Console 建 Messaging API channel。' },
-    { title: '3. 啟用 Messaging API', body: '在 LINE Official Account Manager 啟用，選 provider 後才會產生 channel。' },
-    { title: '4. 拿 token / targetId', body: 'Messaging API tab issue token；Basic settings 或 webhook 取得 userId。' },
-  ] },
-  { kind: 'code', eyebrow: '段 3 · 官方格式', title: 'push message 最小請求', label: 'LINE Messaging API', code: `POST https://api.line.me/v2/bot/message/push
-Content-Type: application/json
-Authorization: Bearer {channel access token}
+  { kind: 'payload', eyebrow: '段 1 · payload', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §4', title: 'LINE API 要的是 JSON payload，不是段落作文' },
 
-{
-  "to": "U4af4980629...",
-  "messages": [
-    { "type": "text", "text": "Hello, world" }
-  ]
-}` },
-  { kind: 'bullets', eyebrow: '段 3 · 限制', title: 'targetId 不是 LINE ID，不能亂填', bullets: ['to 必須是 webhook 事件裡拿到的 userId / groupId / roomId。', '使用者通常要加 OA 好友；群組或聊天室要讓 OA 加入。', '使用者 7 天內曾私訊 OA，也可能可被 push。', '對方封鎖、刪帳、target 不存在時，可能 200 但收不到，或回 400/401/403/429。'] },
-  { kind: 'bullets', eyebrow: '段 3 · token 安全', title: 'token 為什麼不能放前端', bullets: ['channel access token 代表你的 OA 發訊權限。', '放進前端 bundle 等於交給所有使用者看。', 'token 只能放伺服端或本機環境變數，不寫死在程式碼。', '.env 不能 commit；教材只 commit .env.example。'] },
-
-  { kind: 'section', sectionNo: '4', time: '1:15 - 1:55', title: '用 Codex 建立通知腳本', lead: '學生貼固定 prompt，限制寫死：不新增套件、不改 package.json、不改前端、不重構。' },
-  { kind: 'prompt', eyebrow: '段 4 · Prompt 1', title: 'Codex 建立初版', code: `請幫我建立 LINE OA 營運異常通知腳本。
-讀取 data-lab/report.json，產生 LINE push message payload。
-請建立 line-lab/sendLineAlert.js、line-lab/.env.example，執行後產生 line-lab/line-alert-payload.json。
-限制：不新增套件、不改 package.json、不改前端、不重構、token 不可寫死。
-預設 mock 模式，不真的發送。
-只有 LINE_REAL_SEND=1 且加上 --confirm 時才可以呼叫 LINE API。
-完成後請回報實際建立或修改的檔案。` },
-  { kind: 'code', eyebrow: '段 4 · 固定檔案', title: 'Codex 只能建立這三個 LINE lab 檔案', label: 'allowed files', code: `line-lab/sendLineAlert.js
-line-lab/.env.example
-line-lab/line-alert-payload.json
-
-# 已提供固定資料:
-data-lab/report.json
-
-# 不可修改:
-package.json
-web-lab/*
-node_modules/*` },
-  { kind: 'code', eyebrow: '段 4 · .env.example', title: '只 commit 範本，不 commit token', label: 'line-lab/.env.example', code: `LINE_CHANNEL_ACCESS_TOKEN=請填入你的 channel access token
-LINE_TARGET_ID=請填入 userId 或 groupId
-LINE_REAL_SEND=0` },
-
-  { kind: 'section', sectionNo: '5', time: '1:55 - 2:20', title: 'mock 模式驗收', lead: '先證明 payload 正確，不碰真實 LINE。' },
-  { kind: 'code', eyebrow: '段 5 · 驗收指令', title: '預設只 mock，不真的送', label: 'terminal', code: `cd ai-project-foundation-kit
-node line-lab/sendLineAlert.js
-cat line-lab/line-alert-payload.json` },
-  { kind: 'mock', eyebrow: '段 5 · mock send success', title: '看到 success，也要確認它沒有真的送出' },
-  { kind: 'bullets', eyebrow: '段 5 · payload 驗收', title: 'payload 必須符合四個條件', bullets: ['line-alert-payload.json 會產生。', '最外層有 to 與 messages。', 'messages 是陣列，裡面有一則 text message。', 'text 內包含 risk_level、total_revenue、anomaly_count、top_product、top_channel、action_items。'] },
-
-  { kind: 'section', sectionNo: '6', time: '2:20 - 2:50', title: 'Human-in-the-loop 與 --confirm', lead: 'AI 產生通知，不代表可以送。人類審核是發送前的閘門。' },
-  { kind: 'prompt', eyebrow: '段 6 · Prompt 2', title: 'Human-in-the-loop 檢查，不改檔', code: `請檢查目前 LINE 通知內容。
+  { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:20 - 2:00', title: 'Human-in-the-loop：勾了 checkbox，才有真送指令', lead: 'AI 產生通知，不代表可以送。人類審核是發送前的閘門 —— 沒勾 checkbox，畫面連真送指令都不給你。' },
+  { kind: 'review', eyebrow: '段 2 · 成果畫面', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §1', title: '通知送出前，先進人工審核區', lead: '這就是 Dashboard 的第 4 步：AI 產生內容，人決定能不能送。' },
+  { kind: 'prompt', eyebrow: '段 2 · Prompt 卡 1', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 1', title: 'Human-in-the-loop 檢查，不改檔', code: `請檢查目前 LINE 通知內容（Dashboard payload 預覽中的文字）。
 不要改檔。
 請判斷這則通知是否適合送出，並列出：
 1. 通知風險等級
 2. 通知對象
 3. 是否需要人工確認
 4. 是否可以進入 --confirm 發送階段` },
-  { kind: 'cards', eyebrow: '段 6 · --confirm', title: '--confirm 的意義', cards: [
+  { kind: 'cards', eyebrow: '段 2 · 雙重確認', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §3', title: '真送需要兩道確認，缺一不可', cards: [
     { title: '防止誤送', body: 'LINE_REAL_SEND=1 仍不夠，少了 --confirm 就阻擋。', color: C.orange },
-    { title: '留下人類決策點', body: '通知內容和對象要先被人工審核。', color: C.blue },
-    { title: 'mock 與真送分離', body: '課堂大多數驗收不需要真的發訊息。', color: C.amber },
+    { title: '留下人類決策點', body: '通知內容和對象要先被人工審核（checkbox）。', color: C.blue },
+    { title: 'mock 與真送分離', body: '課堂驗收到 mock 為止；真送永遠只在終端機。', color: C.amber },
   ] },
-  { kind: 'code', eyebrow: '段 6 · 阻擋真送', title: '沒有 --confirm，不可真實發送', label: 'terminal', code: `LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
+  { kind: 'mock', eyebrow: '段 2 · mock send', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §2', title: '看到 [mock] 才算對，不是手機收到才算對' },
+  { kind: 'code', eyebrow: '段 2 · 終端機對照', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: '今天僅有的對照指令（三行）', label: 'terminal', code: `node line-lab/sendLineAlert.js
+# → payload written + [mock] LINE_REAL_SEND is not 1, no request sent.
 
-# 預期:
-# [blocked] LINE_REAL_SEND=1 but --confirm missing; no request sent.` },
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
+# → [blocked] LINE_REAL_SEND=1 but --confirm missing; no request sent.
 
-  { kind: 'section', sectionNo: '7', time: '2:50 - 3:15', title: '真實 LINE OA 發送示範', lead: '學生沒有 OA 就看老師示範；完成標準仍以 mock 與 payload 驗收為主。' },
-  { kind: 'code', eyebrow: '段 7 · 真送前置', title: '真送需要三個條件同時成立', label: 'terminal', code: `# 1. LINE_CHANNEL_ACCESS_TOKEN 已設定
-# 2. LINE_TARGET_ID 已設定
-# 3. LINE_REAL_SEND=1 且加上 --confirm
+# 驗收：F12 → Network，全程零請求，沒有 api.line.me` },
 
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm` },
-  { kind: 'network', eyebrow: '段 7 · Console / Network', title: '真送示範要看 Console 與 Network，不只看 LINE 手機' },
-  { kind: 'bullets', eyebrow: '段 7 · 保底', title: '現場狀況不阻塞課堂', bullets: ['沒有 LINE OA：使用 mock 模式完成。', 'token 錯誤：只要求看 status code 與 response body。', 'targetId 不可用：由老師示範真實發送。', '網路不穩：payload 產生與 mock 驗收就是完成標準。'] },
+  { kind: 'section', sectionNo: '3', footer: '講義:U3/STEP-03-react-debug.md', time: '2:15 - 3:20', title: '製造合約錯 → ReAct 修好', lead: '親手把 risk_level 改成「嚴重」。擋牌會自己出現、下游全部消失 —— 然後用固定格式把它修好。' },
+  { kind: 'code', eyebrow: '段 3 · 製造指定錯誤', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §1–2', title: '改值，不改語法', label: 'data-lab/report.json', code: `"risk_level": "high"   →   "risk_level": "嚴重"
 
-  { kind: 'section', sectionNo: '8', time: '3:15 - 3:40', title: 'ReAct 修指定錯誤', lead: '只修一個固定錯誤：risk_level 變成中文「嚴重」。根因是資料合約違反，修法是在送出前阻擋。' },
-  { kind: 'prompt', eyebrow: '段 8 · Prompt 3', title: 'ReAct debug：先分析，不改檔', code: `你現在扮演 debugger。
-目前問題：report.json 的 risk_level 變成中文「嚴重」，但資料合約規定只能是 low / medium / high。
-請先不要改檔。
-請用 ReAct 格式分析：
-Reason：可能原因
-Act：要看哪個檔案或跑哪個指令
-Observe：預期看到什麼證據
-Verify：修完後如何驗收
-最後提出最小修改方案。` },
-  { kind: 'prompt', eyebrow: '段 8 · Prompt 4', title: '放行修正：只改必要檔案', code: `同意你的最小修改方案。
+# 存檔後（不按任何按鈕）：
+# 畫面：紅色擋牌出現，payload / mock / 真送指令全部消失
+#   資料合約錯誤: risk_level 必須是 low / medium / high，目前是 "嚴重"
+# 終端機：node line-lab/sendLineAlert.js → 同一句錯誤` },
+  { kind: 'prompt', eyebrow: '段 3 · Prompt 卡 2', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 2(STEP-03 §3)', title: 'ReAct debug：先分析，不改檔', code: `你現在扮演 debugger。
+先不要改檔。
+
+目前問題：
+Dashboard 出現紅色擋牌：risk_level 變成中文「嚴重」，
+但資料合約規定只能是 low / medium / high。
+
+請用以下格式回答：
+Expected：正確行為應該是什麼
+Actual：目前實際發生什麼
+Reason：你推測的原因
+Act：你要查看哪些檔案 / 執行哪些指令
+Observe：你預期看到什麼證據
+Minimal Patch：你建議的最小修改
+Verify：修正後的驗收方式
+Blocker：哪裡需要人類決定` },
+  { kind: 'prompt', eyebrow: '段 3 · Prompt 卡 3', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 3(STEP-03 §4)', title: '放行最小修正', code: `同意你的 Minimal Patch。
 請只修改必要檔案。
 不要新增套件。
 不要改 package.json。
 不要重構。
-修正目標：如果 risk_level 不是 low / medium / high，請在送出前阻擋，並提示資料合約錯誤。` },
-  { kind: 'flow', eyebrow: '段 8 · ReAct', title: '除錯不是瞎改，是固定節奏', steps: ['Reason\n合約可能被中文化', 'Act\n看 report.json\n跑 node', 'Observe\nrisk_level=嚴重', 'Verify\n阻擋並印錯誤'] },
+修正目標：讓 report.json 重新符合資料合約（risk_level 回到 low / medium / high）。
+完成後告訴我：改了哪裡、我要怎麼在畫面和終端機各驗收一次。` },
+  { kind: 'flow', eyebrow: '段 3 · ReAct', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §3', title: '除錯不是瞎改，是固定節奏', steps: ['Expected\n合約允許值', 'Actual\nrisk_level=嚴重', 'Reason · Act\nObserve', 'Minimal Patch\n只改一行', 'Verify\n畫面+終端機'] },
 
-  { kind: 'section', sectionNo: '9', time: '3:40 - 4:00', title: 'git diff / build / commit / push 收尾', lead: 'AI 做完不等於交付。diff、build、commit 都要由人類驗收。' },
-  { kind: 'terminal', eyebrow: '段 9 · 驗收指令', title: '最後照這組指令收尾', code: `node line-lab/sendLineAlert.js
-cat line-lab/line-alert-payload.json
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
+  { kind: 'section', sectionNo: '4', footer: '講義:U3/STEP-02 §5 + u11-c3-line-oa-lab.md 附錄', time: '3:20 - 3:55', title: '老師示範真送 + build / commit 收尾', lead: '真送是老師示範／進階組。學生的完成標準到 mock 為止；最後用 build、diff、commit 收乾淨。' },
+  { kind: 'cards', eyebrow: '段 4 · 白話說明', footer: 'U11·C3 ｜ 講義:u11-c3-line-oa-lab.md 附錄', title: 'LINE OA / Messaging API 是什麼', cards: [
+    { title: 'LINE OA', body: '企業或組織的官方帳號。' },
+    { title: 'Messaging API', body: '讓程式透過官方帳號發送訊息。' },
+    { title: 'Push message', body: '主動把訊息送到 userId、groupId 或 roomId。' },
+    { title: 'Text message', body: '這堂固定只用 type: text，避免設計分歧。' },
+  ] },
+  { kind: 'bullets', eyebrow: '段 4 · token 安全', footer: 'U11·C3 ｜ 講義:u11-c3-line-oa-lab.md 附錄 A2', title: 'token 為什麼不能放前端', bullets: ['channel access token 代表你的 OA 發訊權限。', '放進前端 bundle 等於交給所有使用者看。', 'token 只能放伺服端或本機環境變數，不寫死在程式碼。', '.env 不能 commit；教材只 commit .env.example。Dashboard 上的 to 永遠是示範 ID。'] },
+  { kind: 'code', eyebrow: '段 4 · 老師示範', footer: 'U11·C3 ｜ 講義:u11-c3-line-oa-lab.md 附錄 A5', title: '真送需要三個條件同時成立', label: 'terminal（老師示範）', code: `# 1. LINE_CHANNEL_ACCESS_TOKEN 已設定（line-lab/.env）
+# 2. LINE_TARGET_ID 已設定
+# 3. LINE_REAL_SEND=1 且加上 --confirm
+
 LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
+
+# 官方後台設定（Business ID → OA → Messaging API → token → targetId）
+# 只給進階組：見 u11-c3-line-oa-lab.md 附錄` },
+  { kind: 'network', eyebrow: '段 4 · Console / Network', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §5', title: '真送示範要看 Console 與 Network，不只看 LINE 手機' },
+  { kind: 'bullets', eyebrow: '段 4 · 保底', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '現場狀況不阻塞課堂', bullets: ['沒有 LINE OA：mock 完成即過關（真送本來就是示範）。', '畫面跑不動：用終端機 node line-lab/sendLineAlert.js 完成同段驗收。', 'JSON 改壞語法出現全螢幕錯誤：改回原樣即恢復。', '網路不穩：payload 產生與 mock 驗收就是完成標準。'] },
+  { kind: 'terminal', eyebrow: '段 4 · 收尾指令', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §5', title: '最後照這組指令收尾', code: `cd web-lab
+npm run build
+cd ..
 git status
 git diff
-git diff -- package.json
+git diff -- web-lab/package.json
 git add .
-git commit -m "新增 LINE OA 營運異常通知流程"
-git push` },
-  { kind: 'bullets', eyebrow: '段 9 · 驗收標準', title: '看到這些才算完成', bullets: ['mock 模式不會真的發送 LINE。', 'payload 內有 to 與 messages，且 messages 內有一則 text message。', '沒有 --confirm 時不可真實發送。', 'risk_level 格式錯時要阻擋。', 'package.json 沒有被改，.env 沒有被 commit。', 'git diff 只出現本堂允許修改的檔案。'] },
+git commit -m "完成 Dashboard 通知流程與 ReAct 修錯練習"` },
+  { kind: 'bullets', eyebrow: '段 4 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['Dashboard 六步卡走通；擋牌能出現也能消失。', 'payload 預覽與 line-alert-payload.json 的通知文字逐字相同。', '[mock] 與 [blocked] 都親眼看過；Network 全程零請求。', '未勾 checkbox 時看不到真送指令。', 'npm run build 通過；package.json 沒有被改、.env 沒有被 commit。', 'git diff 只出現本堂允許修改的檔案。'] },
   { kind: 'cards', eyebrow: '收束', title: '今天學到的是可控交付，不是 AI 表演', cards: [
-    { title: 'Codex 是執行工具', body: '需求、限制、驗收由人固定。' },
-    { title: '外部平台要先 mock', body: 'payload 正確，再談真實發送。' },
+    { title: 'AI 是執行工具', body: '需求、限制、驗收由人固定。' },
+    { title: '資料合約是防線', body: '一份合約、兩道防線：畫面擋牌 + 腳本阻擋。' },
     { title: '通知要 HITL', body: '營運訊息送出前必須有人類審核。' },
-    { title: '交付看 diff', body: 'build 通過、diff 乾淨，才 commit/push。' },
+    { title: '交付看 diff 和 build', body: 'build 通過、diff 乾淨，才 commit。' },
   ] },
 ];
 
@@ -439,7 +419,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
             {slide.lead ? <div style={{ marginTop: 28 }}><Lead>{slide.lead}</Lead></div> : null}
           </div>
         </div>
-        <div style={{ position: 'absolute', right: 108, bottom: 86, fontFamily: mono, color: C.muted, fontSize: 22 }}>Codex · LINE OA · Human Review · ReAct · Git</div>
+        <div style={{ position: 'absolute', right: 108, bottom: 86, fontFamily: mono, color: C.muted, fontSize: 22 }}>Dashboard · Human Review · Mock · ReAct · Git</div>
         <Foot label="U11 · C3" />
       </div>
     );
@@ -464,7 +444,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
 const pages = slides.map((slide) => (() => <DeckPage slide={slide} />) as Page);
 
 export const meta: SlideMeta = {
-  title: 'U11-C3: LINE OA 營運異常通知系統',
+  title: 'U11-C3: 營運異常 Dashboard + LINE mock 通知',
   createdAt: '2026-07-02T00:00:00.000Z',
 };
 

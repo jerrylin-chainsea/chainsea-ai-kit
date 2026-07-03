@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { shop, products, stats, workflow, tabs, checkpoints } from './data.js';
 import Beach from './Beach.jsx';
+import Dashboard from './Dashboard.jsx';
 
 // 一張商品卡。畫面上有四張,就是用這個做出來的。
 function ProductCard({ emoji, title, desc, price }) {
@@ -14,8 +15,8 @@ function ProductCard({ emoji, title, desc, price }) {
   );
 }
 
-// 整個首頁。重要文字都來自 data.js,新手主要改那裡。
-export default function App() {
+// 首頁(海風小店)。重要文字都來自 data.js,新手主要改那裡。
+function HomePage() {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const currentTab = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
 
@@ -102,5 +103,32 @@ export default function App() {
 
       <footer className="foot">© 2026 {shop.name}・這是教學用的範例網站</footer>
     </div>
+  );
+}
+
+// 整個 app:上方兩顆切換鈕,下面是「首頁」或「營運異常 Dashboard」。
+export default function App() {
+  const [view, setView] = useState('shop');
+
+  return (
+    <>
+      <nav className="topnav" aria-label="頁面切換">
+        <button
+          className={view === 'shop' ? 'active' : ''}
+          onClick={() => setView('shop')}
+          type="button"
+        >
+          海風小店
+        </button>
+        <button
+          className={view === 'dashboard' ? 'active' : ''}
+          onClick={() => setView('dashboard')}
+          type="button"
+        >
+          營運異常 Dashboard
+        </button>
+      </nav>
+      {view === 'shop' ? <HomePage /> : <Dashboard />}
+    </>
   );
 }

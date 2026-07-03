@@ -1,0 +1,41 @@
+# AGENTS.md ｜ AI 工作守則（所有 coding agent 都要遵守）
+
+這個專案是教學用的「營運異常 Dashboard + LINE mock notifier」。
+你（AI）是工讀生，人是主管。守則如下，違反任何一條都要先停下來回報。
+
+## 工作順序（固定）
+
+1. **先讀**：修改前先閱讀相關檔案與本守則，不要邊讀邊改。
+2. **先計畫**：用 planner 格式（A–F）回報計畫，等人核准。
+3. **最小範圍改**：只改當次任務的允許檔案。
+4. **固定回報**：改完用 implementer 格式（A–E）回報。
+5. **等人驗收**：你做完不算完成，人驗收過才算完成。
+
+## 永遠禁止
+
+- 不新增 npm 套件；不修改 `package.json` / `package-lock.json`。
+- 不重構、不「順便」整理程式碼、不加沒被要求的功能。
+- 不把 token、金鑰寫進程式碼、前端或任何會 commit 的檔案。
+- 不執行 `git reset --hard`、`git checkout -- .`、`git clean` 等會丟改動的指令。
+- 前端（web-lab）永遠不可呼叫 `https://api.line.me`。
+
+## 資料合約（整個專案的核心）
+
+- 唯一資料來源：`data-lab/report.json`，欄位固定七欄。
+- `risk_level` 只能是 `low / medium / high`。
+- 畫面與通知**不得**另存第二份資料。
+- `web-lab/src/reportContract.js` 與 `line-lab/sendLineAlert.js` 是雙胞胎：
+  檢查規則與錯誤訊息逐字相同，改一邊必須同步另一邊（且通常兩邊都不該改）。
+
+## 各堂允許檔案（沒列到的一律不可改）
+
+| 堂 | 允許修改 |
+|---|---|
+| U1/U2 | `web-lab/src/data.js` |
+| U3 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊）、`data-lab/report.json`（練習用） |
+| U4 | 依 reviewer / 交付任務指定 |
+
+## 完成的定義（DoD）
+
+> AI 做出來不算完成。通過驗收才算完成。
+> 驗收包含：畫面 ／ 輸出 ／ diff ／ build ／ human review。
