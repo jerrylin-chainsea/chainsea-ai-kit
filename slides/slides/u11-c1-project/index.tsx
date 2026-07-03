@@ -243,29 +243,22 @@ const GitFlowDiagram = () => (
 );
 
 const Cover: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>U11 · 第 1 堂 / 共 4 堂 · 4 小時 · 零基礎</Eyebrow><div className="ts-rise" style={{ marginTop: 34 }}><div style={{ fontSize: 100, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.04 }}>先看到成果,<br />再拆開工具</div><Lead>今天不背工具名。先看這門課最後要做出的作品,再用「海風小店」同一個專案,認識 VSCode、Git & GitHub、Claude Code、Codex ── 每個工具只講「它現在幫你做什麼」。</Lead></div></div><Foot label="U11 · 課1" /></div>
+  <div style={fill}><div style={pad}><Eyebrow>U11 · 第 1 堂 / 共 4 堂 · 4 小時 · 零基礎</Eyebrow><div className="ts-rise" style={{ marginTop: 34 }}><div style={{ fontSize: 96, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.04 }}>第一次建立<br />AI coding 工作流程</div><Lead>今天不是工具介紹。你會從 Claude 網頁版看到成果,再進 VSCode 跑起 web-lab、用 GitHub 保存版本,最後學會用 Claude Code / Codex 控制 AI。</Lead></div></div><Foot label="U11 · 課1" /></div>
 );
-const FinalDemo: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>先看終點 · 這門課最後會做出什麼</Eyebrow><Title size={48}>營運異常 Dashboard:四堂課後,你交出這個</Title>
-    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 26, maxWidth: 1520 }}>
-      {[
-        ['1', '載入範例 report.json', '畫面顯示風險等級、營收、異常筆數'],
-        ['2', '檢查資料合約', '綠色通過;資料被弄壞會出紅色擋牌'],
-        ['3', '生成 LINE payload 預覽', '通知文字 + JSON,和腳本輸出逐字相同'],
-        ['4', '人工審核 checkbox', '你勾了,才會出現真送指令'],
-        ['5', '模擬送出(mock)', '不呼叫 LINE、前端沒有 token'],
-      ].map(([n, t, d]) => (
-        <div key={n} style={{ display: 'flex', gap: 18, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 12, padding: '13px 24px' }}><span style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 10, background: C.orange, color: '#fff', display: 'grid', placeContent: 'center', fontFamily: mono, fontSize: 20, fontWeight: 800 }}>{n}</span><span style={{ fontSize: 26, fontWeight: 800, minWidth: 380 }}>{t}</span><span style={{ fontSize: 23, color: C.muted }}>{d}</span></div>
-      ))}
+const ClaudeWebDemo: Page = () => (
+  <div style={fill}><div style={pad}><Eyebrow>0:00 - 0:15 · 開場</Eyebrow><Title size={54}>Claude 網頁版可以很快做出一個網頁</Title>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 34 }}>
+      <Analogy>先讓學生看到:只靠網頁版 AI,也能產出一個看起來像樣的頁面。</Analogy>
+      <Think q="既然網頁版可以做,為什麼還要進 VSCode?" a={<span>因為真正開發要進專案:看檔案、改檔案、跑指令,還要用 Git 保存每一步。</span>} />
+      <Harvest>網頁版是展示成果;VSCode 裡的 agent 才能進入專案工作。</Harvest>
     </div>
-    <div style={{ marginTop: 18 }}><Harvest>等一下網站跑起來,點上方「營運異常 Dashboard」就能看到它 ── 之後每一堂,都在把它推進一步。</Harvest></div>
-  </div><Foot label="U11 · 課1 · 終點" /></div>
+  </div><Foot label="U11 · 課1 · 開場" /></div>
 );
 const MainlineDoD: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>你現在在哪條流水線</Eyebrow><Title size={48}>一條主線走四堂,今天是第一步</Title>
-    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 28, maxWidth: 1520 }}>
-      <div style={{ fontFamily: mono, fontSize: 25, background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '20px 26px', lineHeight: 1.6 }}><span style={{ color: C.orange, fontWeight: 800 }}>專案跑起來(今天)</span> → 檢查資料 → 資料合約 → AI 串接功能 → Dashboard 呈現 → ReAct 修錯 → reviewer 驗收 → build / commit</div>
-      <Harvest>整門課的完成定義(DoD):AI 做出來不算完成,通過驗收才算完成 ── 驗收包含:畫面/輸出/diff/build/human review。</Harvest>
+  <div style={fill}><div style={pad}><Eyebrow>今天的主線</Eyebrow><Title size={48}>不是四個工具,是一條流程</Title>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28, maxWidth: 1540 }}>
+      <div style={{ fontFamily: mono, fontSize: 24, background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '20px 26px', lineHeight: 1.62 }}>Claude 網頁版成果 → VSCode → web-lab → Git / GitHub → Claude Code / Codex → 下一堂 AI 修改專案</div>
+      <Harvest>今天先建立工作流程。下一堂才正式讓 AI 修改專案。</Harvest>
     </div>
   </div><Foot label="U11 · 課1 · 主線" /></div>
 );
@@ -273,11 +266,19 @@ const Outcome: Page = () => (
   <RealShot img={weblabShot} url="localhost:5180" eyebrow="今天的共同練習場" title="海風小店:四個工具都圍繞它示範" caption="VSCode 段打開它、Git 段改店名並存檔、Claude Code / Codex 段用它示範 AI 工具如何被控制。網頁上方的切換鈕,就能切到「營運異常 Dashboard」。" foot="U11 · 課1 · 成品預覽" maxH={530} pos="center" />
 );
 const Why: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>先講為什麼</Eyebrow><Title size={56}>AI 很會做事,但你要有工具把它管住</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 34 }}><Lead>真實工作不是只問一句「幫我做網站」。你要打開專案、知道它在哪、存得回來,再讓 AI 動手。</Lead><Think q="會用 ChatGPT,是不是就會 AI 開發?" a={<span>還不夠。AI 開發要有<O>專案工具鏈</O>:看檔案、跑指令、版本控制、AI 助手與權限。</span>} /><Harvest>今天的目標:知道四個工具各管哪一段流程。</Harvest></div></div><Foot label="U11 · 課1 · 為什麼" /></div>
+  <div style={fill}><div style={pad}><Eyebrow>先講為什麼</Eyebrow><Title size={56}>真正開發要能進專案、能保存、能驗收</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 34 }}><Lead>真實工作不是只問一句「幫我做網站」。你要打開專案、知道它在哪、跑得起來,再讓 AI 動手。</Lead><Think q="會用 Claude 網頁版,是不是就會 AI 開發?" a={<span>還不夠。AI 開發要有<O>專案工具鏈</O>:VSCode 看檔案、Terminal 跑指令、Git 保存版本、AI agent 受你控制。</span>} /><Harvest>今天的目標:把這條鏈跑通一次。</Harvest></div></div><Foot label="U11 · 課1 · 為什麼" /></div>
 );
 const Roadmap: Page = () => {
-  const items = [['段 1', 'VSCode', '工作台 · 外掛 · npm', '0:15'], ['段 2', 'Git & GitHub', '存檔 · 雲端 · 分支', '1:15'], ['段 3', 'Claude Code', '指令 · 選單 · 模式', '2:15'], ['段 4', 'Codex', '核准 · 推理 · 規劃', '3:10']];
-  return <div style={fill}><div style={pad}><Eyebrow>今天路線 · 四個工具</Eyebrow><Title>前兩個是基本功,後兩個是 AI 助手</Title><div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18, marginTop: 46 }}>{items.map(([a, b, c, t]) => <div key={b} style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '24px 22px' }}><div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontFamily: mono, fontSize: 20, color: C.orange, fontWeight: 700 }}>{a}</span><span style={{ fontFamily: mono, fontSize: 17, color: C.faint }}>{t}</span></div><div style={{ fontSize: 30, fontWeight: 800, marginTop: 12 }}>{b}</div><div style={{ fontSize: 21, color: C.muted, marginTop: 8 }}>{c}</div></div>)}</div><Lead>現場跟著做就好,先把流程跑通。</Lead></div><Foot label="U11 · 課1 · 路線" /></div>;
+  const items = [
+    ['0:00 - 0:15', 'Claude 網頁版成果展示', '引出為什麼要用 VSCode'],
+    ['0:15 - 1:20', 'VSCode、外掛、開教材、跑 web-lab', '第一階段過關點'],
+    ['1:20 - 1:30', '休息', '排錯緩衝'],
+    ['1:30 - 2:50', 'Git & GitHub,完成第一次 push', '第二階段過關點'],
+    ['2:50 - 3:00', '休息', '排錯緩衝'],
+    ['3:00 - 3:50', 'Claude Code / Codex 基本操作', '第三階段過關點'],
+    ['3:50 - 4:00', '收束與下堂課銜接', '下一堂才讓 AI 改專案'],
+  ];
+  return <div style={fill}><div style={pad}><Eyebrow>今天路線 · 4 小時</Eyebrow><Title size={48}>照時間軸建立第一條 AI coding 流程</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 26, maxWidth: 1540 }}>{items.map(([t, b, c]) => <div key={t} style={{ display: 'grid', gridTemplateColumns: '220px 1fr 380px', gap: 20, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 12, padding: '12px 20px' }}><span style={{ fontFamily: mono, fontSize: 22, color: C.orange, fontWeight: 800 }}>{t}</span><span style={{ fontSize: 25, fontWeight: 800 }}>{b}</span><span style={{ fontSize: 21, color: C.muted }}>{c}</span></div>)}</div></div><Foot label="U11 · 課1 · 路線" /></div>;
 };
 const Rules: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>上課三個約定</Eyebrow><Title>照流程,每段都有過關點</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 44, maxWidth: 1450 }}><SuccessRow>只看老師指定的畫面,不要自行亂裝或亂改。</SuccessRow><SuccessRow>每段最後用檢查點對齊,過了再往下。</SuccessRow><SuccessRow>任何錯誤訊息先停下來,整段保留,不要急著關掉。</SuccessRow></div></div><Foot label="U11 · 課1 · 規則" /></div>
@@ -302,19 +303,19 @@ const Precheck: Page = () => (
   <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}><Eyebrow>課前檢查</Eyebrow><Title size={52}>看到版本號,就能上課</Title><Lead>今天主線只確認 Node、npm、Git。Python 之後資料課才會重點使用。</Lead></div><Term title="TERMINAL" rows={[['cmd', 'node -v'], ['ok', 'v22.x.x'], ['cmd', 'npm -v'], ['ok', '10.x.x'], ['cmd', 'git --version'], ['ok', 'git version 2.x.x']]} /></div><Foot label="U11 · 課1 · 環境" /></div>
 );
 
-const Sec1: Page = () => <Section no="1" title="VSCode:你的專案工作台" time="0:15 - 1:15" sub="先認畫面、認外掛、用 cd 走進專案,再用 npm 把海風小店跑起來。" />;
+const Sec1: Page = () => <Section no="1" title="VSCode:你的專案工作台" time="0:15 - 1:20" sub="先開 RAR 解壓後的教材根目錄,再用 cd 走進 web-lab,用 npm 把海風小店跑起來。" />;
 const VSIntro: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 1 · VSCode</Eyebrow><Title size={54}>先不寫程式,先認工作台</Title><div className="ts-rise" style={{ marginTop: 32 }}><VSCodeMap /></div></div><Foot label="U11 · 課1 · VSCode" /></div>;
 const RegExplorer: Page = () => <RegionCard n="1" name="檔案總管 Explorer" what="左邊列出專案所有檔案。你要先知道專案裡有什麼,才知道要把哪裡交給 AI。" tip="找檔案、點開檔案,都從 Explorer 開始。" />;
 const RegEditor: Page = () => <RegionCard n="3" name="編輯區 Editor" what="點開檔案後,中間就是內容。今天主要看 README、package.json、src/data.js。" tip="中間那一大片,就是看檔案內容的地方。" />;
 const RegTerminal: Page = () => <RegionCard n="4" name="終端機 Terminal" what="下方黑色區域。它不是駭客畫面,只是用打字操控專案的遙控器。" tip="跑 npm、git、AI CLI,都會從 Terminal 開始。" />;
 const RegOthers: Page = () => <RegionCard n="2 / 5 / 6" name="Search / Source Control / Extensions" what="Search 找字在哪;Source Control 看你改了什麼;Extensions 裝新功能。" tip="今天先認位置:找東西、看改動、裝 AI 助手。" />;
 const ExtWhat: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>段 1 · Extensions</Eyebrow><Title size={50}>擴充功能:幫 VSCode 裝外掛</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28 }}><Analogy>VSCode 本身是空工作台。擴充功能就像手機 App:要 AI 助手、語言包、格式化,就去 Extensions 裝。</Analogy><Atom n={1} act="點左邊像四個方塊的 Extensions 圖示。" see="看到外掛搜尋框。" /><Atom n={2} act={<span>搜尋 <Key>Claude Code</Key> 或 <Key>Codex</Key>,找到後按 Install。</span>} see="多出新的 AI 面板或指令。" /></div></div><Foot label="U11 · 課1 · VSCode" /></div>
+  <div style={fill}><div style={pad}><Eyebrow>段 1 · Extensions</Eyebrow><Title size={50}>擴充功能:幫 VSCode 裝外掛</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28 }}><Analogy>VSCode 本身是空工作台。擴充功能就像手機 App:要 AI 助手、語言包、本機預覽,就去 Extensions 裝。</Analogy><Atom n={1} act="點左邊像四個方塊的 Extensions 圖示。" see="看到外掛搜尋框。" /><Atom n={2} act={<span>搜尋 <Key>Claude Code</Key> 或 <Key>Codex</Key>,找到後按 Install。</span>} see="多出新的 AI 面板或指令。" /></div></div><Foot label="U11 · 課1 · VSCode" /></div>
 );
 const ExtRecommend: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>段 1 · 外掛清單</Eyebrow><Title size={48}>今天先知道這幾個名字</Title><div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16, marginTop: 32, maxWidth: 1540 }}>{[['Claude Code', '段 3 的 AI 夥伴'], ['Codex', '段 4 的 AI 助手'], ['中文(繁體)語言包', '把 VSCode 選單變中文'], ['Prettier', '自動排版,之後再用']].map(([k, v]) => <div key={k} style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '20px 26px' }}><div style={{ fontSize: 29, fontWeight: 800 }}>{k}</div><div style={{ fontSize: 23, color: C.muted, marginTop: 6 }}>{v}</div></div>)}</div><Harvest>今天重點不是裝一堆,是知道 AI 工具通常以外掛形式進 VSCode。</Harvest></div><Foot label="U11 · 課1 · VSCode" /></div>
+  <div style={fill}><div style={pad}><Eyebrow>段 1 · 外掛清單</Eyebrow><Title size={48}>今天必裝只要這四個</Title><div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16, marginTop: 32, maxWidth: 1540 }}>{[['Claude Code', '先建立 coding agent 操作模型'], ['Codex', '用同一套控制邏輯對照'], ['中文(繁體)語言包', '把 VSCode 選單變中文'], ['Live Server', '之後預覽靜態頁面會用到']].map(([k, v]) => <div key={k} style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '20px 26px' }}><div style={{ fontSize: 29, fontWeight: 800 }}>{k}</div><div style={{ fontSize: 23, color: C.muted, marginTop: 6 }}>{v}</div></div>)}</div><Harvest>今天不裝用不到的工具,先把 AI 助手與基本開發環境跑通。</Harvest></div><Foot label="U11 · 課1 · VSCode" /></div>
 );
-const OpenProject: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 1 · 動手</Eyebrow><Title size={52}>打開海風小店資料夾</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28, maxWidth: 1500 }}><Atom n={1} act={<span>File → Open Folder,選 <Key>ai-project-foundation-kit/web-lab</Key>。</span>} see="Explorer 出現 README、package.json、src。" /><Atom n={2} act="點開 README 與 package.json。" see="看得到專案說明與 scripts。" /><Atom n={3} act="打開 Terminal → New Terminal。" see="下方出現可輸入指令的黑色區域。" /></div></div><Foot label="U11 · 課1 · VSCode" /></div>;
+const OpenProject: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 1 · 動手</Eyebrow><Title size={52}>打開 RAR 解壓後的教材根目錄</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28, maxWidth: 1500 }}><Atom n={1} act={<span>File → Open Folder,選 <Key>ai-project-foundation-kit</Key>。</span>} see="Explorer 裡看得到 web-lab、data-lab、prompts。" /><Atom n={2} act={<span>點開 <Key>web-lab</Key> 裡的 README 與 package.json。</span>} see="看得到專案說明與 scripts。" /><Atom n={3} act="打開 Terminal → New Terminal。" see="下方出現可輸入指令的黑色區域。" /></div></div><Foot label="U11 · 課1 · VSCode" /></div>;
 const CodeTouchMap: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>段 1 · 學生真的會動到哪裡</Eyebrow><Title size={48}>今天不是整包都改,先改這幾個點</Title>
     <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 30, maxWidth: 1540 }}>
@@ -339,68 +340,67 @@ const CdPage: Page = () => <div style={fill}><div style={{ ...pad, display: 'gri
 const NpmWhat: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>段 1 · npm</Eyebrow><Title size={50}>Node 是引擎,npm 是補給站</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 26 }}><Analogy><B>Node.js</B> 讓網頁專案能在你電腦上跑。<B>npm</B> 幫你安裝專案需要的零件,並執行 package.json 裡的 scripts。</Analogy>{[['npm install', '第一次安裝需要的套件'], ['npm run dev', '把網站跑起來'], ['npm run build', '檢查能不能正式打包']].map(([a, b]) => <div key={a} style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 20, background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '16px 24px', maxWidth: 1480 }}><span style={{ fontFamily: mono, fontSize: 25, color: C.orange, fontWeight: 800 }}>{a}</span><span style={{ fontSize: 25 }}>{b}</span></div>)}</div></div><Foot label="U11 · 課1 · VSCode" /></div>
 );
-const RunProject: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}><Eyebrow>段 1 · 動手</Eyebrow><Title size={48}>把網站跑起來</Title><Atom n={1} act={<span>確認你在 <Key>web-lab</Key>。</span>} see="提示字尾是 web-lab。" /><Atom n={2} act={<span>第一次打 <Key>npm install</Key>。</span>} see="跑完回到提示字。" /><Atom n={3} act={<span>打 <Key>npm run dev</Key>。</span>} see="出現 localhost 網址。" /><Harvest>雙擊 <Key>start-m11.bat</Key> 一鍵啟動,幫你做的就是這三步 ── 現在你知道它背後發生什麼了。</Harvest></div><Term title="TERMINAL" rows={[['cmd', 'npm install'], ['ok', 'added packages'], ['cmd', 'npm run dev'], ['ok', 'Local: http://localhost:5180/']]} /></div><Foot label="U11 · 課1 · VSCode" /></div>;
+const RunProject: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}><Eyebrow>段 1 · 動手</Eyebrow><Title size={48}>把網站跑起來</Title><Atom n={1} act={<span>先打 <Key>cd web-lab</Key>。</span>} see="提示字尾是 web-lab。" /><Atom n={2} act={<span>第一次打 <Key>npm install</Key>。</span>} see="跑完回到提示字。" /><Atom n={3} act={<span>打 <Key>npm run dev</Key>。</span>} see="出現 localhost 網址。" /><Harvest>RAR 是取得教材;這三個指令讓教材裡的 web-lab 在本機跑起來。</Harvest></div><Term title="TERMINAL" rows={[['dim', 'C:\\ai-project-foundation-kit>'], ['cmd', 'cd web-lab'], ['cmd', 'npm install'], ['ok', 'added packages'], ['cmd', 'npm run dev'], ['ok', 'Local: http://localhost:5180/']]} /></div><Foot label="U11 · 課1 · VSCode" /></div>;
 const Localhost: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 1 · localhost</Eyebrow><Title size={52}>localhost:網站先跑在你自己的電腦</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 34 }}><Analogy>localhost 就像「自己家裡試菜」。網站還沒公開上網,只在你這台電腦裡跑。冒號後面的 5180 是門牌號碼。</Analogy><Harvest>看到 localhost,代表你已經把一個網頁專案真的跑起來了。</Harvest></div></div><Foot label="U11 · 課1 · VSCode" /></div>;
 const WebReal: Page = () => <RealShot img={weblabShot} url="localhost:5180" eyebrow="段 1 · 成功畫面" title="看到海風小店,這段就成功" caption="這不是截圖假裝,而是本機 web-lab 跑起來後的畫面。之後 Git、Claude Code、Codex 都以它當練習場。" foot="U11 · 課1 · VSCode" maxH={530} pos="center" />;
-const VsPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 1 · 卡住了?</Eyebrow><Title size={50}>VSCode / npm 常見狀況</Title><div className="ts-rise" style={{ marginTop: 32, maxWidth: 1500 }}><Pitfall items={[['找不到終端機:', '上方選單 Terminal → New Terminal。'], ['npm 說找不到 package.json:', '你還沒 cd 到 web-lab。'], ['npm run dev 停住:', '正常,代表網站正在跑,不要關。']]} /></div><div style={{ marginTop: 20 }}><Checkpoint items={['VSCode 打得開 web-lab', '知道 Extensions 在哪', '會 cd 進資料夾', 'localhost 看得到海風小店']} /></div></div><Foot label="U11 · 課1 · VSCode" /></div>;
+const VsPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 1 · 卡住了?</Eyebrow><Title size={50}>VSCode / npm 常見狀況</Title><div className="ts-rise" style={{ marginTop: 28, maxWidth: 1500 }}><Pitfall items={[['找不到終端機:', '上方選單 Terminal → New Terminal。'], ['npm 說找不到 package.json:', '你還沒 cd 到 web-lab。'], ['npm run dev 停住:', '正常,代表網站正在跑,不要關。']]} /></div><div style={{ marginTop: 18 }}><Checkpoint items={['VSCode 開啟教材根目錄', '會開 Terminal', '成功執行 npm install', '成功執行 npm run dev', 'localhost 看得到海風小店']} /></div></div><Foot label="U11 · 課1 · VSCode" /></div>;
 const Break1: Page = () => <BreakSlide note="站起來走一走。回來我們改一個字,用 Git 和 GitHub 把成果存起來。" />;
 
-const Sec2: Page = () => <Section no="2" title="Git & GitHub:存檔與協作" time="1:15 - 2:15" sub="先製造一個小改動,再看 status / diff / commit,接著認識 GitHub、pull、branch、tag、git flow。" />;
-const EditDo: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · 先製造一個改動</Eyebrow><Title size={50}>改 data.js 裡的店名</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 30 }}><Atom n={1} act={<span>打開 <Key>src/data.js</Key>。</span>} see="看到 name: '海風小店'。" /><Atom n={2} act="把引號裡的店名改成自己的名字。" see="瀏覽器畫面跟著變。" /><Atom n={3} act="按 Ctrl+S 存檔。" see="VSCode 分頁上的小點消失。" /><Harvest>要先有改動,Git 才有東西可以看。</Harvest></div></div><Foot label="U11 · 課1 · Git" /></div>;
-const GitHead: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · Git</Eyebrow><Title size={52}>Git 不是炫技,是專案存檔</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 34 }}><Analogy>Git 像遊戲存檔點。改到安全位置,存一筆;後面改壞了,就知道哪裡開始壞。</Analogy><Harvest>AI 協作時,Git 是你看清楚 AI 動了什麼的工具。</Harvest></div></div><Foot label="U11 · 課1 · Git" /></div>;
-const GitStatus: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · git status</Eyebrow><Title size={50}>先看現在改了什麼</Title><Lead>status 不會改檔案,只是告訴你目前工作區狀態。</Lead></div><Term title="TERMINAL" rows={[['cmd', 'git status'], ['out', 'modified: src/data.js'], ['dim', '紅色 modified = 這個檔案被改過']]} /></div><Foot label="U11 · 課1 · Git" /></div>;
+const Sec2: Page = () => <Section no="2" title="Git & GitHub:把自己的版本推上去" time="1:30 - 2:50" sub="RAR 是取得教材,Git 是保存開發紀錄。這段只驗收一件事:成功 push 到自己的 GitHub repo。" />;
+const EditDo: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · 先製造一個改動</Eyebrow><Title size={50}>改 data.js 裡的店名</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 30 }}><Atom n={1} act={<span>打開 <Key>web-lab/src/data.js</Key>。</span>} see="看到 name: '海風小店'。" /><Atom n={2} act="把引號裡的店名改成自己的名字。" see="瀏覽器畫面跟著變。" /><Atom n={3} act="按 Ctrl+S 存檔。" see="VSCode 分頁上的小點消失。" /><Harvest>要先有改動,Git 才有東西可以看。</Harvest></div></div><Foot label="U11 · 課1 · Git" /></div>;
+const GitHead: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · Git</Eyebrow><Title size={52}>RAR 拿教材,Git 留紀錄</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 34 }}><Analogy>RAR 像老師發下來的一包材料。Git 像你的工作日誌,記錄你解壓後怎麼改、什麼時候存成一版。</Analogy><Harvest>AI 協作時,Git 是你看清楚 AI 動了什麼的工具。</Harvest></div></div><Foot label="U11 · 課1 · Git" /></div>;
+const GitStatus: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · git init / status</Eyebrow><Title size={50}>先讓 web-lab 開始被 Git 管</Title><Lead>站在 web-lab 裡初始化。status 只看狀態,不會改檔案。</Lead></div><Term title="TERMINAL" rows={[['cmd', 'git init'], ['ok', 'Initialized empty Git repository'], ['cmd', 'git status'], ['out', 'Untracked files:'], ['dim', '  index.html / package.json / src/...']]} /></div><Foot label="U11 · 課1 · Git" /></div>;
 const GitDiff: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · git diff</Eyebrow><Title size={50}>再看到底改了哪幾行</Title><Lead>紅色是原本,綠色是改完。之後 AI 幫你改完,第一件事也是看 diff。</Lead></div><Term title="git diff · src/data.js" rows={[['dim', 'export const shop = {'], ['err', "-  name: '海風小店',"], ['ok', "+  name: '小明快炒店',"], ['dim', '};']]} /></div><Foot label="U11 · 課1 · Git" /></div>;
-const GitCommit: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}><Eyebrow>段 2 · commit</Eyebrow><Title size={50}>確認沒問題,拍一張照</Title><Atom n={1} act={<span><Key>git add .</Key> 把改動收進來。</span>} see="沒消息通常就是好消息。" /><Atom n={2} act={<span><Key>git commit -m "改店名"</Key></span>} see="出現一筆提交紀錄。" /></div><Term title="TERMINAL" rows={[['cmd', 'git add .'], ['cmd', 'git commit -m "改店名"'], ['ok', '[main a1b2c3d] 改店名'], ['dim', '1 file changed']]} /></div><Foot label="U11 · 課1 · Git" /></div>;
+const GitCommit: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}><Eyebrow>段 2 · commit</Eyebrow><Title size={50}>把解壓後的專案存成第一版</Title><Atom n={1} act={<span><Key>git add .</Key> 把檔案放進暫存區。</span>} see="檔案從 untracked 變成 staged。" /><Atom n={2} act={<span><Key>git commit -m "init project"</Key></span>} see="出現第一筆提交紀錄。" /></div><Term title="TERMINAL" rows={[['cmd', 'git add .'], ['cmd', 'git commit -m "init project"'], ['ok', '[main a1b2c3d] init project'], ['dim', 'files changed']]} /></div><Foot label="U11 · 課1 · Git" /></div>;
 const GitHubWhat: Page = () => <RealShot img={githubShot} url="github.com" eyebrow="段 2 · GitHub" title="GitHub:把 Git 存檔放到雲端" caption="Git 是本機存檔;GitHub 是雲端倉庫。多人合作、備份、Pull Request,都從這裡開始。" foot="U11 · 課1 · GitHub" maxH={520} pos="top" />;
 const CloneFromTeacher: Page = () => (
   <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 760px', gap: 44, alignItems: 'center' }}>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Eyebrow>段 2 · 第一步:從老師 repo clone</Eyebrow><Title size={46}>先把教材複製到自己電腦</Title>
-      <Lead>學生一開始會從老師公開的 repo clone。這一步只是把教材拿下來,還不是自己的 GitHub repo。</Lead>
-      <Harvest>clone 完後,本機的 origin 會先指向老師 repo,這是正常的。</Harvest>
+      <Eyebrow>段 2 · GitHub repo</Eyebrow><Title size={46}>先在 GitHub 建自己的空 repo</Title>
+      <Lead>repo 可以叫 <B>web-lab</B> 或 <B>ai-course-web-lab</B>。不要勾 README,因為本機已經有完整教材。</Lead>
+      <Harvest>複製自己的 GitHub repo URL,等一下接到本機 web-lab。</Harvest>
     </div>
-    <Term title="TERMINAL · 先拿到教材" size={19} rows={[
-      ['cmd', 'git clone https://github.com/HanLi-Chainsea/chainsea-ai-course-kit.git'],
-      ['cmd', 'cd chainsea-ai-course-kit'],
-      ['cmd', 'git remote -v'],
-      ['out', 'origin  https://github.com/HanLi-Chainsea/chainsea-ai-course-kit.git'],
+    <Term title="GitHub · 建立 repo" size={20} rows={[
+      ['out', 'Repository name: web-lab'],
+      ['out', 'Public 或 Private 都可以'],
+      ['out', '不要勾 Add a README file'],
+      ['ok', '複製 https://github.com/你的帳號/web-lab.git'],
     ]} />
   </div><Foot label="U11 · 課1 · GitHub" /></div>
 );
 const OwnRepoFlow: Page = () => (
   <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 760px', gap: 44, alignItems: 'center' }}>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Eyebrow>段 2 · 第二步:接到自己的 repo</Eyebrow><Title size={46}>clone 下來後,不要推回老師那邊</Title>
-      <Lead>接著到 GitHub 建一個自己的空 repo,例如 <B>chainsea-ai-kit</B>。不要勾 README,因為本機已經有完整教材。</Lead>
-      <Harvest>把老師 repo 改名 upstream,自己的 repo 設成 origin。之後 push 都推到自己的 GitHub。</Harvest>
+      <Eyebrow>段 2 · 接到自己的 repo</Eyebrow><Title size={46}>把本機 web-lab 接到 GitHub</Title>
+      <Lead>這一步只做一次。之後這個 web-lab 的版本紀錄,就會推到你自己的 repo。</Lead>
+      <Harvest>origin 就是你的雲端目的地。</Harvest>
     </div>
-    <Term title="TERMINAL · 把遠端換成自己的" size={18} rows={[
-      ['cmd', 'git remote -v'],
-      ['out', 'origin  https://github.com/teacher/course-kit.git'],
-      ['cmd', 'git remote rename origin upstream'],
-      ['cmd', 'git remote add origin https://github.com/你的帳號/你的repo.git'],
+    <Term title="TERMINAL · 接上 GitHub" size={19} rows={[
+      ['cmd', 'git remote add origin <自己的 GitHub repo URL>'],
       ['cmd', 'git branch -M main'],
       ['cmd', 'git push -u origin main'],
-      ['ok', '之後 git push 就會推到自己的 repo'],
+      ['ok', 'branch main set up to track origin/main'],
     ]} />
   </div><Foot label="U11 · 課1 · GitHub" /></div>
 );
 const RemoteRoles: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>段 2 · 記住兩個 remote 角色</Eyebrow><Title size={48}>origin 是自己的,upstream 是老師的</Title>
-    <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 34, maxWidth: 1540 }}>
-      <div style={{ background: '#eef7f2', border: '1px solid #bfe6d4', borderRadius: 16, padding: '26px 30px' }}><div style={{ fontFamily: mono, fontSize: 30, color: OK, fontWeight: 800 }}>origin</div><div style={{ fontSize: 28, fontWeight: 800, marginTop: 10 }}>你的 GitHub repo</div><div style={{ fontSize: 24, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>你交作業、保存修改、日常 push 的地方。</div><div style={{ marginTop: 16 }}><Key>git push</Key></div></div>
-      <div style={{ background: '#eef4ff', border: '1px solid #cfe0fb', borderRadius: 16, padding: '26px 30px' }}><div style={{ fontFamily: mono, fontSize: 30, color: BLUE, fontWeight: 800 }}>upstream</div><div style={{ fontSize: 28, fontWeight: 800, marginTop: 10 }}>老師的原始 repo</div><div style={{ fontSize: 24, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>老師更新教材時,你從這裡拉新版。</div><div style={{ marginTop: 16 }}><Key>git pull upstream main</Key></div></div>
+  <div style={fill}><div style={pad}><Eyebrow>段 2 · 狀態名詞</Eyebrow><Title size={48}>status 會看到這幾種狀態</Title>
+    <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 20, marginTop: 34, maxWidth: 1540 }}>
+      <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '22px 28px' }}><div style={{ fontFamily: mono, fontSize: 28, color: RED, fontWeight: 800 }}>untracked</div><div style={{ fontSize: 25, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>Git 還沒開始追蹤的新檔。</div></div>
+      <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '22px 28px' }}><div style={{ fontFamily: mono, fontSize: 28, color: AMBER, fontWeight: 800 }}>modified</div><div style={{ fontSize: 25, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>已追蹤檔案被修改。</div></div>
+      <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '22px 28px' }}><div style={{ fontFamily: mono, fontSize: 28, color: BLUE, fontWeight: 800 }}>staged</div><div style={{ fontSize: 25, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>已經 add,準備 commit。</div></div>
+      <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '22px 28px' }}><div style={{ fontFamily: mono, fontSize: 28, color: OK, fontWeight: 800 }}>commit / push</div><div style={{ fontSize: 25, color: C.muted, lineHeight: 1.45, marginTop: 8 }}>commit 存本機;push 送 GitHub。</div></div>
     </div>
-    <div style={{ marginTop: 28 }}><Harvest>日常推自己的 origin;要拿老師更新,才 pull upstream。</Harvest></div>
+    <div style={{ marginTop: 28 }}><Harvest>這段的驗收只有一個:自己的 web-lab 成功 push 到自己的 GitHub repo。</Harvest></div>
   </div><Foot label="U11 · 課1 · GitHub" /></div>
 );
 const PushGuard: Page = () => (
   <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 760px', gap: 46, alignItems: 'center' }}>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <Eyebrow>段 2 · push 前防呆</Eyebrow><Title size={48}>先確認你要推到哪裡</Title>
-      <Lead>只要 <Key>origin</Key> 是自己的 repo,之後 <Key>git push</Key> 就會推到自己的 GitHub。看到老師 repo 就先停。</Lead>
+      <Lead><Key>origin</Key> 必須是自己的 repo。看不懂網址就先停,不要猜。</Lead>
       <Pitfall items={[
-        ['origin 還是老師 repo:', '先 git remote rename origin upstream,再 add 自己的 origin。'],
+        ['remote add 打錯:', '用 git remote -v 看目前 origin 是哪個 URL。'],
         ['Invalid username or token:', 'GitHub 不接受密碼。改用 VSCode/GitHub 登入、GitHub CLI,或 Personal Access Token。'],
         ['不知道現在會推去哪:', '不要猜,先 git remote -v。'],
       ]} />
@@ -408,24 +408,23 @@ const PushGuard: Page = () => (
     <Term title="push 前檢查" rows={[
       ['cmd', 'git remote -v'],
       ['ok', 'origin    https://github.com/你的帳號/你的repo.git'],
-      ['out', 'upstream  https://github.com/HanLi-Chainsea/chainsea-ai-course-kit.git'],
       ['cmd', 'git status'],
       ['out', 'nothing to commit, working tree clean'],
     ]} />
   </div><Foot label="U11 · 課1 · GitHub 防呆" /></div>
 );
-const GitPush: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · push</Eyebrow><Title size={50}>push:把本機 commit 推上 GitHub</Title><Lead>commit 只存在你電腦。push 才會把那筆版本送到雲端倉庫。</Lead><Harvest>本機 Git 管版本,GitHub 管分享與協作。</Harvest></div><Term title="TERMINAL" rows={[['cmd', 'git push origin main'], ['ok', 'To github.com:your/repo.git'], ['ok', 'main -> main']]} /></div><Foot label="U11 · 課1 · GitHub" /></div>;
-const GitPull: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · pull</Eyebrow><Title size={50}>pull:把別人的更新拉下來</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28 }}>{[['git clone <網址>', '第一次:複製一整份專案'], ['git pull', '之後:抓雲端最新版並合併'], ['git fetch', '只看看雲端有什麼,先不合併']].map(([a, b]) => <div key={a} style={{ display: 'grid', gridTemplateColumns: '330px 1fr', gap: 20, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '18px 24px', maxWidth: 1480 }}><span style={{ fontFamily: mono, fontSize: 24, color: C.orange, fontWeight: 800 }}>{a}</span><span style={{ fontSize: 25 }}>{b}</span></div>)}<Analogy>多人合作前先 pull,像開共享文件前先同步最新版。</Analogy></div></div><Foot label="U11 · 課1 · GitHub" /></div>;
+const GitPush: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · push</Eyebrow><Title size={50}>push:把第一版送上 GitHub</Title><Lead>commit 只存在你電腦。push 才會把那筆版本送到雲端倉庫。</Lead><Harvest>第二階段到這裡就驗收:自己的 GitHub repo 看得到 web-lab。</Harvest></div><Term title="TERMINAL" rows={[['cmd', 'git push -u origin main'], ['ok', 'To github.com:你的帳號/web-lab.git'], ['ok', 'main -> main']]} /></div><Foot label="U11 · 課1 · GitHub" /></div>;
+const GitPull: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · 概念先知道</Eyebrow><Title size={50}>這些 Git 名詞今天先不當主要實作</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 28 }}>{[['fetch', '只看看雲端有什麼,先不合併'], ['pull', '把雲端更新拉回來'], ['branch', '開安全分支,不要直接弄壞 main'], ['tag', '幫重要版本插旗'], ['git flow', '團隊開分支、PR、review、merge 的工作法']].map(([a, b]) => <div key={a} style={{ display: 'grid', gridTemplateColumns: '250px 1fr', gap: 20, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '14px 24px', maxWidth: 1480 }}><span style={{ fontFamily: mono, fontSize: 24, color: C.orange, fontWeight: 800 }}>{a}</span><span style={{ fontSize: 25 }}>{b}</span></div>)}<Harvest>課 1 不要求完整學會 Git flow。今天先把第一次 push 做完。</Harvest></div></div><Foot label="U11 · 課1 · Git 概念" /></div>;
 const BranchWhy: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · branch</Eyebrow><Title size={50}>branch:開一個平行宇宙來改</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>分支像另開一個存檔格。在新分支上怎麼改,都不會動到 main 主線。</Analogy><Think q="AI 會改很多檔,我怎麼降低風險?" a={<span>先開分支給 AI 改。滿意再合併,不滿意就丟掉分支。</span>} /></div></div><Foot label="U11 · 課1 · Git" /></div>;
 const BranchPage: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 780px', gap: 42, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 2 · 分支圖</Eyebrow><Title size={48}>main 保持乾淨,feature 放新改動</Title><Term title="TERMINAL" rows={[['cmd', 'git checkout -b feature/ai-edit'], ['ok', 'Switched to a new branch'], ['cmd', 'git checkout main'], ['ok', 'Switched to branch main']]} /></div><BranchDiagram /></div><Foot label="U11 · 課1 · Git" /></div>;
 const TagPage: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 700px', gap: 46, alignItems: 'center' }}><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}><Eyebrow>段 2 · tag</Eyebrow><Title size={48}>tag:幫重要版本插旗子</Title><Analogy>tag 像在時間軸上插旗:「這一版是 v1.0 正式版」。之後找版本,找旗子最快。</Analogy></div><Term title="TERMINAL" rows={[['cmd', 'git tag v1.0'], ['cmd', 'git tag'], ['out', 'v1.0']]} /></div><Foot label="U11 · 課1 · Git" /></div>;
 const GitFlowPage: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · git flow</Eyebrow><Title size={48}>團隊大概這樣協作</Title><div className="ts-rise" style={{ marginTop: 30 }}><GitFlowDiagram /></div><div style={{ marginTop: 28 }}><Harvest>先從 main 開 feature,在 feature commit,開 PR 給人看,通過後 merge 回 main。</Harvest></div></div><Foot label="U11 · 課1 · Git" /></div>;
-const GitPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · 卡住了?</Eyebrow><Title size={50}>Git 常見狀況</Title><div className="ts-rise" style={{ marginTop: 32, maxWidth: 1500 }}><Pitfall items={[['not a git repository:', '目前資料夾還不是 Git 專案,或你站錯位置。'], ['commit 要名字 email:', '第一次會要求設定身份,照老師給的指令設定。'], ['push 被拒絕:', '通常是雲端比較新,先 git pull 再處理。']]} /></div><div style={{ marginTop: 20 }}><Checkpoint items={['會 status / diff / add / commit', '知道 GitHub 是雲端倉庫', '知道 pull / branch / tag / git flow 的白話用途']} /></div></div><Foot label="U11 · 課1 · Git" /></div>;
-const Break2: Page = () => <BreakSlide note="回來換今天的第一個 AI 夥伴:Claude Code。" />;
+const GitPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 2 · 卡住了?</Eyebrow><Title size={50}>Git 常見狀況</Title><div className="ts-rise" style={{ marginTop: 28, maxWidth: 1500 }}><Pitfall items={[['not a git repository:', '目前資料夾還不是 Git 專案,或你站錯位置。'], ['commit 要名字 email:', '第一次會要求設定身份,照老師給的指令設定。'], ['push 要登入:', '照 VSCode 或 GitHub 的登入提示完成授權。']]} /></div><div style={{ marginTop: 18 }}><Checkpoint items={['GitHub repo 建好', 'git init 成功', 'git status 看得懂基本狀態', '完成第一次 commit', '成功 push 到自己的 GitHub repo']} /></div></div><Foot label="U11 · 課1 · Git" /></div>;
+const Break2: Page = () => <BreakSlide note="回來看 Claude Code / Codex:同一套 AI 控制方式,兩個工具對照。" />;
 
-const Sec3: Page = () => <Section no="3" title="Claude Code:你的第一個 AI 夥伴" time="2:15 - 3:10" sub="住在 VSCode / 終端機裡的 AI 助手。今天學斜線指令、擴充選單與 Modes。" />;
+const Sec3: Page = () => <Section no="3" title="Claude Code / Codex:控制 AI 進專案工作" time="3:00 - 3:50" sub="先用 Claude Code 建立操作模型,再用 Codex 對照 slash command、shift+tab、Plan 與核准權限。" />;
 const AIGuard: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>段 3 / 4 · AI 動手前防呆</Eyebrow><Title size={48}>先把 AI 關在安全範圍內</Title>
+  <div style={fill}><div style={pad}><Eyebrow>段 3 · AI 動手前防呆</Eyebrow><Title size={48}>先把 AI 關在安全範圍內</Title>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28 }}>
       <Checkpoint items={['先開 feature 分支或確認剛 commit 過', '先用 Plan / Ask before edits,不要一開始 Full Access', '提示詞寫清楚:只改哪個檔案、不要改哪裡', '改完必看 git diff,再跑 localhost 或 npm run build']} />
       <Term title="給 AI 的安全提示範本" size={22} rows={[
@@ -436,106 +435,50 @@ const AIGuard: Page = () => (
     </div>
   </div><Foot label="U11 · 課1 · AI 防呆" /></div>
 );
-const CCWhat: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · Claude Code</Eyebrow><Title size={52}>它不是聊天網頁,它住在專案裡</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>Claude Code 看得到你的檔案、能改檔、能跑指令。像一個能動手的助理坐在 VSCode 裡。</Analogy><Think q="那我直接叫它全改就好?" a={<span>先別。你要用模式管權限,用 Git 看它做了什麼。</span>} /></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
-const CCTerm: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · 對話示意</Eyebrow><Title size={46}>你交代任務,它回報動作</Title><Lead>重點不是讓它自由發揮,是要求它說清楚「會改哪裡、怎麼驗收」。</Lead></div><Term title="Claude Code" size={21} rows={[['cmd', '請把首頁標題放大一點,先說你會改哪裡'], ['ok', '我會查看 src/App.jsx 與 styles.css'], ['out', '計畫:只改 hero title 的字級'], ['dim', '等待你同意...']]} /></div><Foot label="U11 · 課1 · Claude Code" /></div>;
-const CCSlash: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 900px', gap: 40, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · slash commands</Eyebrow><Title size={48}>打一個 /,叫出控制台</Title><Lead>斜線指令不是要背,是你需要時叫出工具狀態、模型、用量、壓縮上下文。</Lead></div><CmdMenu title="Claude Code 常用指令" items={[['/model', '切換模型'], ['/effort', '調整思考深度'], ['/usage', '查看用量'], ['/compact', '壓縮上下文'], ['/goal', '設定任務目標'], ['/btw', '插入問題']]} /></div><Foot label="U11 · 課1 · Claude Code" /></div>;
+const CCWhat: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · Claude Code</Eyebrow><Title size={52}>先用 Claude Code 建立操作模型</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>Claude Code 看得到你的檔案、能改檔、能跑指令。它不是聊天網頁,而是住在 VSCode / Terminal 裡的 coding agent。</Analogy><Think q="那我直接叫它全改就好?" a={<span>先別。你要用 slash command 看狀態、用模式管權限、用 Git 看它做了什麼。</span>} /></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
+const CCTerm: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 720px', gap: 46, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · 登入與 hello</Eyebrow><Title size={46}>第一次先登入,再做 hello 測試</Title><Lead>登入授權是正常流程。今天只確認它能回應,不要求它改專案。</Lead></div><Term title="Claude Code" size={21} rows={[['cmd', 'hello'], ['ok', '你好!我可以協助讀專案、規劃、改檔與執行指令。'], ['cmd', '請先說明你看得到哪些專案檔,不要修改。'], ['dim', '等待回覆...']]} /></div><Foot label="U11 · 課1 · Claude Code" /></div>;
+const CCSlash: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 900px', gap: 40, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · slash commands</Eyebrow><Title size={48}>打一個 /,叫出 AI 控制台</Title><Lead>slash command 是控制 AI 狀態、模型、用量、目標、上下文與權限的工具,不是要背的指令表。</Lead></div><CmdMenu title="Claude Code 常用指令" items={[['/model', '切換模型'], ['/effort', '調整思考深度'], ['/usage', '查看用量'], ['/compact', '壓縮上下文'], ['/goal', '設定任務目標'], ['/btw', '插入問題']]} /></div><Foot label="U11 · 課1 · Claude Code" /></div>;
 const CCCompact: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · /compact</Eyebrow><Title size={50}>Context 快滿時,先壓縮</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 30 }}><Analogy>AI 的上下文像桌面。聊太久,桌面堆滿文件,它會變慢或忘東忘西。<Key>/compact</Key> 就是把前面整理成摘要,騰出空間。</Analogy><SuccessRow>看到 context 快用完、或 AI 開始答非所問,先 /compact。</SuccessRow></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
-const CCMenuPage: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 820px', gap: 42, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · 擴充選單</Eyebrow><Title size={48}>不想打指令,選單也點得到</Title><Lead>VSCode 外掛版也有 command menu。模型、思考深度、用量,都可以從選單調。</Lead></div><div style={{ background: '#252526', borderRadius: 12, border: '1px solid #1b1b1b', overflow: 'hidden' }}><div style={{ padding: '13px 20px', background: '#1e1e1e', color: '#9aa0a6', fontFamily: mono, fontSize: 18 }}>Claude Code · Show command menu</div>{[['Model', 'Opus / Sonnet'], ['Effort', 'low / medium / high'], ['Thinking', 'on / off'], ['Account & Usage', '查看用量']].map(([l, v]) => <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 22px', borderTop: '1px solid #333' }}><span style={{ color: '#e8eaed', fontSize: 25, fontWeight: 700 }}>{l}</span><span style={{ color: C.orange, fontFamily: mono, fontSize: 21 }}>{v}</span></div>)}</div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
+const CCMenuPage: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 820px', gap: 42, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · 模型差異</Eyebrow><Title size={48}>模型不用背,先知道快、穩、強</Title><Lead>Haiku 偏快省、Sonnet 日常平衡、Opus 較強但慢也更花費。實際名稱以當天工具 UI 為準。</Lead></div><div style={{ background: '#252526', borderRadius: 12, border: '1px solid #1b1b1b', overflow: 'hidden' }}><div style={{ padding: '13px 20px', background: '#1e1e1e', color: '#9aa0a6', fontFamily: mono, fontSize: 18 }}>Claude Code · Model / Effort</div>{[['Haiku', '快、省,簡單問題'], ['Sonnet', '平衡,日常主力'], ['Opus', '強,較慢且較花'], ['Effort', 'low / medium / high']].map(([l, v]) => <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 22px', borderTop: '1px solid #333' }}><span style={{ color: '#e8eaed', fontSize: 25, fontWeight: 700 }}>{l}</span><span style={{ color: C.orange, fontFamily: mono, fontSize: 21 }}>{v}</span></div>)}</div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
 const CCModes: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · Modes</Eyebrow><Title size={48}>它能不能自己動手,你決定</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 24 }}><ModeSwitch modes={[['Ask before edits', '每次改檔前先問你,新手推薦'], ['Edit automatically', '直接改檔,速度快但要盯著 diff'], ['Plan Mode', '只出計畫,先不動手']]} activeIdx={0} /><Harvest>新手先用 Ask before edits 或 Plan Mode,不要一開始就全放權。</Harvest></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
-const CCTakeaway: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · 收束</Eyebrow><Title size={50}>叫得動,更要管得住</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>把 Claude Code 當能幹但需要交代清楚的新同事:用 /goal 定方向、用 Modes 管權限、用 Git diff 查結果。</Analogy><Checkpoint items={['知道 /model /effort /usage /compact /goal /btw 的用途', '知道 command menu 也能調設定', '知道三種 Modes 差別']} /></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
+const CCTakeaway: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · Claude Code 小結</Eyebrow><Title size={50}>叫得動,更要管得住</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 30 }}><Analogy>把 Claude Code 當能幹但需要交代清楚的新同事:用 /goal 定方向、用 Modes 管權限、用 Git diff 查結果。</Analogy><Checkpoint items={['登入後能做 hello 測試', '知道 /model /effort /usage /compact /goal /btw 的用途', '知道 shift+tab 可以切模式', '知道改檔前要用 Git 看狀態']} /></div></div><Foot label="U11 · 課1 · Claude Code" /></div>;
 const Break3: Page = () => <BreakSlide note="最後一段認識 Codex:同類工具,但權限與推理設定名稱不同。" />;
 
-const Sec4: Page = () => <Section no="4" title="Codex:另一個 AI 助手" time="3:10 - 3:50" sub="OpenAI 的 AI 開發助手。操作邏輯和 Claude Code 相通,重點看核准權限、推理等級與規劃模式。" />;
-const CodexWhat: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 4 · Codex</Eyebrow><Title size={52}>同類工具,不同牌子</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 26 }}><Analogy>Codex 和 Claude Code 都是 coding agent:能讀專案、改檔案、跑指令。差別在模型、介面名稱、權限設定。</Analogy><Harvest>學會一套控制流程,換工具不會迷路。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
-const CodexSlash: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 900px', gap: 40, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 4 · slash commands</Eyebrow><Title size={48}>一樣打 /,先看狀態再定目標</Title><Lead><Key>/status</Key> 看目前設定與用量;<Key>/goal</Key> 設定任務目標。大任務先定方向。</Lead></div><CmdMenu title="Codex 常用指令" items={[['/status', '看設定、權限、用量'], ['/goal', '設定或清除任務目標'], ['/model', '換模型與推理等級'], ['/approve', '核准被擋下的動作'], ['/compact', '壓縮上下文'], ['/plan', '進入規劃模式']]} /></div><Foot label="U11 · 課1 · Codex" /></div>;
-const CodexApproval: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 4 · 核准權限</Eyebrow><Title size={48}>放多少權給它,你自己決定</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 22 }}><ApprovalLadder /><Harvest>放權越多越快,也越要小心。新手從 Chat 或 Agent 開始,Full Access 只給很明確的任務。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
-const CodexReasoning: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 4 · 推理等級</Eyebrow><Title size={50}>低 / 中 / 高 / 超高:想多深</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 30 }}><Lead>推理等級像思考時間。越高通常越慢、越花額度;日常任務用中等,難題再往上。</Lead><ReasoningDial /><Harvest>超高不是每個模型都有,需要時再開。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
-const CodexPlan: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 4 · 規劃模式</Eyebrow><Title size={50}>Shift + Tab:先看計畫,再動手</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 28 }}><Analogy>Plan 就是先讓它寫施工圖。你看懂它要拆哪裡、改哪裡,再讓它真的動手。</Analogy><div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Key>Shift</Key><span style={{ fontSize: 24, color: C.muted }}>+</span><Key>Tab</Key><span style={{ fontSize: 26, color: C.muted }}>切換規劃模式</span></div><Harvest>和 Claude Code 的 Plan Mode 是同一個精神。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
-const CodexPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 4 · 卡住了?</Eyebrow><Title size={50}>Codex 常見狀況</Title><div className="ts-rise" style={{ marginTop: 30, maxWidth: 1520 }}><Pitfall items={[['它一直要核准:', '這代表權限保守。先看它要做什麼,信任再提高權限。'], ['不確定目前設定:', '打 /status,看模型、權限、用量。'], ['答案太快太粗:', '提高推理等級,或先進規劃模式。']]} /></div><div style={{ marginTop: 22 }}><Checkpoint items={['知道 Chat / Agent / Full Access 差別', '會用 /status 看狀態、/goal 定目標', '知道推理等級與規劃模式的用途']} /></div></div><Foot label="U11 · 課1 · Codex" /></div>;
+const Sec4: Page = () => <Section no="3" title="Codex:用同一套模型對照" time="3:00 - 3:50" sub="不用重教一輪。看 slash command、權限、推理等級與規劃模式怎麼對照 Claude Code。" />;
+const CodexWhat: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · Codex 對照</Eyebrow><Title size={52}>同類工具,不同牌子</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 26 }}><Analogy>Codex 和 Claude Code 都是 coding agent:能讀專案、改檔案、跑指令。差別在模型、介面名稱、權限設定。</Analogy><Harvest>先學會控制流程,換工具才不會迷路。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
+const CodexSlash: Page = () => <div style={fill}><div style={{ ...pad, display: 'grid', gridTemplateColumns: '1fr 900px', gap: 40, alignItems: 'center' }}><div className="ts-rise"><Eyebrow>段 3 · Codex slash commands</Eyebrow><Title size={48}>一樣打 /,先看狀態再定目標</Title><Lead><Key>/status</Key> 看設定、權限、用量;<Key>/goal</Key> 設定任務目標。大任務先定方向。</Lead></div><CmdMenu title="Codex 常用指令" items={[['/status', '看設定、權限、用量'], ['/goal', '設定或清除任務目標'], ['/model', '換模型與推理等級'], ['/approve', '核准被擋下的動作'], ['/compact', '壓縮上下文'], ['/plan', '進入規劃模式']]} /></div><Foot label="U11 · 課1 · Codex" /></div>;
+const CodexApproval: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · 核准權限</Eyebrow><Title size={48}>Plan / Chat / Agent / Full Access 風險不同</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 22 }}><ApprovalLadder /><Harvest>放權越多越快,也越要小心。新手從 Plan、Chat 或 Agent 開始,Full Access 只給很明確的任務。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
+const CodexReasoning: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · 推理等級</Eyebrow><Title size={50}>低 / 中 / 高 / 超高:想多深</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 30 }}><Lead>推理等級像思考時間。越高通常越慢、越花額度;日常任務用中等,難題再往上。</Lead><ReasoningDial /><Harvest>超高不是每個模型都有,需要時再開。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
+const CodexPlan: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · 規劃模式</Eyebrow><Title size={50}>Shift + Tab:先看計畫,再動手</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 28 }}><Analogy>Plan 就是先讓它寫施工圖。你看懂它要拆哪裡、改哪裡,再讓它真的動手。</Analogy><div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Key>Shift</Key><span style={{ fontSize: 24, color: C.muted }}>+</span><Key>Tab</Key><span style={{ fontSize: 26, color: C.muted }}>切換模式</span></div><Harvest>和 Claude Code 的 Plan Mode 是同一個精神。</Harvest></div></div><Foot label="U11 · 課1 · Codex" /></div>;
+const CodexPit: Page = () => <div style={fill}><div style={pad}><Eyebrow>段 3 · 過關點</Eyebrow><Title size={50}>Claude Code / Codex 不求背指令,求會控制</Title><div className="ts-rise" style={{ marginTop: 28, maxWidth: 1520 }}><Pitfall items={[['它一直要核准:', '這代表權限保守。先看它要做什麼,信任再提高權限。'], ['不確定目前設定:', '打 /status,看模型、權限、用量。'], ['答案太快太粗:', '提高推理等級,或先進規劃模式。']]} /></div><div style={{ marginTop: 18 }}><Checkpoint items={['Claude Code / Codex 至少一個能登入', '知道 slash command 的用途', '知道 shift+tab 可以切模式', '知道 Plan / Chat / Agent / Full Access 不同權限風險']} /></div></div><Foot label="U11 · 課1 · Codex" /></div>;
 
-const SecEnd: Page = () => <Section no="收束" title="四個工具,串成一條流程" time="3:50 - 4:00" sub="VSCode 看得到、Git 收得回、Claude Code 與 Codex 動得了手。" />;
-const Recap: Page = () => <div style={fill}><div style={pad}><Eyebrow>今天四個工具,一次收攏</Eyebrow><Title size={50}>不是工具清單,是一條工作流</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 34, maxWidth: 1540 }}>{[['VSCode', '打開專案、裝外掛、用 npm 跑網站。'], ['Git & GitHub', 'diff / commit 存檔、push 上雲、branch 控風險。'], ['Claude Code', '斜線指令調它、Modes 管它能不能動手。'], ['Codex', '核准權限、推理等級、規劃模式。']].map(([a, b], i) => <div key={a} style={{ display: 'flex', alignItems: 'flex-start', gap: 22 }}><span style={{ fontFamily: mono, fontSize: 30, color: C.orange, fontWeight: 800, minWidth: 60 }}>{String(i + 1).padStart(2, '0')}</span><div><div style={{ fontSize: 33, fontWeight: 800 }}>{a}</div><div style={{ fontSize: 25, color: C.muted, marginTop: 3 }}>{b}</div></div></div>)}</div></div><Foot label="U11 · 課1 · 收束" /></div>;
-const Punchline: Page = () => <div style={{ ...fill, background: C.ink, color: '#fff' }}><div style={pad}><Eyebrow>今天最重要的一句</Eyebrow><div style={{ fontSize: 74, fontWeight: 900, lineHeight: 1.2, marginTop: 28, maxWidth: 1560, letterSpacing: '-0.02em' }}>工具不是拿來炫技,<br />是你<span style={{ color: C.orange }}>指揮 AI</span> 的四個把手。</div><div style={{ fontSize: 31, color: 'rgba(255,255,255,0.7)', marginTop: 34, maxWidth: 1420, lineHeight: 1.55 }}>會打開、會存檔、會調 AI、會管權限,AI 才是幫手,不是亂源。</div></div><div style={{ position: 'absolute', left: 110, bottom: 44, fontFamily: mono, fontSize: 19, color: 'rgba(255,255,255,0.5)' }}>U11 · 課1 · 記住這句</div></div>;
-const Homework: Page = () => <div style={fill}><div style={pad}><Eyebrow>回家作業</Eyebrow><Title size={50}>把四個工具各做一次最小動作</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 38, maxWidth: 1480 }}><SuccessRow>VSCode:重開 web-lab,跑 npm run dev。</SuccessRow><SuccessRow>Git:改一個 data.js 文字,git diff 後 commit。</SuccessRow><SuccessRow>Claude Code 或 Codex:用 Plan / Chat 問它「如果我要改首頁標語,會改哪裡?」先不要讓它改。</SuccessRow></div></div><Foot label="U11 · 課1 · 作業" /></div>;
-const Next: Page = () => <div style={fill}><div style={pad}><Eyebrow>下一堂預告</Eyebrow><Title size={56}>工具認得了,<br />下一堂正式讓 AI 幫你改專案</Title><Lead>下一堂會把今天的 Git、Plan、權限觀念接起來,練「先讀、先計畫、加護欄、再修改」。</Lead></div><Foot label="U11 · 課1 · 下一堂" /></div>;
+const SecEnd: Page = () => <Section no="收束" title="你已經建立第一條 AI coding 流程" time="3:50 - 4:00" sub="網頁版看成果,VSCode 跑專案,GitHub 保存版本,Claude Code / Codex 受你控制。" />;
+const Recap: Page = () => <div style={fill}><div style={pad}><Eyebrow>今天結束時,你要說得出來</Eyebrow><Title size={48}>這不是工具清單,是一條工作流</Title><div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginTop: 30, maxWidth: 1540 }}>{[['01', '我為什麼不能只靠 Claude 網頁版'], ['02', '我怎麼用 VSCode 打開教材專案'], ['03', '我怎麼讓 web-lab 跑起來'], ['04', '我怎麼把專案推到自己的 GitHub'], ['05', '我怎麼用 slash command 控制 AI'], ['06', '我知道下一堂才正式讓 AI 修改專案']].map(([a, b]) => <div key={a} style={{ display: 'flex', alignItems: 'center', gap: 18, background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '18px 22px' }}><span style={{ fontFamily: mono, fontSize: 26, color: C.orange, fontWeight: 800, minWidth: 44 }}>{a}</span><span style={{ fontSize: 26, color: C.ink, fontWeight: 700 }}>{b}</span></div>)}</div></div><Foot label="U11 · 課1 · 收束" /></div>;
+const Punchline: Page = () => <div style={{ ...fill, background: C.ink, color: '#fff' }}><div style={pad}><Eyebrow>今天最重要的一句</Eyebrow><div style={{ fontSize: 74, fontWeight: 900, lineHeight: 1.2, marginTop: 28, maxWidth: 1560, letterSpacing: '-0.02em' }}>工具不是拿來炫技,<br />是你<span style={{ color: C.orange }}>指揮 AI</span> 的把手。</div><div style={{ fontSize: 31, color: 'rgba(255,255,255,0.7)', marginTop: 34, maxWidth: 1420, lineHeight: 1.55 }}>會打開、會存檔、會調 AI、會管權限,AI 才是幫手,不是亂源。</div></div><div style={{ position: 'absolute', left: 110, bottom: 44, fontFamily: mono, fontSize: 19, color: 'rgba(255,255,255,0.5)' }}>U11 · 課1 · 記住這句</div></div>;
+const Homework: Page = () => <div style={fill}><div style={pad}><Eyebrow>回家作業</Eyebrow><Title size={50}>把今天流程重跑一次</Title><div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 38, maxWidth: 1480 }}><SuccessRow>VSCode:開教材根目錄,cd web-lab,跑 npm run dev。</SuccessRow><SuccessRow>GitHub:確認自己的 repo 看得到第一次 push。</SuccessRow><SuccessRow>Claude Code 或 Codex:用 Plan / Chat 問它「如果我要改首頁標語,會改哪裡?」先不要讓它改。</SuccessRow></div></div><Foot label="U11 · 課1 · 作業" /></div>;
+const Next: Page = () => <div style={fill}><div style={pad}><Eyebrow>下一堂預告</Eyebrow><Title size={56}>工具認得了,<br />下一堂正式讓 AI 幫你改專案</Title><Lead>下一堂會把今天的 Git、Plan、權限觀念接起來,練「先讀、先計畫、加護欄、再修改」。今天先不要追求 AI 完成功能。</Lead></div><Foot label="U11 · 課1 · 下一堂" /></div>;
 
 export const meta: SlideMeta = { title: 'U11 課1:四大工具第一堂課', createdAt: '2026-06-30T04:11:13.208Z' };
 
 export const notes: (string | undefined)[] = [
-  '今天第一堂。開場先講:先看到成果,再拆開工具。海風小店會當整堂課的共同練習場,每個工具只講它現在幫你做什麼。',
-  '先看終點:這門課最後要交出的營運異常 Dashboard。五個步驟唸過一遍:載入、檢查合約、payload 預覽、人工審核、mock 送出。告訴學生:等一下網站跑起來就能親眼看到它,之後每一堂都在推進這個作品。',
-  '接著看成品練習場。今天不是抽象講工具,而是每個工具都會圍繞同一個 web-lab 專案示範。提醒:網頁上方切換鈕可以切到營運異常 Dashboard。',
-  '主線流水線頁:整門課一條線,今天是第一步「專案跑起來」。唸一次 DoD:AI 做出來不算完成,通過驗收才算完成 —— 畫面、輸出、diff、build、human review。這句之後每堂都會重複。',
-  '先講為什麼。AI 很會做事,但工程流程不是只問一句話。你需要知道專案在哪,怎麼跑,怎麼存回來,再讓 AI 動手。',
-  '今天路線四段:VSCode 是工作台,Git 和 GitHub 是版本與協作,Claude Code 和 Codex 是兩個 AI 助手。',
-  '上課三個約定:不要自由探索、每段都有檢查點、錯誤訊息不要關掉。',
-  '全堂防呆機制:每次動手都先看位置、先看狀態、小步執行、立刻驗證。這四步會貫穿 VSCode、Git 與 AI 工具。',
-  '今天會碰到的基本工具:VSCode、Git、GitHub、Node、npm。它們各自有一個清楚角色。',
-  '先做環境檢查。今天主線只需要 Node、npm、Git,看到版本號就能繼續。',
-  '段一開始。VSCode 是你的專案工作台,今天先認畫面、裝外掛、用 npm 跑網站。',
-  '這是 VSCode 的全景。記住檔案總管、編輯區、終端機、搜尋、Source Control、Extensions。',
-  'Explorer 是看專案內容的地方。你自己知道檔案在哪,才知道要 AI 看哪裡。',
-  'Editor 是看檔案內容的地方。今天先看 README、package.json、data.js。',
-  'Terminal 是打指令的地方。它不是嚇人的黑盒,只是操控專案的遙控器。',
-  'Search、Source Control、Extensions 分別負責找字、看改動、裝外掛。',
-  'Extensions 就像 VSCode 的 App 商店。Claude Code 和 Codex 都會以外掛形式進到 VSCode。',
-  '今天先知道這幾個外掛名字。Claude Code、Codex 是主角,語言包和 Prettier 只是補充。',
-  '動手打開 web-lab。確認 Explorer 裡有 README、package.json、src。',
-  '這頁要講清楚學生真的會動哪些程式碼。第一堂主要改 src/data.js;App.jsx 先看懂;styles.css 選做;Beach.jsx 不改;package.json 只看 scripts。',
-  'cd 是走進資料夾。提示字尾巴變成 web-lab,就代表你站到正確位置。',
-  'Node 是引擎,npm 是補給站。package.json 裡的 scripts 會用 npm 跑。',
-  '現在跑 npm install 和 npm run dev。第一次 install 會花時間,不要急著關。',
-  'localhost 是你自己電腦上的網站。看到 localhost,代表專案真的跑起來。',
-  '看到海風小店畫面,段一最重要的任務就完成了。',
-  '常見卡住點:終端機找不到、站錯資料夾、npm run dev 停住。逐一對照即可。',
-  '休息。回來進 Git 和 GitHub。',
-  '段二開始。這段會從本機 Git 存檔,一路接到 GitHub、remote、push、pull、branch 和 tag。',
-  '先改 data.js 裡的店名,製造一個 Git 可以追蹤的改動。',
-  'Git 是存檔系統。之後 AI 改完,我們就靠 Git 看它動了哪些地方。',
-  'git status 看現在改了什麼。它只看狀態,不會改檔案。',
-  'git diff 看具體改動。紅色是原本,綠色是改完。',
-  '確認沒問題後,git add 和 git commit 把版本存起來。',
-  'GitHub 是把本機 Git 紀錄放到雲端,方便備份與協作。',
-  '學生第一步會從老師公開 repo clone 教材。clone 後 origin 先指向老師 repo,這是正常的。',
-  '接著學生要在 GitHub 建自己的空 repo,把老師 repo 改名 upstream,再把自己的 repo 加成 origin,最後 git push -u origin main。',
-  '記住兩個 remote 角色:origin 是自己的作業 repo,upstream 是老師的原始教材 repo。日常 push 到 origin;要拿老師更新才 pull upstream main。',
-  'push 前一定做防呆檢查:git remote -v 看到 origin 是自己的 repo,upstream 是老師 repo。Invalid username or token 代表不能用密碼,要改用 VSCode/GitHub 登入、GitHub CLI 或 token。',
-  'push 是把本機 commit 推上 GitHub。commit 是本機, push 是雲端。',
-  'clone、pull、fetch 是從雲端拿東西回來。多人合作前常常先 pull。',
-  'branch 是平行宇宙。在分支上改,main 主線可以保持乾淨。',
-  '用圖看分支。feature 從 main 分出去,完成後再 merge 回來。',
-  'tag 是重要版本的旗子。v1.0 這種正式版通常會用 tag 標起來。',
-  '團隊常見流程:main、feature、commit、PR、merge。今天先看懂概念。',
-  'Git 常見卡住點:站錯資料夾、身份未設定、push 被拒絕。',
-  '休息。回來看 Claude Code。',
-  '段三開始。Claude Code 是第一個 AI 夥伴,但在認識指令前,先建立 AI 動手前的共同防呆流程。',
-  'AI 動手前的共同防呆:先有分支或 commit,先用 Plan 或 Ask before edits,提示詞限制檔案範圍,改完一定看 git diff 並驗證。',
-  'Claude Code 是住在專案裡的 AI 助手,不是單純聊天網頁。',
-  '對話示意:你要它先說會改哪裡,不是一開始就讓它亂改。',
-  '斜線指令是 Claude Code 的控制台。今天知道 model、effort、usage、compact、goal、btw。',
-  '/compact 特別重要。上下文快滿或 AI 開始混亂時,先壓縮。',
-  '不想打指令,VSCode 外掛的 command menu 也能調模型、effort、usage。',
-  'Modes 決定它能不能自己動手。新手先用 Ask before edits 或 Plan Mode。',
-  'Claude Code 的重點是叫得動也管得住:目標、模式、diff。',
-  '短休息,最後看 Codex。',
-  '段四開始。Codex 是 OpenAI 的 AI 開發助手,和 Claude Code 同類,但介面與設定名稱不同。',
-  'Codex 是 OpenAI 的同類工具。工具名不同,控制邏輯相通。',
-  'Codex 也有 slash commands。先用 /status 看狀態,用 /goal 定任務。',
-  '核准權限有三段:Chat、Agent、Agent Full Access。權限越大越快,風險也越高。',
-  '推理等級決定它想多深。日常中等,難題再升高。',
-  '規劃模式是先看計畫再動手。和 Claude Code 的 Plan Mode 精神一樣。',
-  'Codex 常見卡住點:一直要核准、不知道設定、答案太粗。',
-  '收束。四個工具要串成一條流程。',
-  '今天四個工具的角色:VSCode 看得到,Git 收得回,Claude Code 和 Codex 動得了手。',
-  '最重要一句:工具是你指揮 AI 的四個把手。',
-  '作業是每個工具做一次最小動作。',
+  '開場先用 Claude 網頁版做一個小網頁,再問學生:既然網頁版可以做,為什麼還要進 VSCode?',
+  '主線不是四個工具介紹,而是第一次建立 AI coding 工作流程。',
+  '時間軸照 0:00 到 4:00 走,每段都要有過關點。',
+  '第一階段重點:VSCode 開教材根目錄,Terminal 進 web-lab,跑 npm install 和 npm run dev。',
+  '外掛只帶四個:Claude Code、Codex、中文繁體語言包、Live Server。',
+  '第二階段重點:RAR 是取得教材,Git 是保存開發紀錄。',
+  'Git 主流程是 web-lab 裡 git init、status、add、commit、remote add origin、branch main、push。',
+  'fetch、pull、branch、tag、git flow 先知道概念,不是本堂主要實作驗收。',
+  '第三階段先用 Claude Code 建立操作模型:登入、hello、slash command、shift+tab、模式。',
+  'Codex 不重教一輪,只對照 /status、/goal、/model、/approve、/compact、/plan 和權限核准。',
+  '收束回扣:工具不是拿來炫技,是你指揮 AI 的把手。下一堂才正式讓 AI 修改專案。',
 ];
 
 export default [
-  Cover, MainlineDoD, Why, Outcome, Roadmap, Rules, Guardrails, Tools, Precheck,
+  Cover, ClaudeWebDemo, MainlineDoD, Why, Outcome, Roadmap, Rules, Guardrails, Tools, Precheck,
   Sec1, VSIntro, RegExplorer, RegEditor, RegTerminal, RegOthers, ExtWhat, ExtRecommend, OpenProject, CodeTouchMap, CdPage, NpmWhat, RunProject, Localhost, WebReal, VsPit, Break1,
-  Sec2, EditDo, GitHead, GitStatus, GitDiff, GitCommit, GitHubWhat, CloneFromTeacher, OwnRepoFlow, RemoteRoles, PushGuard, GitPush, GitPull, BranchWhy, BranchPage, TagPage, GitFlowPage, GitPit, Break2,
-  Sec3, AIGuard, CCWhat, CCTerm, CCSlash, CCCompact, CCMenuPage, CCModes, CCTakeaway, Break3,
-  Sec4, CodexWhat, CodexSlash, CodexApproval, CodexReasoning, CodexPlan, CodexPit,
+  Sec2, EditDo, GitHead, GitStatus, GitDiff, GitCommit, GitHubWhat, CloneFromTeacher, OwnRepoFlow, RemoteRoles, PushGuard, GitPush, GitPull, GitPit, Break2,
+  Sec3, AIGuard, CCWhat, CCTerm, CCSlash, CCCompact, CCMenuPage, CCModes, CCTakeaway,
+  CodexWhat, CodexSlash, CodexApproval, CodexReasoning, CodexPlan, CodexPit,
   SecEnd, Recap, Punchline, Homework, Next,
 ] satisfies Page[];
