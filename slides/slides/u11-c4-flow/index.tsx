@@ -3,6 +3,7 @@ import { useSlidePageNumber } from '@open-slide/core';
 import skillsShot from './assets/claude-skills-docs.png';
 import mcpShot from './assets/mcp-intro.png';
 import mcpChromeShot from './assets/mcp-chrome-devtools.png';
+import weblabHome from './assets/weblab-home.png';
 
 // ── 統一風格 tokens(沿用 U12-14 教學系列)────────────────────────────────
 export const design: DesignSystem = {
@@ -461,7 +462,7 @@ const McpHead: Page = () => (
   </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 const McpInstall: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>附錄 · 裝 MCP · 一行指令</Eyebrow><Title size={46}>三台今天要用的,裝法都一樣</Title>
+  <div style={fill}><div style={pad}><Eyebrow>段 2 · 裝 MCP · 一行指令</Eyebrow><Title size={46}>三台今天要用的,裝法都一樣</Title>
     <div className="ts-rise" style={{ marginTop: 22 }}><Term title="TERMINAL · 安裝三台 MCP" size={20} rows={[
       ['dim', '# 瀏覽器驗收(看 console、截圖)'],
       ['cmd', 'claude mcp add chrome-devtools -- npx chrome-devtools-mcp@latest'],
@@ -476,12 +477,12 @@ const McpInstall: Page = () => (
   </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 const McpChrome: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>附錄 · MCP 一</Eyebrow><Title size={44}>Chrome DevTools MCP:驗收 web-lab</Title>
+  <div style={fill}><div style={pad}><Eyebrow>段 2 · MCP 一 · 七要素</Eyebrow><Title size={44}>Chrome DevTools MCP:驗收 web-lab</Title>
     <div className="ts-rise" style={{ marginTop: 22 }}><SevenCard title="chrome-devtools" tag="開源 · 需 Node + Chrome" rows={[
       ['用途', '讓 AI 開真的 Chrome,看 console / DOM、截圖 ── 拿來驗收 web-lab。'],
       ['安裝', <><Key>claude mcp add chrome-devtools -- npx chrome-devtools-mcp@latest</Key></>],
       ['固定操作', <>先 <Key>npm run dev</Key> 跑起 web-lab → 請 AI 開 localhost、看 console、截圖。</>],
-      ['固定 prompt', '「請用 Chrome DevTools 開 http://localhost:5173,列出 console 有沒有錯誤,截一張首頁的圖。」'],
+      ['固定 prompt', '「請用 Chrome DevTools 開 http://localhost:5180,列出 console 有沒有錯誤,截一張首頁的圖。」'],
       ['預期結果', 'AI 回報 console 狀況 + 一張截圖。'],
       ['驗收', <><Key>/mcp</Key> 列出 chrome-devtools;真的拿到截圖。</>],
       ['保底', '連不上 → 自己在瀏覽器按 F12 看 console。'],
@@ -489,7 +490,7 @@ const McpChrome: Page = () => (
   </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 const McpContext7: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>附錄 · MCP 二</Eyebrow><Title size={44}>Context7 MCP:查套件最新文件</Title>
+  <div style={fill}><div style={pad}><Eyebrow>段 2 · MCP 二 · 七要素</Eyebrow><Title size={44}>Context7 MCP:查套件最新文件</Title>
     <div className="ts-rise" style={{ marginTop: 22 }}><SevenCard title="context7" tag="開源 · 選填 API 金鑰" rows={[
       ['用途', '把套件「最新官方文件」餵給 AI,避免它用過時 API 亂寫。'],
       ['安裝', <><Key>claude mcp add context7 -- npx -y @upstash/context7-mcp</Key>(免費金鑰於 context7.com/dashboard)</>],
@@ -502,7 +503,7 @@ const McpContext7: Page = () => (
   </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 const McpCodebaseMemory: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>附錄 · MCP 三</Eyebrow><Title size={44}>Codebase Memory MCP:讓 AI 記住整個專案</Title>
+  <div style={fill}><div style={pad}><Eyebrow>段 2 · MCP 三 · 七要素</Eyebrow><Title size={44}>Codebase Memory MCP:讓 AI 記住整個專案</Title>
     <div className="ts-rise" style={{ marginTop: 22 }}><SevenCard title="codebase-memory-mcp" tag="開源 · 全本地 · 免 API key" rows={[
       ['用途', '把程式碼庫索引成知識圖譜:AI 能查架構總覽、呼叫關係、找死碼,不用一檔一檔翻。'],
       ['安裝', <>Windows PowerShell 下載執行 <Key>install.ps1</Key>;mac/Linux 一行 <Key>curl -fsSL .../install.sh | bash</Key>(會自動幫 Claude Code 等 agent 設定好)。</>],
@@ -638,62 +639,154 @@ const McpChromeDoc: Page = () => (
     caption="這是一個真的 MCP server(給 coding agent 用的 Chrome DevTools)。接上它,AI 就能自己開瀏覽器、點頁面、看 console、截圖 ── 本課的官方頁與 localhost 截圖正是用它拍的。MCP 不是魔法,是一條一條接上去的能力。" foot="U11 · 課4 · 段3" />
 );
 
-export const meta: SlideMeta = { title: 'U11 課4:自動化交付 — ops agent、GitHub Actions、Skill/MCP', createdAt: '2026-06-30T04:14:30.000Z' };
+// ══════════ v3 重構:三個 MCP 變主線、前段壓縮 ══════════
+const CoverMcp: Page = () => (
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>U11 · 第 4 堂 / 共 4 堂 · 4 小時 · 零基礎</Eyebrow>
+    <div className="ts-rise" style={{ marginTop: 34 }}><div style={{ fontSize: 100, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.04 }}>幫 AI 接上<br />三條外部工具的線</div>
+      <Lead>先把 U3 的流程用 <B>ops agent + GitHub Actions</B> 快速收成自動化,再進今天的主線:<B>三個 MCP</B> ── 讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。學生親手裝。</Lead></div>
+  </div><div style={{ position: 'absolute', right: 110, bottom: 84, fontFamily: mono, fontSize: 21, color: C.faint }}>ops agent · Actions · 三個 MCP</div><Foot label="U11 · 課4" /></div>
+);
+const WhyMcp: Page = () => (
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>先講為什麼</Eyebrow><Title size={52}>AI 很聰明,但它「看不到」你的工具</Title>
+    <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 32 }}>
+      <Analogy>AI 像一個很強的新同事,但他<B>沒有你公司的門禁卡</B>:進不了瀏覽器、看不到最新文件、也不知道你專案長怎樣。你只能一直複製貼上餵給它。</Analogy>
+      <Lead>MCP 就是那張<B>門禁卡</B> ── 在你授權的範圍內,讓 AI 自己去讀。今天裝三張:看畫面、查文件、記專案。</Lead>
+    </div>
+  </div><Foot label="U11 · 課4 · 為什麼" /></div>
+);
+const RoadmapMcp: Page = () => {
+  const items = [['段 1', '自動化收尾', 'ops agent + Actions + 固化成工具', '0:20'], ['段 2', '三個 MCP(主線)', '看畫面 / 查文件 / 記專案,親手裝', '1:30'], ['段 3', '用得安全 + 收尾', '權限三問 + slash 型錄', '3:20']];
+  return (
+    <div style={fill}><div style={pad}><Eyebrow>今天的路線 · 三段 + 結業</Eyebrow><Title>前段快收,主線放在三個 MCP</Title>
+      <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22, marginTop: 46 }}>
+        {items.map(([a, b, c, t], i) => <div key={i} style={{ background: i === 1 ? '#fbf3ee' : C.card, border: `${i === 1 ? 2 : 1}px solid ${i === 1 ? C.orange : C.line}`, borderRadius: 16, padding: '24px 22px' }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontFamily: mono, fontSize: 21, color: C.orange, fontWeight: 700 }}>{a}</span><span style={{ fontFamily: mono, fontSize: 18, color: C.faint }}>{t}</span></div><div style={{ fontSize: 27, fontWeight: 800, marginTop: 12, lineHeight: 1.25 }}>{b}</div><div style={{ fontSize: 22, color: C.muted, marginTop: 8 }}>{c}</div></div>)}
+      </div>
+      <div style={{ fontSize: 27, color: C.muted, marginTop: 40, lineHeight: 1.5 }}>段 2 是今天的主角:三個 MCP 一個一個裝、一個一個驗收。</div>
+    </div><Foot label="U11 · 課4 · 路線" /></div>
+  );
+};
+const SecAuto: Page = () => <Section no="1" title="先把流程收成自動化(快速)" time="0:20 - 1:30" sub="U3 的 LINE Flex 流程,交給 ops agent 與 GitHub Actions 產 artifact,再 reviewer / build,最後封裝成 /ops-check、/ship-check。這段走快一點。" />;
+const AutoDone: Page = () => (
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 1 · 檢查點</Eyebrow><Title size={50}>自動化這段,你手上有這些</Title>
+    <div className="ts-rise" style={{ marginTop: 30 }}><Checkpoint items={['ops agent 三角色產出符合合約的 report.json', 'GitHub Actions 只產 artifact、不真送 LINE', 'reviewer 給 Verdict + 交付前四問都打勾', '自建 /ops-check 與 /ship-check,回固定格式、不改檔']} /></div>
+    <div style={{ marginTop: 20 }}><Harvest>流程固定好了。接下來:讓 AI 能自己去「碰」外部工具 —— 這就是 MCP。</Harvest></div>
+  </div><Foot label="U11 · 課4 · 段1" /></div>
+);
+const BreakMcp: Page = () => <BreakSlide note="回來,今天的主線:把三個 MCP 一個一個裝起來、一個一個驗收。" />;
+const SecMcp: Page = () => <Section no="2" title="三個 MCP:幫 AI 接上外部工具" time="1:30 - 3:20" sub="今天的主線。每個 MCP 都:先看它解決什麼痛 → 一行裝起來 → 固定操作用一次 → /mcp 驗收 → 裝不起來的保底。學生親手裝三個。" />;
+const Pain = ({ tag, title, pain, fix }: { tag: string; title: string; pain: any; fix: any }) => (
+  <div style={fill}><div style={{ ...pad }}>
+    <Eyebrow>段 2 · 痛一次 · {tag}</Eyebrow>
+    <Title size={48}>{title}</Title>
+    <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, marginTop: 26, alignItems: 'start' }}>
+      <div style={{ background: '#fff7f4', border: `1px solid #f3d0c2`, borderRadius: 16, padding: '24px 28px' }}><div style={{ fontFamily: mono, fontSize: 20, color: RED, fontWeight: 700, marginBottom: 10 }}>沒有這個 MCP 時</div><div style={{ fontSize: 29, lineHeight: 1.5 }}>{pain}</div></div>
+      <div style={{ background: '#eef7f2', border: `1px solid #bfe6d4`, borderRadius: 16, padding: '24px 28px' }}><div style={{ fontFamily: mono, fontSize: 20, color: OK, fontWeight: 700, marginBottom: 10 }}>接上之後</div><div style={{ fontSize: 29, lineHeight: 1.5 }}>{fix}</div></div>
+    </div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
+);
+const PainChrome: Page = () => (
+  <Pain tag="MCP 一 · chrome-devtools" title="AI 說「改好了」,你怎麼知道畫面對不對?"
+    pain={<>AI 回你「已完成」,但你得<B>自己開瀏覽器、自己按 F12</B> 看有沒有錯,改一次看一次,很累。</>}
+    fix={<>讓 AI <B>自己開 Chrome、看 console、截圖</B> 回報。本課那些 localhost 截圖,就是它拍的。</>} />
+);
+const McpChromeArtifact: Page = () => (
+  <RealShot img={weblabHome} url="localhost:5180 · chrome-devtools MCP 截的" eyebrow="段 2 · chrome-devtools 產出" title="這張首頁截圖,就是 AI 透過 MCP 自己拍的"
+    caption="接上 chrome-devtools MCP 後,對 AI 說『開 localhost:5180、看 console、截一張首頁』── 它就會回報 console 狀況並給你這張圖。驗收 web-lab 不用你自己截。" foot="U11 · 課4 · 段2" maxH={520} />
+);
+const PainContext7: Page = () => (
+  <Pain tag="MCP 二 · context7" title="AI 憑「舊記憶」寫,結果裝不起來"
+    pain={<>套件改版很快,AI 用<B>過時的 API</B> 寫給你,照著做卻一直報錯,查半天。</>}
+    fix={<>句尾加 <Key>use context7</Key>,把<B>最新官方文件</B>餵給它,它照現在的用法回答。</>} />
+);
+const PainCodebase: Page = () => (
+  <Pain tag="MCP 三 · codebase-memory" title="專案一大,AI 一檔一檔猜、還常改越界"
+    pain={<>問「Dashboard 被誰用?」它得一檔一檔翻、常常猜錯,改東西還<B>誤傷別的檔</B>。</>}
+    fix={<>先 <Key>index_repository</Key> 把專案<B>索引成地圖</B>,架構、呼叫關係一問秒答。</>} />
+);
+const McpDone: Page = () => (
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 2 · 檢查點</Eyebrow><Title size={50}>三個 MCP,你都裝起來了</Title>
+    <div className="ts-rise" style={{ marginTop: 30 }}><Checkpoint items={['/mcp 列得出 chrome-devtools、context7、codebase-memory', 'chrome-devtools:AI 真的回報 console + 截圖', 'context7:答案有附文件出處', 'codebase-memory:架構問題答得出檔案關係']} /></div>
+    <div style={{ marginTop: 20 }}><Harvest>MCP 不是魔法,是一條一條接上去的能力。裝越多,AI 能自己做的事越多。</Harvest></div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
+);
+const SecSafe: Page = () => <Section no="3" title="用得安全,再把指令收成一張表" time="3:20 - 3:50" sub="MCP 讓 AI 能碰外部資料,方便,但權限要給得剛剛好。最後把內建與自建的 slash 分清楚。" />;
+const RecapMcp: Page = () => {
+  const pts = [['自動化收尾', 'ops agent + Actions 產 artifact,固化成 /ops-check、/ship-check。'], ['chrome-devtools', '讓 AI 自己開瀏覽器、看 console、截圖驗收。'], ['context7', '把最新官方文件餵給 AI,不再用過時 API。'], ['codebase-memory', '把專案索引成地圖,問架構秒答。'], ['權限三問', '能讀什麼 / 能不能寫 / 會不會碰正式資料。']];
+  return (
+    <div style={fill}><div style={pad}><Eyebrow>這一堂我們學了這些</Eyebrow>
+      <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 13, marginTop: 34, maxWidth: 1520 }}>
+        {pts.map(([a, b], i) => <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 22 }}><span style={{ fontFamily: mono, fontSize: 30, color: C.orange, fontWeight: 800, lineHeight: 1.2 }}>{String(i + 1).padStart(2, '0')}</span><div><div style={{ fontSize: 31, fontWeight: 800 }}>{a}</div><div style={{ fontSize: 23, color: C.muted, marginTop: 3 }}>{b}</div></div></div>)}
+      </div>
+    </div><Foot label="U11 · 課4 · 收束" /></div>
+  );
+};
+const AppendixFlaws: Page = () => (
+  <div style={{ ...fill, background: C.ink, color: '#fff' }}><div style={pad}>
+    <span style={{ fontFamily: mono, fontSize: 26, color: C.orange, letterSpacing: '.14em' }}>附錄 · 加碼</span>
+    <div style={{ marginTop: 22 }}><Title size={78}>AI 走鐘時,三句話拉回來</Title></div>
+    <div style={{ marginTop: 28, fontSize: 34, color: 'rgba(255,255,255,.72)', lineHeight: 1.5, maxWidth: 1380 }}>和 AI 處久了會遇到三個固定狀況:越改越偏、越補越亂、改 A 壞 B。認得它們,各用一句話就能拉回。時間夠就講,不夠留課後看。</div>
+  </div></div>
+);
+
+export const meta: SlideMeta = { title: 'U11 課4:自動化收尾 + 三個 MCP(主線)', createdAt: '2026-07-04T00:00:00.000Z' };
 
 export const notes: (string | undefined)[] = [
-  '各位同學好,最後一堂。前三堂你把 Dashboard 和 LINE Flex 主線做出來了。這一堂把它放進 ops agent 與 GitHub Actions,先產 artifact,再 reviewer、build、commit,最後封裝成 /ops-check 與 /ship-check。',
-  '先回顧走到哪。課一一鍵啟動、先看過 Dashboard 成品、改店名存檔;課二看懂資料合約、走 planner 人審 implementer;課三在 Dashboard 上按按鈕走完 LINE Flex 通知主線、mock 驗收、ReAct 修錯。今天把它平台化。',
-  '先講為什麼。會用一次跟每次都會用差很多。打個比方煮菜照食譜成功一次不代表你會煮,要每次煮出一樣的味道那才叫會。AI 協作也是,重點是穩定可重複。今天補上穩定需要的東西。',
-  '看路線。四段:ops agent、GitHub Actions、交付(reviewer build commit)、Skill 化(自建 /ops-check 與 /ship-check)。MCP 只講概念與示範。這是最後一堂,結尾把整門課成果一次盤點。',
-  '段一,三個讓 AI 走鐘的毛病。跟 AI 處久了會遇到三個固定狀況,先認得它們各用一句話拉回來。',
-  '先總覽三個:Context Drift 越改越偏、Prompt Debt 越補越亂、Regression 改 A 壞 B。它們不是壞掉,是和 AI 長時間互動的自然現象。重點是你有沒有一句話能拉回來。',
-  '毛病一,Context Drift,越改越偏。症狀:你只要改標題,它順便改顏色版面又動資料,離目標越來越遠。拉回的一句話:請回到原本任務,這次只處理標題修改,不要修改其他區塊。',
-  '毛病二,Prompt Debt,越補越亂。症狀:你一直補零碎要求,補到後面 AI 自己也搞混前後矛盾。整理的一句話:請先整理目前最新狀態不要改,列出已完成什麼、要遵守什麼、下一步只做什麼、哪些不要做。',
-  '毛病三,Regression,改 A 壞 B。症狀:它把你要的改好了,但弄壞原本好好的另一個地方,你沒注意就上線了。檢查的一句話:請列出這次修改後需要回歸檢查的項目,包含新修改、原本功能、最容易被影響的地方。',
-  '拉回示範。AI 走鐘時你不用重開,就在同一個對話丟一句回到原本任務只改標題其他還原,它就收斂回來。拉回來的關鍵,是你心裡一直記得原本要做什麼。',
-  '換你拉回練習。情境:你只要它把按鈕變大,它卻改顏色加陰影動排版。換你出手,照三毛病口訣挑一句:請回到原本任務這次只把按鈕變大其他都不要改。你能在它走鐘時立刻丟一句拉回來,段一過關。',
-  '收一下,三個毛病三句話:走鐘了回到原本任務、變亂了先整理狀態、怕改壞列回歸檢查。檢查點:認得三個毛病、各會用一句話拉回。',
-  '段二,交付。AI 做完不等於交付:先 reviewer 檢查 diff,再交付前四問,最後 build、commit 收乾淨。',
-  'reviewer 卡。commit 之前讓另一個角色查一次帳:固定輸出第一行就是 Verdict,PASS 或 BLOCK。PASS 先做 Human Review 欄指定的事;BLOCK 照 Next Step 修完重跑。提醒:reviewer 也是 AI,回報要對照 git diff 抽查,它是省力不是背書。',
+  '各位同學好,最後一堂。今天分兩塊:前段快速把 U3 的流程收成自動化(ops agent + GitHub Actions + 固化成工具),後段是主線 —— 三個 MCP,讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。學生親手裝。',
+  '先回顧走到哪。課一一鍵啟動、看過 Dashboard 成品、改店名存檔;課二資料合約 + planner 人審 implementer;課三在 Dashboard 上按按鈕推播 LINE Flex、mock 驗收、ReAct 修錯。今天把它自動化,再幫 AI 接上工具。',
+  '先講為什麼。AI 很聰明,但它看不到你的工具:進不了瀏覽器、看不到最新文件、也不知道你專案長怎樣,你只能一直複製貼上餵給它。打個比方,MCP 就是那張門禁卡 —— 在你授權範圍內讓 AI 自己去讀。',
+  '看路線。三段:段一自動化收尾(快速)、段二三個 MCP(今天主線、親手裝)、段三用得安全加 slash 收尾。段二是主角,三個 MCP 一個一個裝、一個一個驗收。',
+  '段一,先把流程收成自動化。這段走快一點:ops agent 產 report、Actions 產 artifact、reviewer 與四問把關、封裝成 /ops-check 與 /ship-check。',
+  'ops agent 三個角色:data_checker 讀庫存找低庫存缺貨、ops_decider 決定 risk_level、push_writer 寫 action_items 產 report.json。重點不是多一套格式,而是產出仍符合 U3 的資料合約。',
+  'GitHub Actions:排程可自動跑,但送出仍要人審。workflow 只 checkout、跑 ops agent 與 LINE Flex mock、上傳 artifact;不設定 LINE_REAL_SEND=1,所以只 mock、不真送。',
+  'reviewer 卡。commit 前讓另一個角色查一次帳:固定輸出第一行 Verdict,PASS 或 BLOCK。PASS 先做 Human Review 欄的事;BLOCK 照 Next Step 修。reviewer 是省力不是背書,回報要對照 git diff 抽查。',
   '交付前四問,背起來:畫面輸出對了嗎、diff 只有預期變更嗎、build 過了嗎、commit 訊息說得出改了什麼為什麼嗎。四格都打勾,才叫交付。',
-  '為什麼定期存?打個比方像打電動過一關存一次檔。AI 幫你改完一段你驗收 OK 就 commit,下一步出事隨時退回乾淨點。尤其在讓 AI 連續改很多之前,先存一次等於先買保險。',
-  '四步幫成果拍張照:先 npm run build 確認過,再 git status 看改動、git diff 確認內容、git add 收進來、git commit 加訊息提交。有遠端的班級最後 git push。右邊就是完整跑完的樣子。',
-  '段二檢查點:reviewer 有 Verdict 且對照過 diff、四問逐格答是、build 通過、完整跑過 status diff add commit。',
-  '休息十分鐘。回來我們把平台檢查與交付檢查固定成 Skills,自建 /ops-check 與 /ship-check。',
-  '回來了。段三,把流程固定成 Skills。每次都要提醒 AI 同一套規矩,那就把它寫下來 —— 這堂親手把平台檢查與交付前四問封裝成指令。',
-  '先講 Skills。這四堂你一直提醒 AI 先讀、先 Plan、不要亂改、改完驗收。如果每次都要重講,就把它寫成一份固定 SOP。打個比方,Skill 像給新人的工作守則,貼牆上每個人照做,你不用每次重講。',
-  '本課附了 5 支 Skill,放在 .claude/skills:新手專案開發、資料檢查固定輸出、debug、Git 驗收、review diff。每支都有:什麼時候用、怎麼呼叫(打 /名字)、預期結果、怎麼驗收、出錯保底。clone 專案就帶著,打 / 就看得到。',
-  '怎麼自己做一支 Skill?在專案建 .claude/skills/名字/SKILL.md,最上面 frontmatter 寫 name 和 description,下面寫步驟。之後打 /名字 呼叫,相關情境它也會自動觸發。規矩想改就改這份檔,一處改全部跟著變。',
-  'Skill 怎麼用:放進 .claude/skills 資料夾,AI 做事就照這份 SOP 的規矩來;規矩想改就改這份檔,一處改全部跟著變。',
-  'Skills 是官方功能,這是官方文件說明。概念就是把固定做法寫成檔案,之後 AI 每次照它做,不用你重講。',
-  '動手時間:先建 .claude/commands/ops-check.md,檢查 ops agent、Flex mock、Actions artifact;再建 ship-check,檢查交付前四問。兩個指令都只回報,不改檔。',
-  '段四,MCP。只講概念與老師示範,安裝細節在附錄,不佔主線時間。',
-  'MCP,讓 AI 接上外部工具。沒有 MCP 你要自己複製資料給 AI;有了 MCP,AI 可以在你授權範圍內自己去工具裡讀資料,像幫它接上一條條安全的線。',
-  '給一個真的例子:Chrome DevTools MCP。這門課用到的官方頁截圖、localhost 截圖,就是接上這個 MCP 後 AI 自己開瀏覽器拍的。老師現場示範:開 localhost、看 console、截一張 Dashboard 的圖。',
-  'MCP 不是接越多越好,三個要問:它能讀到什麼、能不能寫入、會不會碰到正式資料。能改的權限要更小心,別讓它直接動真實營運資料庫。方便,但權限要給得剛剛好。',
-  '最後把 slash 收成一張表:內建的有 /clear、/compact、/review、/status、/model、/permissions、/mcp;自建的放在 .claude/commands,starter 內建五個,/ops-check 與 /ship-check 是你今天親手建的。Plan 是模式不是指令。',
-  '段四檢查點:看得懂一份 Skill、親手建好 /ops-check 與 /ship-check、說得出 MCP 權限三問、分得清內建與自建 slash。',
+  '把這些叮嚀寫成 Skill。打個比方 Skill 像給新人的工作守則,貼牆上每個人照做,你不用每次重講。放 .claude/skills/名字/SKILL.md,frontmatter 寫 name 與 description,打 /名字 呼叫,相關情境也會自動觸發。',
+  '動手一:建 .claude/commands/ops-check.md,檢查 ops agent 是否符合合約、Flex 是否仍 mock、Actions 是否只產 artifact。打 /ops-check,它回四點且不改檔。',
+  '動手二:建 .claude/commands/ship-check.md,把交付前四問封裝起來。打 /ship-check,它回是否可交付、最高風險、commit 訊息建議、要退先退哪個檔,一樣不改檔。',
+  '段一檢查點:ops agent 產出符合合約、Actions 只產 artifact 不真送、reviewer 有 Verdict 且四問打勾、自建的兩個指令回固定格式不改檔。流程固定好了,接下來讓 AI 能自己碰外部工具。',
+  '休息十分鐘。回來進今天的主線:三個 MCP,一個一個裝、一個一個驗收。',
+  '段二,三個 MCP,今天的主角。每個都同一套節奏:先看它解決什麼痛 → 一行裝起來 → 固定操作用一次 → /mcp 驗收 → 裝不起來的保底。學生親手裝三個。',
+  'MCP 是什麼?沒有 MCP 你要自己複製資料給 AI;有了 MCP,AI 可以在你授權範圍內自己去工具裡讀,像幫它接上一條條安全的線。右邊圖:AI ⇄ MCP ⇄ 瀏覽器 / 文件 / 程式碼庫。',
+  '三台的裝法都一樣、都一行:chrome-devtools 與 context7 用 claude mcp add(starter 的 .mcp.json 已附,開資料夾會問要不要啟用);codebase-memory 用官方安裝腳本,會自動幫 agent 設定。裝完打 /mcp 應看到三台。',
+  '痛一次,第一台。AI 回你「改好了」,但你怎麼知道畫面對不對?你得自己開瀏覽器、自己按 F12,改一次看一次很累。接上 chrome-devtools MCP,就讓 AI 自己開 Chrome、看 console、截圖回報。',
+  'Chrome DevTools MCP 七要素卡:用途驗收 web-lab、一行安裝、固定操作(先 npm run dev 再請 AI 開 localhost:5180 截圖)、固定 prompt、預期結果、/mcp 驗收、連不上就自己 F12 保底。',
+  '這張首頁截圖,就是 AI 透過 chrome-devtools MCP 自己拍的。對它說開 localhost:5180、看 console、截一張首頁,它就回報 console 狀況並給你這張圖。驗收 web-lab 不用你自己截。',
+  '這是官方頁面真截圖:chrome-devtools-mcp 是一個真的 MCP server。接上它 AI 就能自己開瀏覽器、看 console、截圖。本課的官方頁與 localhost 截圖就是用它拍的。MCP 不是魔法,是一條一條接上去的能力。',
+  '痛一次,第二台。套件改版很快,AI 憑舊記憶用過時 API 寫給你,照著做一直報錯查半天。句尾加 use context7,把最新官方文件餵給它,它就照現在的用法回答。',
+  'Context7 MCP 七要素卡:用途餵最新文件、一行安裝(免費金鑰選填)、固定操作(問套件用法句尾加 use context7)、固定 prompt、預期結果附文件出處、/mcp 驗收、被限流就看官網或換更強模型保底。',
+  '痛一次,第三台。專案一大,問「Dashboard 被誰用?」AI 得一檔一檔翻、常猜錯,改東西還誤傷別的檔。先 index_repository 把專案索引成地圖,架構、呼叫關係一問秒答。',
+  'Codebase Memory MCP 七要素卡:把程式碼庫索引成知識圖譜,查架構、呼叫關係、死碼不用逐檔翻;全本地、免 API key。固定操作先 index_repository 再問架構;裝不起來用 /init 或看 README 保底。',
+  '段二檢查點:/mcp 列得出三台;chrome-devtools 真的回報 console 加截圖、context7 答案附出處、codebase-memory 架構問題答得出檔案關係。MCP 不是魔法,是一條一條接上去的能力,裝越多 AI 能自己做的越多。',
+  '段三,用得安全再收尾。MCP 讓 AI 能碰外部資料很方便,但權限要給得剛剛好。',
+  'MCP 權限三問,裝之前先問:它能讀到什麼、能不能寫入、會不會碰到正式資料。能改的權限要更小心,別讓它直接動真實營運資料庫。',
+  '把 slash 收成一張表:內建的有 /clear、/compact、/review、/status、/model、/permissions、/mcp;自建的放 .claude/commands,starter 內建五個,/ops-check 與 /ship-check 是你今天親手建的。Plan 是模式不是指令。',
+  '段三檢查點:看得懂一份 Skill、親手建好 /ops-check 與 /ship-check、說得出 MCP 權限三問、分得清內建與自建 slash。',
   '最後,結業。四堂課走完了,把你真正帶走的東西一次盤點。',
-  '整門課最重要的一句:會用 AI 一次不稀奇,能讓 AI 每次照流程做才是真本事。從打開專案到讀計畫護欄驗收修錯存檔再到寫成 Skill,你學的從來不是某個工具,是一套讓 AI 穩定幫你做事的流程。',
-  '看一下你親手做出來的成果:一鍵啟動、可互動的營運異常 Dashboard、資料合約、planner 計畫與人審、Flex payload、mock 與 blocked、ReAct 修錯、ops agent 與 Actions artifact、reviewer PASS、build 通過、自建 /ops-check 與 /ship-check。每一個都是你自己做的。',
-  '這一堂四件事:ops agent、GitHub Actions、reviewer build commit、Skill 化與 MCP 權限三問。',
-  '整門課四堂串成一條線:課一進得了專案先看到成果、課二管得住 AI、課三接上 LINE OA Flex、課四用 ops agent 與 Actions 自動化交付。AI 很會做事但它不是老闆,你已經學會當 AI 的主管。',
-  '結業。你不再只是會問 AI,你會管理 AI 做事。把今天的 /ops-check 與 /ship-check 留著,下次接到新專案照同一套流程走就好。四堂課辛苦了,我們下一個模組見。',
-  '附錄分隔頁:以下是 MCP 安裝細節,課後自修用,不佔課堂時間。',
-  '附錄:裝 MCP。chrome-devtools 與 context7 用一行 claude mcp add(starter 的 .mcp.json 已附,開資料夾會問要不要啟用);codebase-memory 用官方安裝腳本,會自動幫 agent 設定。裝完打 /mcp 檢查。',
-  '附錄:Chrome DevTools MCP 七要素卡,拿來驗收 web-lab。',
-  '附錄:Context7 MCP 七要素卡,查套件最新文件。',
-  '附錄:Codebase Memory MCP 七要素卡 —— 把程式碼庫索引成知識圖譜,AI 查架構、呼叫關係不用逐檔翻;全本地、免 API key,安裝腳本會自動設定 agent。',
-  '附錄:GitHub MCP 的一個情境示意 —— AI 在授權範圍內自己讀 issue,不用你複製貼上。',
+  '整門課最重要的一句:會用 AI 一次不稀奇,能讓 AI 每次照流程做才是真本事。你學的從來不是某個工具,是一套讓 AI 穩定幫你做事的流程。',
+  '看一下你親手做出來的成果:一鍵啟動、可互動的 Dashboard、資料合約、planner 計畫與人審、Flex 推播 mock 與 blocked、ReAct 修錯、ops agent 與 Actions artifact、reviewer PASS、自建 /ops-check 與 /ship-check、還有三個親手裝好的 MCP。',
+  '這一堂學了這些:自動化收尾(ops agent + Actions + 固化成工具)、三個 MCP(chrome-devtools 看畫面、context7 查文件、codebase-memory 記專案)、以及 MCP 權限三問。',
+  '整門課四堂串成一條線:課一進得了專案、課二管得住 AI、課三接上 LINE OA Flex、課四自動化收尾再幫 AI 接上三個 MCP。AI 很會做事但它不是老闆,你已經學會當 AI 的主管。',
+  '結業。你不再只是會問 AI,你會管理 AI 做事。把今天的 /ops-check、/ship-check 與三個 MCP 留著,下次接新專案照同一套流程走就好。四堂課辛苦了,我們下一個模組見。',
+  '附錄加碼(時間夠再講):和 AI 處久了會遇到三個固定狀況,認得它們各用一句話拉回。',
+  '三個毛病:Context Drift 越改越偏、Prompt Debt 越補越亂、Regression 改 A 壞 B。不是壞掉,是長時間互動的自然現象,重點是有沒有一句話拉回來。',
+  '三個毛病三句話:走鐘了「請回到原本任務,只處理這件事」、變亂了「請先整理目前狀態,不要改」、怕改壞「請列出需要回歸檢查的項目」。',
 ];
 
 export default [
-  Cover, Recap0, Why, Roadmap,
-  OpsAgentFlow, ActionsFlow,
-  Sec1, FlawsIntro, Drift, Debt, Regression, FlawDemo, DriftPractice, FlawDone,
-  Sec2, ReviewerCard, FourQ, CommitWhy, Commit, CommitDone, Break1,
-  Sec3, SkillHead, SkillCatalog, SkillMake, SkillHow, SkillReal, OpsCheck, ShipCheck,
-  Sec4Mcp, McpHead, McpChromeDoc, McpSafety, SlashWrap, ToolsDone,
-  Sec5, Punchline, NineOutcomes, Recap, CourseArc, End,
-  AppendixHead, McpInstall, McpChrome, McpContext7, McpCodebaseMemory, McpExample,
+  CoverMcp, Recap0, WhyMcp, RoadmapMcp,
+  // 段 1:自動化交付(壓縮,快速帶過)
+  SecAuto, OpsAgentFlow, ActionsFlow, ReviewerCard, FourQ, SkillHead, OpsCheck, ShipCheck, AutoDone,
+  BreakMcp,
+  // 段 2:三個 MCP(主線,學生動手裝)
+  SecMcp, McpHead, McpInstall,
+  PainChrome, McpChrome, McpChromeArtifact, McpChromeDoc,
+  PainContext7, McpContext7,
+  PainCodebase, McpCodebaseMemory,
+  McpDone,
+  // 段 3:用得安全 + slash 收尾
+  SecSafe, McpSafety, SlashWrap, ToolsDone,
+  // 結業
+  Sec5, Punchline, NineOutcomes, RecapMcp, CourseArc, End,
+  // 附錄 · 加碼:AI 走鐘三句話拉回
+  AppendixFlaws, FlawsIntro, FlawDone,
 ] satisfies Page[];

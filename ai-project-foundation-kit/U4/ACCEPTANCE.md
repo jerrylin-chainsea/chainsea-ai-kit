@@ -23,11 +23,18 @@
 - [ ] `git diff -- web-lab/package.json` 沒有輸出
 - [ ] 完成 commit；有遠端的班級完成 push
 
-## Skill / MCP
+## 固化成工具（/ops-check、/ship-check）
 
 - [ ] 建立 `.claude/commands/ops-check.md` 並成功打出 `/ops-check`
 - [ ] 建立 `.claude/commands/ship-check.md` 並成功打出 `/ship-check`
-- [ ] 說得出 MCP 裝之前要先問哪三件事：能讀什麼、能不能寫、會不會碰正式資料
+
+## 三個 MCP（本堂主線 · 學生動手裝）
+
+- [ ] `chrome-devtools`：`/mcp` 列得出；AI 真的開 `localhost:5180`、回報 console + 截圖
+- [ ] `context7`：`/mcp` 列得出；句尾加 `use context7` 後答案附文件出處
+- [ ] `codebase-memory`：`/mcp` 列得出；`index_repository` 後架構問題答得出檔案關係
+- [ ] 說得出 MCP 權限三問：能讀什麼、能不能寫、會不會碰正式資料
+- [ ] （任一 MCP 裝不起來用保底即可：F12 / 看官網 / `/init`，不擋過關）
 
 ## DoD 對照
 
@@ -41,9 +48,9 @@
 
 ## 最終繳交（整門課四件）
 
-1. 可互動的營運 Dashboard（載入 → 檢查 → Flex 預覽 → 審核 → mock 全通）
+1. 可互動的營運 Dashboard 推播中心（兩範本：載入 → 檢查 → 視覺預覽 → 審核 → 按鈕推播）
 2. 一份 Flex payload（畫面截圖或 `line-lab/line-flex-payload.json`）
 3. 一次 ops agent / GitHub Actions artifact 紀錄
-4. 一次 reviewer + build + commit 的交付紀錄截圖
+4. `/mcp` 列出三台 MCP，且各驗收過一次（截圖）
 
 > AI 做出來不算完成，通過驗收才算完成。

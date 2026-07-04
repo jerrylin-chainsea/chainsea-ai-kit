@@ -17,7 +17,7 @@
 - 不重構、不「順便」整理程式碼、不加沒被要求的功能。
 - 不把 token、金鑰寫進程式碼、前端或任何會 commit 的檔案。
 - 不執行 `git reset --hard`、`git checkout -- .`、`git clean` 等會丟改動的指令。
-- 前端（web-lab）永遠不可呼叫 `https://api.line.me`。
+- 前端（web-lab）永遠不可呼叫 `https://api.line.me`。Dashboard 的「推播 LINE Flex」按鈕只打**本機後端** `/api/send-line-flex`（vite dev middleware），由後端帶 `line-lab/.env` 的 token 去打 LINE。token 一步都不進前端 bundle。
 
 ## 資料合約（整個專案的核心）
 
@@ -33,7 +33,7 @@
 |---|---|
 | U1 | `web-lab/src/data.js` |
 | U2 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊） |
-| U3 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊）、`data-lab/report.json`（練習用）、`line-lab/sendLineAlert.js`（只在老師指定串接 LINE/Flex 時） |
+| U3 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊）、`data-lab/report.json`、`data-lab/orders.json`（練習用）、`line-lab/.env`（自己的真送設定，不 commit）。`vite.config.js`／`reportContract.js`／`sendLineAlert.js` 是老師寫好的後端與雙胞胎，只在老師指定時才動 |
 | U4 | `ops-agent-lab/**`、`.github/workflows/u11-ops-check.yml`、`data-lab/report.json`（產出檔）、`line-lab/line-flex-payload.json`（產出檔）、`.claude/commands/ops-check.md`、`.claude/commands/ship-check.md` |
 
 ## 完成的定義（DoD）

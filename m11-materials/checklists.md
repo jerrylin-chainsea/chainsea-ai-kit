@@ -24,38 +24,37 @@
 - [ ] 知道 C2 是先把 AI coding agent 管住,不是直接串外部平台
 - [ ] 第二輪變更仍走同一流程;diff 乾淨、commit 完成
 
-## C3 · 營運異常 Dashboard + LINE OA Flex mock 通知(主線)
+## C3 · 營運 Dashboard 推播中心 + 按鈕推播 LINE Flex(主線)
 
-主線七步:`載入 → 檢查合約 → Flex payload 預覽 → 人工審核 → mock → (真送指令) → ReAct 修錯 → build/diff/commit`
+主線:`選範本 → 載入 → 檢查合約 → 視覺預覽 → 人工審核 → 按鈕推播 → ReAct 修錯 → build/diff/commit`(兩範本:營運異常/訂單資訊)
 
-- [ ] 能說出 C3 主線(上面那行)
-- [ ] Button 1 載入:畫面數字與 `data-lab/report.json` 一致,且知道「畫面不另存副本」
+- [ ] 能說出 C3 主線(上面那行)、兩個推播範本都會切
+- [ ] Button 1 載入:畫面數字與 `report.json` / `orders.json` 一致,且知道「畫面不另存副本」
 - [ ] Button 2 檢查:綠色「資料合約通過」
-- [ ] Button 3 預覽:人審摘要 + Flex payload JSON
-- [ ] `node line-lab/sendLineAlert.js --flex` 產出 `line-lab/line-flex-payload.json`
+- [ ] Button 3 預覽:LINE 卡片樣的**視覺預覽**;按「看 JSON」可切成 payload
 - [ ] Flex message 有 `type: "flex"`、`altText`、`contents.type: "bubble"`
 - [ ] 知道網頁上的 `to` 永遠是示範 ID;token 與真送對象只在 `line-lab/.env`
-- [ ] 未勾人工審核 checkbox 時,不顯示 `--confirm` 真送指令
-- [ ] 勾選後真送指令出現、可複製
-- [ ] mock 送出顯示 `[mock] LINE_REAL_SEND is not 1, no request sent.`
-- [ ] DevTools Network 全程零請求,沒有呼叫 `https://api.line.me`
-- [ ] token 沒有進前端
-- [ ] 終端機對照:`node line-lab/sendLineAlert.js --flex` 產生 payload 且 mock;`LINE_REAL_SEND=1` 無 `--confirm` 顯示 `[blocked]`
+- [ ] 未勾人工審核 checkbox 時,「推播 LINE Flex」按鈕是**暗的、按不下去**
+- [ ] 勾選後按鈕亮起;按下顯示 `[mock] LINE_REAL_SEND is not 1, no request sent.`
+- [ ] DevTools Network 只有 `POST localhost:5180/api/send-line-flex`;**整個分頁沒有** `api.line.me`
+- [ ] 說得出:瀏覽器只打自己後端,後端才帶 `.env` token 打 LINE;token 不進前端
+- [ ] (可選)設好 `.env` + 重啟 dev → 按鈕真送成功、畫面 `sent`、手機收到
+- [ ] 終端機對照:`node line-lab/sendLineAlert.js --flex` 仍是 mock;`LINE_REAL_SEND=1` 無 `--confirm` 顯示 `[blocked]`
 - [ ] 手改 `risk_level` 成「嚴重」後,擋牌**不點擊自己出現**,錯誤訊息為
       `資料合約錯誤: risk_level 必須是 low / medium / high，目前是 "嚴重"`
-- [ ] 擋牌出現時 payload/mock/真送指令全部消失
+- [ ] 擋牌出現時 Flex 預覽與推播按鈕全關;按推播回 `contract_error`
 - [ ] 同一壞檔跑 `node line-lab/sendLineAlert.js --flex`,終端機出現**同一句**錯誤(兩道防線、一份合約)
 - [ ] ReAct 卡先分析不改檔;Minimal Patch 只修合約違反
 - [ ] 修好後畫面恢復;diff 只有 `report.json` 一行
-- [ ] `npm run build` 通過
+- [ ] `npm run build` 通過;build 後 `web-lab/dist` grep 不到 token 與真正的 push URL
 - [ ] `git diff -- web-lab/package.json` 與 `git diff -- package.json` 沒有輸出
 - [ ] `.env` 不在 commit 裡;完成 commit
 
-## C3 老師示範／進階組(不是過關條件)
+## C3 真送(有 LINE OA 的同學可做;沒有不影響過關)
 
-- [ ] 老師示範真送:`LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex --confirm`,手機收到 Flex 通知
+- [ ] 填 `line-lab/.env`(token+targetId)、`LINE_REAL_SEND=1`、**重啟 dev** → 按鈕真送、手機收到
 - [ ] (進階)知道真送前置:LINE Business ID → OA → Messaging API → token → targetId
-- [ ] (進階)API 失敗時看 status code 與 response body
+- [ ] (進階)真送失敗時看 `line_api_error` 的 status code 與 response body
 
 ## C3 保底
 
@@ -78,18 +77,24 @@
 - [ ] 沒有把資料手寫進前端常數
 - [ ] build 通過、diff 乾淨
 
-## C4 · ops agent / GitHub Actions / Skill / MCP
+## C4 · 自動化收尾(快速)+ 三個 MCP(主線,動手裝)
 
+### 段 1 自動化收尾(快速帶過)
 - [ ] 說得出 data_checker / ops_decider / push_writer 三個角色
-- [ ] 跑過 `python ops-agent-lab/run_ops_check.py`,看過 dry-run JSON
 - [ ] 跑過 `python ops-agent-lab/run_ops_check.py --write-report`,產生符合合約的 `report.json`
-- [ ] 跑過 `node line-lab/sendLineAlert.js --flex`,產生 `line-flex-payload.json`
-- [ ] 看懂 `.github/workflows/u11-ops-check.yml`:產 report + Flex payload artifact,不真送 LINE
-- [ ] 有遠端則在 GitHub Actions 手動跑過 `U11 Ops Agent Check`
-- [ ] reviewer 卡回報固定格式,第一行是 Verdict,且對照 `git diff` 抽查
-- [ ] `npm run build` 通過;commit 訊息講得出改了什麼、為什麼;有遠端則 push
+- [ ] 看懂 `.github/workflows/u11-ops-check.yml`:產 artifact,不真送 LINE
+- [ ] reviewer 卡回報固定格式,第一行是 Verdict,且對照 `git diff` 抽查;`npm run build` 通過、commit
 - [ ] 建立 `.claude/commands/ops-check.md` 與 `.claude/commands/ship-check.md`,兩個指令都不改檔
+
+### 段 2 三個 MCP(主線 · 學生動手裝)
+- [ ] `chrome-devtools`:`/mcp` 列得出;AI 真的開 `localhost:5180`、回報 console + 截圖
+- [ ] `context7`:`/mcp` 列得出;句尾加 `use context7` 後答案附文件出處
+- [ ] `codebase-memory`:`/mcp` 列得出;`index_repository` 後架構問題答得出檔案關係
+- [ ] 任一 MCP 裝不起來,用保底即可(F12 / 看官網 / `/init`),不擋過關
+
+### 段 3 用得安全 + 收尾
 - [ ] 說得出 MCP 權限三問(能讀什麼/能不能寫/會不會碰正式資料)
+- [ ] 分得清內建 slash 與自建 slash(`.claude/commands/`)
 
 ## 通用驗收
 

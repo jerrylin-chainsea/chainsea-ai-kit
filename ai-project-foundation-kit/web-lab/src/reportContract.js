@@ -163,3 +163,80 @@ export function buildFlexPayload(report) {
     messages: [buildFlexMessage(report)],
   };
 }
+
+// ── 訂單資訊範本(第二份資料合約)──────────────────────────
+// 這是 line-lab/sendLineAlert.js 訂單 builder 的雙胞胎:欄位順序、中文錯誤字串、
+// bubble 結構都要逐字一致。唯一差別是 to 永遠用示範 ID(前端不知道真的收件對象)。
+export const ORDER_REQUIRED_KEYS = ['order_id', 'customer', 'channel', 'status', 'amount', 'items'];
+
+export function validateOrder(order) {
+  const errors = [];
+
+  const missing = ORDER_REQUIRED_KEYS.filter((key) => order[key] === undefined);
+  if (missing.length > 0) {
+    errors.push(`資料合約錯誤: orders.json 缺少 ${missing.join(', ')}`);
+  }
+
+  if (order.items !== undefined && !Array.isArray(order.items)) {
+    errors.push('資料合約錯誤: items 必須是陣列');
+  }
+
+  return errors.length > 0 ? { ok: false, errors } : { ok: true, order };
+}
+
+export function buildOrderFlexMessage(order) {
+  const itemLines =
+    order.items.length > 0
+      ? order.items.map((it) => `${it.name} ×${it.qty}  ${formatMoney(it.price)}`)
+      : ['(none)'];
+
+  return {
+    type: 'flex',
+    altText: '訂單資訊',
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        contents: [
+          {
+            type: 'text',
+            text: '訂單資訊',
+            weight: 'bold',
+            size: 'lg',
+            wrap: true,
+          },
+          { type: 'separator' },
+          buildFlexField('order_id', order.order_id),
+          buildFlexField('customer', order.customer),
+          buildFlexField('channel', order.channel),
+          buildFlexField('status', order.status),
+          buildFlexField('amount', formatMoney(order.amount)),
+          { type: 'separator' },
+          {
+            type: 'text',
+            text: 'items',
+            weight: 'bold',
+            size: 'sm',
+            color: '#666666',
+          },
+          ...itemLines.map((item) => ({
+            type: 'text',
+            text: item,
+            size: 'sm',
+            color: '#111111',
+            wrap: true,
+          })),
+        ],
+      },
+    },
+  };
+}
+
+export function buildOrderFlexPayload(order) {
+  return {
+    to: MOCK_TARGET_ID,
+    messages: [buildOrderFlexMessage(order)],
+  };
+}
