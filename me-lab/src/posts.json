@@ -1,0 +1,80 @@
+[
+  {
+    "id": "p-shop",
+    "kind": "shop",
+    "emoji": "🏖️",
+    "title": "海風小店",
+    "blurb": "我在 U11-C1 做的第一個網站 —— 一間會長大的海邊小店。",
+    "tag": "web",
+    "date": "2026 · C1",
+    "link": "github.com/你的帳號/web-lab",
+    "learned": "把專案跑起來、用 Git 保存、第一次 push 到自己的 GitHub。",
+    "next": "之後想幫它加一個後台。",
+    "done": 100
+  },
+  {
+    "id": "p-game",
+    "kind": "project",
+    "emoji": "🐍",
+    "title": "貪吃蛇 remake",
+    "blurb": "用一個週末,把小時候玩的貪吃蛇重做成網頁版。",
+    "tag": "game",
+    "date": "2026.05",
+    "link": "github.com/你的帳號/snake",
+    "learned": "鍵盤事件、requestAnimationFrame、狀態管理。",
+    "next": "想加一個線上排行榜。",
+    "done": 80
+  },
+  {
+    "id": "p-photo",
+    "kind": "project",
+    "emoji": "📷",
+    "title": "城市散步 photolog",
+    "blurb": "把平常亂拍的城市角落,做成一個會滑動的相簿。",
+    "tag": "photo",
+    "date": "2026.04",
+    "link": "你的帳號.github.io/walk",
+    "learned": "圖片格線、lazy load、hover 放大。",
+    "next": "想在照片上加地圖標點。",
+    "done": 60
+  },
+  {
+    "id": "w-ai",
+    "kind": "writing",
+    "emoji": "✍️",
+    "title": "我怎麼用 AI 兩小時做出一個網站",
+    "blurb": "記錄第一次用 AI coding agent,在護欄內一步一步把首頁升級的過程。",
+    "tag": "note",
+    "date": "2026.06",
+    "link": "讀這篇",
+    "learned": "先小規劃、再讓 AI 做、每一段馬上檢查。",
+    "next": "想再寫一篇講 git diff 怎麼看。",
+    "done": 100
+  },
+  {
+    "id": "w-git",
+    "kind": "writing",
+    "emoji": "🌱",
+    "title": "第一次用 Git 的心得",
+    "blurb": "從完全看不懂 commit,到把作品 push 上 GitHub 的心路歷程。",
+    "tag": "note",
+    "date": "2026.05",
+    "link": "讀這篇",
+    "learned": "commit 是存檔點、git diff 是照妖鏡。",
+    "next": "想搞懂 branch 是幹嘛的。",
+    "done": 90
+  },
+  {
+    "id": "w-why",
+    "kind": "writing",
+    "emoji": "💡",
+    "title": "為什麼我開始寫部落格",
+    "blurb": "寫下來,是把學到的東西變成自己的最快方法。",
+    "tag": "note",
+    "date": "2026.03",
+    "link": "讀這篇",
+    "learned": "公開寫作會逼自己把事情想清楚。",
+    "next": "想維持每週寫一篇。",
+    "done": 70
+  }
+]

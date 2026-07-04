@@ -33,7 +33,7 @@
 - 這次任務相關的檔案
 
 任務：
-我要完成「營運異常 Dashboard + LINE mock 通知」中的下一步：<這堂指定任務>
+我要完成「倉儲營運 Dashboard + LINE OA Flex 推播」中的下一步：<這堂指定任務>
 
 限制：
 1. 只能修改：<允許檔案清單>
@@ -78,18 +78,32 @@ E. 哪些地方你沒有改
 
 固定驗收：照回報的 D 逐項做；diff 只落在允許檔案。
 
-## C3 · 營運異常 Dashboard + LINE mock 通知
+C2 建議固定任務：
+
+```text
+在營運異常 Dashboard 載入 report.json 後，新增「低庫存推播準備」小區塊。
+區塊要顯示：
+1. 推播主題：低庫存補貨提醒
+2. 推播通道：LINE OA Flex Message
+3. 下一步：到 U3 由人工審核後 mock 送出
+
+允許檔案：
+- web-lab/src/Dashboard.jsx
+- web-lab/src/styles.css（只准在 Dashboard 區塊追加樣式）
+```
+
+## C3 · 營運異常 Dashboard + LINE OA Flex mock 通知
 
 ### Prompt 1：Human-in-the-loop 審核（AI 只判斷，不改檔）
 
 ```text
-請檢查目前 LINE 通知內容（Dashboard payload 預覽中的文字）。
+請檢查目前 LINE 通知內容（Dashboard Flex payload 預覽中的人審摘要與 action_items）。
 不要改檔。
 請判斷這則通知是否適合送出，並列出：
 1. 通知風險等級
 2. 通知對象
 3. 是否需要人工確認
-4. 是否可以進入 --confirm 發送階段
+4. 是否可以進入 --flex --confirm 發送階段
 ```
 
 固定驗收：AI 沒有改檔、有明確說是否需要人工確認、沒有直接叫學生真送。
@@ -132,7 +146,7 @@ Blocker：哪裡需要人類決定
 固定驗收：
 
 ```bash
-node line-lab/sendLineAlert.js
+node line-lab/sendLineAlert.js --flex
 git diff
 git diff -- package.json
 ```
@@ -142,21 +156,21 @@ git diff -- package.json
 starter 已內建標準版 `sendLineAlert.js`。想讓學生看「AI 從零串接」的班級才用這張：
 
 ```text
-請幫我建立 LINE OA 營運異常通知腳本。
-讀取 data-lab/report.json，產生 LINE push message payload。
-請建立 line-lab/sendLineAlert.js、line-lab/.env.example，執行後產生 line-lab/line-alert-payload.json。
+請幫我建立 LINE OA Flex 營運異常通知腳本。
+讀取 data-lab/report.json，產生 LINE Flex push message payload。
+請建立 line-lab/sendLineAlert.js、line-lab/.env.example，執行後用 --flex 產生 line-lab/line-flex-payload.json。
 限制：不新增套件、不改 package.json、不改前端、不重構、token 不可寫死。
 預設 mock 模式，不真的發送。
-只有 LINE_REAL_SEND=1 且加上 --confirm 時才可以呼叫 LINE API。
+只有 LINE_REAL_SEND=1 且加上 --flex --confirm 時才可以呼叫 LINE API。
 完成後請回報實際建立或修改的檔案。
 ```
 
 ## C3 固定驗收指令（老師版，學生只需三類：啟動/build/commit）
 
 ```bash
-node line-lab/sendLineAlert.js
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js          # 預期 [blocked]
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm # 老師示範真送
+node line-lab/sendLineAlert.js --flex
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex          # 預期 [blocked]
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex --confirm # 老師示範真送
 git status
 git diff
 git diff -- package.json
@@ -167,14 +181,59 @@ git commit -m "完成 Dashboard 通知流程與 ReAct 修錯練習"
 PowerShell：
 
 ```powershell
-$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js
-$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --confirm
+$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex
+$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex --confirm
 Remove-Item Env:LINE_REAL_SEND   # 示範完記得清掉
 ```
 
-## C4 · reviewer / ship-check / 三句拉回
+## C4 · ops agent / GitHub Actions / reviewer / ship-check
 
-### Prompt 1：reviewer（Pass / Block）
+### Prompt 1：ops agent 檢查
+
+```text
+請檢查 ops-agent-lab 的自動化流程。
+不要改檔。
+
+請回答：
+1. data_checker / ops_decider / push_writer 三個角色各做什麼
+2. run_ops_check.py 產出的資料是否符合 data-lab/report.json 七欄合約
+3. 哪些額外欄位只是給人審看，下游會忽略
+4. 接到 line-lab/sendLineAlert.js --flex 前，還需要哪個人工審核
+```
+
+### Prompt 2：CrewAI 轉換評估（先計畫）
+
+```text
+請評估是否把 ops-agent-lab/run_ops_check.py
+改成真正的 CrewAI agents + tasks。
+
+先不要改檔，不要新增套件。
+請用以下格式回答：
+A. 需要新增或修改的檔案
+B. 需要的套件與原因
+C. 如何保留 report.json 七欄資料合約
+D. API key / token 要放哪裡，哪些地方禁止出現
+E. mock 與人工審核如何保留
+F. 風險與不建議改的地方
+```
+
+### Prompt 3：GitHub Actions reviewer
+
+```text
+你現在扮演 reviewer。
+請檢查 .github/workflows/u11-ops-check.yml。
+不要改檔。
+
+請固定輸出：
+Verdict：PASS 或 BLOCK
+Workflow Trigger：是否有手動或排程觸發
+Secret Safety：是否沒有 token / API key
+Output Check：是否產出 report.json 與 line-flex-payload.json artifact
+No Real Send Check：是否不會真送 LINE
+Next Step：如果 PASS，下一步做什麼；如果 BLOCK，先修什麼
+```
+
+### Prompt 4：reviewer（Pass / Block）
 
 ```text
 你現在扮演 reviewer。
@@ -187,13 +246,13 @@ Changed Files：實際改了哪些檔
 Scope Check：是否超出允許範圍
 Package Check：是否修改 package.json / 新增套件
 Contract Check：是否符合資料合約
-UI Check：畫面或輸出是否符合需求
+Platform Check：LINE Flex、ops agent、GitHub Actions 是否仍走 mock / artifact / 人審
 Regression Risk：最可能壞掉的地方
 Human Review：人還要親自看什麼
 Next Step：如果 PASS，下一步做什麼；如果 BLOCK，先修什麼
 ```
 
-### Prompt 2：/ship-check（交付前檢查）
+### Prompt 5：/ship-check（交付前檢查）
 
 ```text
 請根據目前 git status、git diff 與 build 結果，

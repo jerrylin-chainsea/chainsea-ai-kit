@@ -4,21 +4,23 @@
 
 - [ ] 按「載入範例 report.json」，畫面顯示與 `data-lab/report.json` 一致的數字
 - [ ] 按「檢查資料合約」，看到綠色通過
-- [ ] 按「生成 payload 預覽」，通知文字與 `line-lab/line-alert-payload.json` 的 text 逐字相同
+- [ ] 按「生成 Flex payload 預覽」，畫面顯示人審摘要與 LINE Flex JSON
+- [ ] 終端機 `node line-lab/sendLineAlert.js --flex` 產出 `line-lab/line-flex-payload.json`
+- [ ] Flex payload 有 `type: "flex"`、`altText` 與 action items
 - [ ] 知道網頁上的 `to` 永遠是示範 ID，真送對象由 `line-lab/.env` 決定
 - [ ] 未勾人工審核 checkbox 時，**看不到**真送指令
 - [ ] 勾選 checkbox 後，真送指令出現且可複製
 - [ ] 按「模擬送出(mock)」看到 `[mock] LINE_REAL_SEND is not 1, no request sent.`
 - [ ] F12 → Network：全程**零請求**，沒有呼叫 `https://api.line.me`
 - [ ] token 沒有出現在前端任何檔案
-- [ ] 終端機 `node line-lab/sendLineAlert.js` 是 mock；`LINE_REAL_SEND=1` 沒有 `--confirm` 會被 `[blocked]`
+- [ ] 終端機 `node line-lab/sendLineAlert.js --flex` 是 mock；`LINE_REAL_SEND=1` 沒有 `--confirm` 會被 `[blocked]`
 
 ## ReAct 修錯
 
 - [ ] `risk_level` 改成「嚴重」存檔後，擋牌**不按按鈕就出現**，錯誤訊息是
       `資料合約錯誤: risk_level 必須是 low / medium / high，目前是 "嚴重"`
 - [ ] 擋牌出現時，payload／mock／真送指令全部消失
-- [ ] 同一壞檔跑 `node line-lab/sendLineAlert.js`，終端機印出同一句錯誤
+- [ ] 同一壞檔跑 `node line-lab/sendLineAlert.js --flex`，終端機印出同一句錯誤
 - [ ] ReAct 卡先分析不改檔；放行後只做最小修正
 - [ ] 修好後畫面恢復綠色通過
 
@@ -33,14 +35,14 @@
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
-| 畫面 | 六步卡全綠、擋牌能出現也能消失 |
-| 輸出 | `[mock]`、`[blocked]`、合約錯誤三句都親眼看過 |
+| 畫面 | 六步卡全綠、Flex 預覽正常、擋牌能出現也能消失 |
+| 輸出 | Flex payload、`[mock]`、`[blocked]`、合約錯誤三句都親眼看過 |
 | diff | 只動允許檔案 |
 | build | `npm run build` 綠色通過 |
 | human review | checkbox 是你自己勾的、Minimal Patch 是你放行的 |
 
 ## 保底（任一成立仍算過關）
 
-- 沒有 LINE OA → mock 完成即過關（真送本來就是老師示範）
+- 沒有 LINE OA → Flex mock 完成即過關（真送本來就是老師示範）
 - 網路不穩 → payload 預覽 + mock 驗收即完成
 - AI 產出不穩 → 用 starter 內建的標準版 Dashboard 完成驗收

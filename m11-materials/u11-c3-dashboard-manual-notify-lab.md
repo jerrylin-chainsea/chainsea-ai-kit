@@ -18,7 +18,7 @@
 ## 1. 確認主線正常
 
 ```bash
-node line-lab/sendLineAlert.js
+node line-lab/sendLineAlert.js --flex
 ```
 
 預期 mock 成功；Dashboard 六步卡可走通。主線沒過，先回主線講義。
@@ -36,7 +36,7 @@ node line-lab/sendLineAlert.js
 - web-lab/src/Dashboard.jsx
 
 任務：
-我要完成「營運異常 Dashboard + LINE mock 通知」中的下一步：
+我要完成「營運異常 Dashboard + LINE OA Flex mock 通知」中的下一步：
 在 Dashboard 的 reviewer checklist 區塊，新增一項「<你想加的檢查項>」。
 
 限制：

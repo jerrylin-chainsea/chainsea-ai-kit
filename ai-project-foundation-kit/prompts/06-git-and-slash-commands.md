@@ -26,6 +26,21 @@
 
 > 建成指令:把上面這段存成 `.claude/commands/ship-check.md`,以後打 `/ship-check` 就好。
 
+## /ops-check(U4 平台自動化檢查 prompt,可建成自訂指令)
+
+```
+請檢查 U11 ops agent 自動化流程。
+不要改檔。
+
+請根據目前檔案與輸出回答:
+1. ops-agent-lab/run_ops_check.py 是否會產生符合 report.json 合約的資料?
+2. line-lab/sendLineAlert.js --flex 是否仍是 mock 優先?
+3. .github/workflows/u11-ops-check.yml 是否只產 artifact、不真送 LINE?
+4. 人工審核前還缺哪一個證據?
+```
+
+> 建成指令:把上面這段存成 `.claude/commands/ops-check.md`,以後打 `/ops-check` 就好。
+
 ## Git 最小包
 
 ```bash

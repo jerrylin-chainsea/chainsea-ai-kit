@@ -203,7 +203,7 @@ const ReviewMock = () => (
         <li>是否真的要通知營運群組</li>
         <li>風險等級是否合理</li>
         <li>action_items 是否可執行</li>
-        <li>是否進入 --confirm 發送階段</li>
+        <li>是否進入 --flex --confirm 發送階段</li>
       </ul>
     </div>
   </div>
@@ -213,8 +213,16 @@ const payloadJson = `{
   "to": "Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "messages": [
     {
-      "type": "text",
-      "text": "[營運異常通知]\\n風險等級: high\\n總營收: NT$128,400\\n異常筆數: 5\\nTop product: 耳掛咖啡\\nTop channel: LINE\\nAction items:\\n1. 先人工確認第 8 列與第 17 列營收資料。\\n2. 暫停把異常列納入週報。"
+      "type": "flex",
+      "altText": "營運異常通知",
+      "contents": {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": ["risk_level", "top_product", "action_items"]
+        }
+      }
     }
   ]
 }`;
@@ -222,15 +230,15 @@ const payloadJson = `{
 const PayloadMock = () => (
   <div style={{ display: 'grid', gridTemplateColumns: '.95fr 1.05fr', gap: 22, maxWidth: 1540 }}>
     <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 18, padding: 26 }}>
-      <div style={{ fontFamily: mono, color: C.orange, fontWeight: 850, fontSize: 19 }}>LINE payload 預覽區</div>
-      <div style={{ marginTop: 18, fontSize: 29, lineHeight: 1.45 }}>payload 是要交給 LINE API 的 JSON，不是給人看的作文。</div>
+      <div style={{ fontFamily: mono, color: C.orange, fontWeight: 850, fontSize: 19 }}>LINE Flex payload 預覽區</div>
+      <div style={{ marginTop: 18, fontSize: 29, lineHeight: 1.45 }}>Flex payload 是要交給 LINE API 的 JSON，不是給人看的作文。</div>
       <div style={{ marginTop: 20, display: 'grid', gap: 12, fontSize: 24 }}>
         <div><b>to</b>: userId / groupId / roomId</div>
         <div><b>messages</b>: 最多 5 則 message object</div>
-        <div><b>text</b>: 這堂固定只用一則 text message</div>
+        <div><b>flex</b>: 這堂主線使用一則 Flex Message</div>
       </div>
     </div>
-    <CodeBlock code={payloadJson} label="line-alert-payload.json" />
+    <CodeBlock code={payloadJson} label="line-flex-payload.json" />
   </div>
 );
 
@@ -238,9 +246,9 @@ const MockSuccess = () => (
   <div style={{ background: '#181a1f', color: '#f4f1ed', borderRadius: 22, padding: 34, maxWidth: 1520, boxShadow: '0 24px 70px -36px rgba(0,0,0,.6)' }}>
     <div style={{ fontFamily: mono, color: C.orange, fontSize: 22, fontWeight: 850 }}>mock send success</div>
     <div style={{ marginTop: 20, fontSize: 46, fontWeight: 900 }}>沒有真的呼叫 LINE API</div>
-    <pre style={{ margin: '26px 0 0', padding: 24, borderRadius: 16, background: '#101217', border: '1px solid #30343d', fontFamily: mono, fontSize: 25, lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{`payload written: line-lab/line-alert-payload.json
+    <pre style={{ margin: '26px 0 0', padding: 24, borderRadius: 16, background: '#101217', border: '1px solid #30343d', fontFamily: mono, fontSize: 25, lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{`payload written: line-lab/line-flex-payload.json
 [mock] LINE_REAL_SEND is not 1, no request sent.
-review required before --confirm`}</pre>
+review required before --flex --confirm`}</pre>
   </div>
 );
 
@@ -248,8 +256,8 @@ const NetworkMock = () => (
   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, maxWidth: 1540 }}>
     <div style={{ background: '#111827', color: '#d1d5db', borderRadius: 18, overflow: 'hidden', border: '1px solid #263244' }}>
       <div style={{ padding: '14px 20px', background: '#1f2937', fontFamily: mono, color: '#93c5fd' }}>Console</div>
-      <pre style={{ margin: 0, padding: 24, fontFamily: mono, fontSize: 23, lineHeight: 1.55 }}>{`> node line-lab/sendLineAlert.js
-payload written: line-lab/line-alert-payload.json
+      <pre style={{ margin: 0, padding: 24, fontFamily: mono, fontSize: 23, lineHeight: 1.55 }}>{`> node line-lab/sendLineAlert.js --flex
+payload written: line-lab/line-flex-payload.json
 [mock] LINE_REAL_SEND is not 1, no request sent.
 
 No errors`}</pre>
@@ -267,8 +275,8 @@ No errors`}</pre>
 );
 
 const slides: SlideSpec[] = [
-  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '營運異常 Dashboard\n用按鈕走完一次可交付的通知流程', lead: '這不是自由探索課。今天在畫面上按按鈕走完主線：載入資料、檢查合約、預覽 payload、人工審核、mock 送出；再親手弄壞資料、用 ReAct 修好。指令只剩三類：啟動、build、commit。' },
-  { kind: 'flow', eyebrow: '你現在在哪條流水線', footer: 'U11·C3 ｜ 講義:START-HERE.md(主線圖)', title: '今日主線：按鈕優先，固定流程', steps: ['載入\nreport.json', '檢查\n資料合約', 'payload\n預覽', '人工審核\ncheckbox', 'mock 送出', 'ReAct\n修錯', 'build · diff\ncommit'] },
+  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '營運異常 Dashboard\n接上 LINE OA Flex 通知流程', lead: '這不是自由探索課。今天在畫面上按按鈕走完主線：載入資料、檢查合約、預覽 Flex payload、人工審核、mock 送出；再親手弄壞資料、用 ReAct 修好。指令只剩三類：啟動、build、commit。' },
+  { kind: 'flow', eyebrow: '你現在在哪條流水線', footer: 'U11·C3 ｜ 講義:START-HERE.md(主線圖)', title: '今日主線：按鈕優先，固定流程', steps: ['載入\nreport.json', '檢查\n資料合約', 'Flex payload\n預覽', '人工審核\ncheckbox', 'mock 送出', 'ReAct\n修錯', 'build · diff\ncommit'] },
   { kind: 'cards', eyebrow: '完成的定義 · DoD', footer: 'U11·C3 ｜ 講義:START-HERE.md(DoD)', title: 'AI 做出來不算完成，通過驗收才算完成', cards: [
     { title: '畫面', body: 'Dashboard 六步卡走通、擋牌能出現也能消失。', color: C.orange },
     { title: '輸出', body: '[mock]、[blocked]、合約錯誤三句親眼看過。', color: C.blue },
@@ -278,7 +286,7 @@ const slides: SlideSpec[] = [
   ] },
   { kind: 'cards', eyebrow: '今日成果畫面', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '最後要交付什麼', cards: [
     { title: '一個可互動 Dashboard', body: '載入 → 檢查 → 預覽 → 審核 → mock 全通。' },
-    { title: '一份 payload 預覽', body: '與 line-lab/line-alert-payload.json 逐字相同。' },
+    { title: '一份 Flex payload 預覽', body: '與 line-lab/line-flex-payload.json 同結構。' },
     { title: '一次 ReAct 修錯', body: '擋牌出現 → 最小修正 → 恢復綠色。' },
     { title: '一次乾淨收尾', body: 'build 通過、diff 乾淨、commit 完成。' },
   ] },
@@ -314,29 +322,29 @@ const slides: SlideSpec[] = [
   { kind: 'cards', eyebrow: '段 1 · Button 1-3', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '照順序按，每按一步就驗一步', cards: [
     { title: '1 載入範例 report.json', body: '畫面出現 high 徽章、NT$128,400、異常 5 筆、3 條 action items。', color: C.orange },
     { title: '2 檢查資料合約', body: '綠色「資料合約通過：必要欄位齊全，risk_level = high」。', color: C.blue },
-    { title: '3 生成 payload 預覽', body: '上半通知文字、下半 payload JSON。與 line-alert-payload.json 逐字相同。', color: C.amber },
+    { title: '3 生成 Flex payload 預覽', body: '上半人審摘要、下半 Flex payload JSON。與 line-flex-payload.json 同結構。', color: C.amber },
   ] },
   { kind: 'payload', eyebrow: '段 1 · payload', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §4', title: 'LINE API 要的是 JSON payload，不是段落作文' },
 
   { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:20 - 2:00', title: 'Human-in-the-loop：勾了 checkbox，才有真送指令', lead: 'AI 產生通知，不代表可以送。人類審核是發送前的閘門 —— 沒勾 checkbox，畫面連真送指令都不給你。' },
   { kind: 'review', eyebrow: '段 2 · 成果畫面', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §1', title: '通知送出前，先進人工審核區', lead: '這就是 Dashboard 的第 4 步：AI 產生內容，人決定能不能送。' },
-  { kind: 'prompt', eyebrow: '段 2 · Prompt 卡 1', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 1', title: 'Human-in-the-loop 檢查，不改檔', code: `請檢查目前 LINE 通知內容（Dashboard payload 預覽中的文字）。
+  { kind: 'prompt', eyebrow: '段 2 · Prompt 卡 1', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 1', title: 'Human-in-the-loop 檢查，不改檔', code: `請檢查目前 LINE 通知內容（Dashboard Flex payload 預覽中的人審摘要與 action_items）。
 不要改檔。
 請判斷這則通知是否適合送出，並列出：
 1. 通知風險等級
 2. 通知對象
 3. 是否需要人工確認
-4. 是否可以進入 --confirm 發送階段` },
+4. 是否可以進入 --flex --confirm 發送階段` },
   { kind: 'cards', eyebrow: '段 2 · 雙重確認', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §3', title: '真送需要兩道確認，缺一不可', cards: [
     { title: '防止誤送', body: 'LINE_REAL_SEND=1 仍不夠，少了 --confirm 就阻擋。', color: C.orange },
     { title: '留下人類決策點', body: '通知內容和對象要先被人工審核（checkbox）。', color: C.blue },
     { title: 'mock 與真送分離', body: '課堂驗收到 mock 為止；真送永遠只在終端機。', color: C.amber },
   ] },
   { kind: 'mock', eyebrow: '段 2 · mock send', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §2', title: '看到 [mock] 才算對，不是手機收到才算對' },
-  { kind: 'code', eyebrow: '段 2 · 終端機對照', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: '今天僅有的對照指令（三行）', label: 'terminal', code: `node line-lab/sendLineAlert.js
+  { kind: 'code', eyebrow: '段 2 · 終端機對照', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: '今天僅有的對照指令（三行）', label: 'terminal', code: `node line-lab/sendLineAlert.js --flex
 # → payload written + [mock] LINE_REAL_SEND is not 1, no request sent.
 
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex
 # → [blocked] LINE_REAL_SEND=1 but --confirm missing; no request sent.
 
 # 驗收：F12 → Network，全程零請求，沒有 api.line.me` },
@@ -345,9 +353,9 @@ LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
   { kind: 'code', eyebrow: '段 3 · 製造指定錯誤', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §1–2', title: '改值，不改語法', label: 'data-lab/report.json', code: `"risk_level": "high"   →   "risk_level": "嚴重"
 
 # 存檔後（不按任何按鈕）：
-# 畫面：紅色擋牌出現，payload / mock / 真送指令全部消失
+# 畫面：紅色擋牌出現，Flex payload / mock / 真送指令全部消失
 #   資料合約錯誤: risk_level 必須是 low / medium / high，目前是 "嚴重"
-# 終端機：node line-lab/sendLineAlert.js → 同一句錯誤` },
+# 終端機：node line-lab/sendLineAlert.js --flex → 同一句錯誤` },
   { kind: 'prompt', eyebrow: '段 3 · Prompt 卡 2', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 2(STEP-03 §3)', title: 'ReAct debug：先分析，不改檔', code: `你現在扮演 debugger。
 先不要改檔。
 
@@ -378,19 +386,19 @@ Blocker：哪裡需要人類決定` },
     { title: 'LINE OA', body: '企業或組織的官方帳號。' },
     { title: 'Messaging API', body: '讓程式透過官方帳號發送訊息。' },
     { title: 'Push message', body: '主動把訊息送到 userId、groupId 或 roomId。' },
-    { title: 'Text message', body: '這堂固定只用 type: text，避免設計分歧。' },
+    { title: 'Flex message', body: '這堂主線使用 type: flex，版面可視化但仍由資料合約驅動。' },
   ] },
   { kind: 'bullets', eyebrow: '段 4 · token 安全', footer: 'U11·C3 ｜ 講義:u11-c3-line-oa-lab.md 附錄 A2', title: 'token 為什麼不能放前端', bullets: ['channel access token 代表你的 OA 發訊權限。', '放進前端 bundle 等於交給所有使用者看。', 'token 只能放伺服端或本機環境變數，不寫死在程式碼。', '.env 不能 commit；教材只 commit .env.example。Dashboard 上的 to 永遠是示範 ID。'] },
   { kind: 'code', eyebrow: '段 4 · 老師示範', footer: 'U11·C3 ｜ 講義:u11-c3-line-oa-lab.md 附錄 A5', title: '真送需要三個條件同時成立', label: 'terminal（老師示範）', code: `# 1. LINE_CHANNEL_ACCESS_TOKEN 已設定（line-lab/.env）
 # 2. LINE_TARGET_ID 已設定
-# 3. LINE_REAL_SEND=1 且加上 --confirm
+# 3. LINE_REAL_SEND=1 且加上 --flex --confirm
 
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex --confirm
 
 # 官方後台設定（Business ID → OA → Messaging API → token → targetId）
 # 只給進階組：見 u11-c3-line-oa-lab.md 附錄` },
   { kind: 'network', eyebrow: '段 4 · Console / Network', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §5', title: '真送示範要看 Console 與 Network，不只看 LINE 手機' },
-  { kind: 'bullets', eyebrow: '段 4 · 保底', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '現場狀況不阻塞課堂', bullets: ['沒有 LINE OA：mock 完成即過關（真送本來就是示範）。', '畫面跑不動：用終端機 node line-lab/sendLineAlert.js 完成同段驗收。', 'JSON 改壞語法出現全螢幕錯誤：改回原樣即恢復。', '網路不穩：payload 產生與 mock 驗收就是完成標準。'] },
+  { kind: 'bullets', eyebrow: '段 4 · 保底', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '現場狀況不阻塞課堂', bullets: ['沒有 LINE OA：Flex mock 完成即過關（真送本來就是示範）。', '畫面跑不動：用終端機 node line-lab/sendLineAlert.js --flex 完成同段驗收。', 'JSON 改壞語法出現全螢幕錯誤：改回原樣即恢復。', '網路不穩：Flex payload 產生與 mock 驗收就是完成標準。'] },
   { kind: 'terminal', eyebrow: '段 4 · 收尾指令', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §5', title: '最後照這組指令收尾', code: `cd web-lab
 npm run build
 cd ..
@@ -399,7 +407,7 @@ git diff
 git diff -- web-lab/package.json
 git add .
 git commit -m "完成 Dashboard 通知流程與 ReAct 修錯練習"` },
-  { kind: 'bullets', eyebrow: '段 4 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['Dashboard 六步卡走通；擋牌能出現也能消失。', 'payload 預覽與 line-alert-payload.json 的通知文字逐字相同。', '[mock] 與 [blocked] 都親眼看過；Network 全程零請求。', '未勾 checkbox 時看不到真送指令。', 'npm run build 通過；package.json 沒有被改、.env 沒有被 commit。', 'git diff 只出現本堂允許修改的檔案。'] },
+  { kind: 'bullets', eyebrow: '段 4 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['Dashboard 六步卡走通；擋牌能出現也能消失。', 'Flex payload 預覽與 line-flex-payload.json 同結構。', '[mock] 與 [blocked] 都親眼看過；Network 全程零請求。', '未勾 checkbox 時看不到真送指令。', 'npm run build 通過；package.json 沒有被改、.env 沒有被 commit。', 'git diff 只出現本堂允許修改的檔案。'] },
   { kind: 'cards', eyebrow: '收束', title: '今天學到的是可控交付，不是 AI 表演', cards: [
     { title: 'AI 是執行工具', body: '需求、限制、驗收由人固定。' },
     { title: '資料合約是防線', body: '一份合約、兩道防線：畫面擋牌 + 腳本阻擋。' },
@@ -444,7 +452,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
 const pages = slides.map((slide) => (() => <DeckPage slide={slide} />) as Page);
 
 export const meta: SlideMeta = {
-  title: 'U11-C3: 營運異常 Dashboard + LINE mock 通知',
+  title: 'U11-C3: 營運異常 Dashboard + LINE OA Flex 通知',
   createdAt: '2026-07-02T00:00:00.000Z',
 };
 

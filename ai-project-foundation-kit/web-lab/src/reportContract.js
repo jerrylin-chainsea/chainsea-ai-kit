@@ -20,9 +20,9 @@ export const MOCK_TARGET_ID = 'Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
 // 真送指令只給人複製到終端機用,網頁本身不會執行它。
 export const REAL_SEND_COMMAND =
-  'LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm';
+  'LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex --confirm';
 export const REAL_SEND_COMMAND_POWERSHELL =
-  '$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --confirm';
+  '$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex --confirm';
 
 // 檢查 report.json 是否符合合約。
 // 和 sendLineAlert.js 不同的一點:node 版遇錯直接 throw,
@@ -79,5 +79,87 @@ export function buildPayload(report) {
         text: buildAlertText(report),
       },
     ],
+  };
+}
+
+function buildFlexField(label, value) {
+  return {
+    type: 'box',
+    layout: 'baseline',
+    spacing: 'sm',
+    contents: [
+      {
+        type: 'text',
+        text: label,
+        color: '#666666',
+        size: 'sm',
+        flex: 2,
+      },
+      {
+        type: 'text',
+        text: String(value),
+        color: '#111111',
+        size: 'sm',
+        flex: 4,
+        wrap: true,
+      },
+    ],
+  };
+}
+
+export function buildFlexMessage(report) {
+  const actionItems =
+    report.action_items.length > 0
+      ? report.action_items.map((item, index) => `${index + 1}. ${item}`)
+      : ['(none)'];
+
+  return {
+    type: 'flex',
+    altText: '營運異常通知',
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        contents: [
+          {
+            type: 'text',
+            text: '營運異常通知',
+            weight: 'bold',
+            size: 'lg',
+            wrap: true,
+          },
+          { type: 'separator' },
+          buildFlexField('risk_level', report.risk_level),
+          buildFlexField('total_revenue', formatMoney(report.total_revenue)),
+          buildFlexField('anomaly_count', report.anomaly_count),
+          buildFlexField('top_product', report.top_product),
+          buildFlexField('top_channel', report.top_channel),
+          { type: 'separator' },
+          {
+            type: 'text',
+            text: 'action_items',
+            weight: 'bold',
+            size: 'sm',
+            color: '#666666',
+          },
+          ...actionItems.map((item) => ({
+            type: 'text',
+            text: item,
+            size: 'sm',
+            color: '#111111',
+            wrap: true,
+          })),
+        ],
+      },
+    },
+  };
+}
+
+export function buildFlexPayload(report) {
+  return {
+    to: MOCK_TARGET_ID,
+    messages: [buildFlexMessage(report)],
   };
 }

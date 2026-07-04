@@ -1,0 +1,154 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --display: "Space Grotesk", "Noto Sans TC", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  --ink: #eef1fb;
+  --dim: rgba(233, 236, 247, 0.62);
+  --faint: rgba(233, 236, 247, 0.4);
+  --glass: rgba(255, 255, 255, 0.055);
+  --glass-line: rgba(255, 255, 255, 0.12);
+  --hot: #ff6a2b;
+  --violet: #a469ff;
+}
+html, body, #root { height: 100%; }
+body { font-family: var(--sans); background: #05060d; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* ── 背景:aurora 漸層光暈 + 網格 ───────────────────────────── */
+.deck {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 800px at 78% -8%, rgba(255, 106, 43, 0.22), transparent 60%),
+    radial-gradient(1000px 900px at 8% 12%, rgba(120, 78, 220, 0.28), transparent 62%),
+    linear-gradient(160deg, #080a17 0%, #0c0a1f 46%, #0a0716 100%);
+  display: flex;
+  justify-content: center;
+  padding: 40px clamp(20px, 6vw, 96px) 68px;
+}
+.aurora { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.8; pointer-events: none; will-change: transform; }
+.aurora--1 { top: -180px; right: -120px; width: 560px; height: 560px; background: radial-gradient(circle, rgba(255, 106, 43, 0.55), transparent 68%); animation: drift1 16s ease-in-out infinite; }
+.aurora--2 { bottom: -240px; left: -160px; width: 680px; height: 680px; background: radial-gradient(circle, rgba(120, 78, 220, 0.5), transparent 66%); animation: drift2 20s ease-in-out infinite; }
+.aurora--3 { top: 34%; left: 44%; width: 460px; height: 460px; background: radial-gradient(circle, rgba(46, 130, 220, 0.4), transparent 70%); animation: drift3 24s ease-in-out infinite; }
+@keyframes drift1 { 50% { transform: translate(-60px, 50px) scale(1.08); } }
+@keyframes drift2 { 50% { transform: translate(70px, -40px) scale(1.06); } }
+@keyframes drift3 { 50% { transform: translate(-40px, -60px) scale(1.1); } }
+.grid-overlay {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(1100px 700px at 50% 20%, #000 30%, transparent 78%);
+}
+@media (prefers-reduced-motion: reduce) { .aurora { animation: none; } }
+
+.shell {
+  position: relative; z-index: 1; width: 100%; max-width: 1180px;
+  display: flex; flex-direction: column; gap: 26px;
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.topbar { display: flex; align-items: center; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 15px; letter-spacing: 0.14em; color: var(--dim); text-transform: lowercase; }
+.brand__mark { width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, var(--hot), var(--violet)); box-shadow: 0 0 16px rgba(255, 106, 43, 0.7); }
+.topbar__pill { font-size: 14px; color: var(--dim); background: var(--glass); border: 1px solid var(--glass-line); border-radius: 999px; padding: 7px 16px; backdrop-filter: blur(12px); }
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero { padding-top: 20px; max-width: 900px; }
+.deck--hero-only { align-items: center; }
+.deck--hero-only .shell { justify-content: center; min-height: 100vh; }
+.hero__eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 14px; letter-spacing: 0.28em; color: #ffcbab;
+  background: rgba(255, 106, 43, 0.1); border: 1px solid rgba(255, 106, 43, 0.32);
+  border-radius: 999px; padding: 7px 16px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hot); box-shadow: 0 0 12px var(--hot); }
+.hero__title {
+  font-family: var(--display); font-weight: 700; font-size: clamp(52px, 7vw, 96px);
+  line-height: 0.98; letter-spacing: -0.02em; margin-top: 22px;
+  background: linear-gradient(100deg, #ffffff 0%, #ffd9c4 46%, #cbb2ff 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 0 60px rgba(255, 150, 90, 0.18);
+}
+.hero__sub { font-size: 21px; line-height: 1.6; color: var(--dim); margin-top: 22px; max-width: 620px; }
+.hero__actions { display: flex; gap: 14px; margin-top: 30px; }
+.btn { cursor: pointer; font-family: var(--sans); font-size: 17px; font-weight: 700; border-radius: 999px; padding: 14px 30px; transition: transform 0.16s, box-shadow 0.16s; }
+.btn--primary { border: 0; color: #fff; background: linear-gradient(100deg, var(--hot), var(--violet)); box-shadow: 0 18px 46px -16px rgba(255, 106, 43, 0.75); }
+.btn--primary:hover { transform: translateY(-2px); box-shadow: 0 24px 54px -16px rgba(255, 106, 43, 0.9); }
+.btn--ghost { color: var(--ink); background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(12px); }
+
+/* ── 玻璃面板通用 ─────────────────────────────────────────── */
+.panel {
+  background: var(--glass); border: 1px solid var(--glass-line); border-radius: 22px;
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 30px 60px -40px rgba(0, 0, 0, 0.9);
+}
+
+/* ── 狀態選擇器 ───────────────────────────────────────────── */
+.selector { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; padding: 20px 26px; }
+.selector__div { width: 1px; height: 34px; background: var(--glass-line); }
+.chipgroup { display: flex; align-items: center; gap: 12px; }
+.chipgroup__label { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; color: var(--faint); }
+.chipgroup__set { display: flex; gap: 8px; }
+.chip {
+  cursor: pointer; font-family: var(--sans); font-size: 16px; font-weight: 500; padding: 8px 18px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-line); color: var(--dim);
+  transition: transform 0.15s, border-color 0.15s, color 0.15s, background 0.15s;
+}
+.chip:hover { transform: translateY(-1px); border-color: rgba(255, 150, 90, 0.6); color: var(--ink); }
+.chip--on { color: #fff; background: linear-gradient(100deg, rgba(255, 106, 43, 0.85), rgba(164, 105, 255, 0.85)); border-color: transparent; box-shadow: 0 10px 26px -12px rgba(255, 106, 43, 0.9); }
+
+/* ── Mission Cards ───────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.card {
+  position: relative; overflow: hidden; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; gap: 12px; padding: 26px 24px 22px;
+  border-radius: 22px; color: var(--ink);
+  background: var(--glass); border: 1px solid var(--glass-line);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 30px 60px -44px rgba(0, 0, 0, 0.9);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.card__accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--hot), var(--violet)); opacity: 0.55; }
+.card:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.26); box-shadow: 0 40px 70px -40px rgba(0, 0, 0, 0.95); }
+.card:hover .card__accent { opacity: 1; }
+.card--sel { border-color: rgba(255, 122, 60, 0.7); background: rgba(255, 106, 43, 0.12); transform: translateY(-6px); box-shadow: 0 34px 60px -34px rgba(255, 106, 43, 0.7); }
+.card__icon { width: 56px; height: 56px; display: grid; place-content: center; font-size: 30px; border-radius: 16px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--glass-line); }
+.card__title { font-size: 23px; font-weight: 700; line-height: 1.25; }
+.card__meta { display: flex; gap: 8px; }
+.tagpill { font-family: var(--mono); font-size: 12px; color: var(--dim); background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-line); border-radius: 999px; padding: 4px 12px; }
+.card__state { font-family: var(--mono); font-size: 13px; color: var(--faint); margin-top: 2px; }
+.card--sel .card__state { color: #ffb98a; }
+
+/* ── Result Panel(bento)──────────────────────────────────── */
+.result { }
+.bento { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tile {
+  background: var(--glass); border: 1px solid var(--glass-line); border-radius: 20px; padding: 20px 22px;
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 60px -46px rgba(0, 0, 0, 0.9);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.tile--primary { grid-column: span 2; background: linear-gradient(150deg, rgba(255, 106, 43, 0.16), rgba(164, 105, 255, 0.12)); border-color: rgba(255, 150, 90, 0.4); }
+.tile--wide { grid-column: span 2; }
+.tile--energy { grid-column: span 2; }
+.tile__k { font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em; color: #ffb98a; }
+.tile__title { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+.tile__meta { font-family: var(--mono); font-size: 13px; color: var(--dim); }
+.tile__v { font-size: 18px; line-height: 1.5; color: rgba(238, 241, 251, 0.9); }
+.energy { display: flex; align-items: center; gap: 14px; margin-top: 4px; }
+.energy__track { flex: 1; height: 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.energy__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--hot), var(--violet)); box-shadow: 0 0 20px rgba(255, 106, 43, 0.6); transition: width 0.45s ease; }
+.energy__pct { font-family: var(--mono); font-size: 22px; font-weight: 700; color: #fff; }
+
+/* ── 微互動:進場 reveal(純 CSS,不用 GSAP)────────────────── */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.reveal { animation: rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.shell > .reveal:nth-child(2) { animation-delay: 0.05s; }
+.shell > .reveal:nth-child(3) { animation-delay: 0.12s; }
+.shell > .reveal:nth-child(4) { animation-delay: 0.19s; }
+.shell > .reveal:nth-child(5) { animation-delay: 0.26s; }
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }

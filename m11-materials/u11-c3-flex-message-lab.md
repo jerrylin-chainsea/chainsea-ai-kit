@@ -1,10 +1,6 @@
-# U11-C3 加做講義：LINE OA Flex Message 營運通知
+# U11-C3 進階講義：LINE OA Flex Message 版面優化
 
-目標：把原本 text message 改成可選的 Flex Message。照做後會多一個 `--flex` 模式，仍然保留 mock、人工審核、`--confirm`。
-
-> **注意**：目前 starter 的 `sendLineAlert.js` **已內建 `--flex`**。
-> 用內建版的班級：跳過第 2 步，直接從第 3 步開始驗收。
-> 想練「AI 實作功能」的班級：老師先發未含 `--flex` 的版本，再照第 2 步請 AI 加上。
+Flex Message 已經是 C3 主線，starter 的 `sendLineAlert.js` 也已內建 `--flex`。本講義不再教「從 text 改 Flex」，而是給進階組練習：用 AI coding agent 在不破壞資料合約與真送規則的前提下，優化 Flex bubble 版面。
 
 官方文件：
 
@@ -12,68 +8,10 @@
 - Flex Message elements: https://developers.line.biz/en/docs/messaging-api/flex-message-elements/
 - Flex Message Simulator: https://developers.line.biz/en/docs/messaging-api/using-flex-message-simulator/
 
-## 1. 回到專案
+## 1. 先確認主線 Flex 正常
 
 ```bash
 cd ai-project-foundation-kit
-```
-
-確認原本 text 模式正常：
-
-```bash
-node line-lab/sendLineAlert.js
-```
-
-預期：
-
-```text
-payload written: line-lab\line-alert-payload.json
-[mock] LINE_REAL_SEND is not 1, no request sent.
-```
-
-## 2. 貼 Prompt 1：加上 `--flex`
-
-把下面整段貼給 Codex：
-
-```text
-請在現有 line-lab/sendLineAlert.js 上新增 Flex Message 模式。
-
-需求：
-1. 保留原本 text message 行為不變。
-2. 加上 --flex 參數時，產生 LINE Flex Message payload。
-3. --flex 模式輸出到 line-lab/line-flex-payload.json。
-4. Flex Message 內容必須包含：
-   - risk_level
-   - total_revenue
-   - anomaly_count
-   - top_product
-   - top_channel
-   - action_items
-5. Flex Message 最外層 message 必須是：
-   - type: "flex"
-   - altText: "營運異常通知"
-   - contents: bubble
-6. 不新增套件。
-7. 不改 package.json。
-8. 不改 web-lab。
-9. token 不可寫死。
-10. mock / LINE_REAL_SEND / --confirm 規則必須和原本一樣。
-
-完成後請回報實際修改或新增的檔案。
-```
-
-預期 Codex 回報：
-
-```text
-修改：
-- line-lab/sendLineAlert.js
-新增：
-- line-lab/line-flex-payload.json
-```
-
-## 3. 驗收 Flex payload
-
-```bash
 node line-lab/sendLineAlert.js --flex
 ```
 
@@ -84,82 +22,57 @@ payload written: line-lab\line-flex-payload.json
 [mock] LINE_REAL_SEND is not 1, no request sent.
 ```
 
-看檔案：
+## 2. 貼到 Flex Message Simulator
 
-```bash
-cat line-lab/line-flex-payload.json
-```
-
-PowerShell：
-
-```powershell
-Get-Content -Encoding UTF8 .\line-lab\line-flex-payload.json
-```
-
-必須看到：
-
-```json
-{
-  "to": "你的 userId",
-  "messages": [
-    {
-      "type": "flex",
-      "altText": "營運異常通知",
-      "contents": {
-        "type": "bubble"
-      }
-    }
-  ]
-}
-```
-
-## 4. 檢查 Flex Message 內容
-
-在 `line-flex-payload.json` 裡確認：
-
-```text
-risk_level 有出現
-total_revenue 有出現
-anomaly_count 有出現
-top_product 有出現
-top_channel 有出現
-action_items 有出現
-```
-
-## 5. 貼到 Flex Message Simulator
-
-1. 開 Flex Message Simulator：  
-   https://developers.line.biz/flex-simulator/
+1. 開 Flex Message Simulator：https://developers.line.biz/flex-simulator/
 2. 複製 `line-flex-payload.json` 裡的 `messages[0].contents`。
 3. 貼到 simulator。
 4. 確認 bubble 可以正常預覽。
 
 只貼 `contents`，不要貼整包 push payload。
 
-## 6. 測試沒有 `--confirm` 不真送
-
-Bash / macOS / Git Bash：
-
-```bash
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex
-```
-
-PowerShell：
-
-```powershell
-$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex
-```
-
-預期：
+## 3. 請 AI 先出優化計畫
 
 ```text
-payload written: line-lab\line-flex-payload.json
-[blocked] LINE_REAL_SEND=1 but --confirm missing; no request sent.
+你現在扮演 planner。
+請評估如何優化 line-lab/sendLineAlert.js 的 Flex Message 版面。
+先不要改檔。
+
+目標：
+1. 讓 risk_level、top_product、action_items 更容易掃讀
+2. 保留 report.json 七欄資料合約
+3. 保留 mock / LINE_REAL_SEND / --confirm 規則
+4. 不新增套件、不改 package.json
+5. 不把 token 寫進程式碼
+
+請固定回答：
+A. 你準備修改的檔案
+B. Flex layout 會改哪幾個區塊
+C. 哪些資料仍來自 report.json
+D. 如何用 Simulator 驗收
+E. 哪些紅線不能碰
+F. 哪一步需要人類拍板
 ```
 
-## 7. 真實發送 Flex Message（老師示範／進階組；需先完成主線講義附錄的 LINE 前置）
+人審通過後才放行 implementer。
 
-Bash / macOS / Git Bash：
+## 4. 驗收
+
+```bash
+node line-lab/sendLineAlert.js --flex
+git diff
+git diff -- package.json
+```
+
+必須符合：
+
+- `line-flex-payload.json` 有 `type: "flex"`、`altText`、`contents.type: "bubble"`。
+- `risk_level`、`total_revenue`、`anomaly_count`、`top_product`、`top_channel`、`action_items` 都還在。
+- Simulator 能正常預覽。
+- 沒有新增套件，`package.json` 沒有 diff。
+- 沒有改真送規則：沒有 `LINE_REAL_SEND=1` 與 `--confirm` 就不會呼叫 LINE API。
+
+## 5. 真送仍是老師示範／進階組
 
 ```bash
 LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex --confirm
@@ -171,36 +84,4 @@ PowerShell：
 $env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex --confirm
 ```
 
-成功預期：
-
-```text
-payload written: line-lab\line-flex-payload.json
-LINE API success: 200
-```
-
-手機 LINE 應該收到 Flex 版營運異常通知。
-
-## 8. Git 驗收
-
-```bash
-git status
-git diff
-git diff -- package.json
-```
-
-預期：
-
-```text
-package.json 沒有 diff
-.env 不在 commit 裡
-web-lab 沒有修改
-```
-
-## 9. Commit
-
-```bash
-git add .
-git commit -m "新增 LINE OA Flex Message 營運通知"
-git push
-```
-
+真送前仍要人工審核 Flex 預覽、targetId 與 action items。

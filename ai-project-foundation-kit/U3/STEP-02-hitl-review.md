@@ -6,8 +6,8 @@
 
 先別勾。看一眼第 6 步「真送指令」卡：**它現在不給你指令**。
 
-現在認真看一遍 payload 預覽的通知文字（就當你是要收這則通知的主管）：
-數字對嗎？風險等級合理嗎？action items 是給人的明確指示嗎？
+現在認真看一遍 Flex payload 預覽的人審摘要與 Flex JSON（就當你是要收這則通知的主管）：
+數字對嗎？風險等級合理嗎？Flex altText 看得懂嗎？action items 是給人的明確指示嗎？
 
 確認沒問題 → 勾選 checkbox。
 
@@ -29,31 +29,31 @@
 勾了 checkbox 之後，第 6 步出現可複製的指令：
 
 ```bash
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --confirm
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex --confirm
 ```
 
 **規則**：真送永遠只在終端機發生，網頁不會幫你送。而且需要**兩道**確認：
-環境變數 `LINE_REAL_SEND=1` **加** `--confirm` 參數，缺一不可。
+環境變數 `LINE_REAL_SEND=1` **加** `--flex --confirm` 參數，缺一不可。
 
 ## 4. 終端機對照（今天僅有的指令，三行）
 
 ```bash
-node line-lab/sendLineAlert.js
+node line-lab/sendLineAlert.js --flex
 ```
 
 **你應該看到**：`payload written: ...` + `[mock] LINE_REAL_SEND is not 1, no request sent.` —— 和畫面上同一句。
 
 ```bash
-LINE_REAL_SEND=1 node line-lab/sendLineAlert.js
+LINE_REAL_SEND=1 node line-lab/sendLineAlert.js --flex
 ```
 
-（PowerShell：`$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js`）
+（PowerShell：`$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex`）
 
 **你應該看到**：`[blocked] LINE_REAL_SEND=1 but --confirm missing; no request sent.` —— 沒有 `--confirm`，就是送不出去。
 
 ## 5. 老師示範：真送 LINE（學生不用做）
 
-老師會用自己設定好的 `line-lab/.env`（token + targetId）跑 `--confirm`，全班看手機收到通知。
+老師會用自己設定好的 `line-lab/.env`（token + targetId）跑 `--flex --confirm`，全班看手機收到通知。
 想自己試的進階組：LINE 官方後台設定步驟在 `../m11-materials/u11-c3-line-oa-lab.md` 的「真送前置」章節。
 **沒有 LINE OA 完全不影響過關** —— 本堂驗收到 mock 為止。
 

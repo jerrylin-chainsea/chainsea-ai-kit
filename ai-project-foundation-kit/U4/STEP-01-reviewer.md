@@ -1,32 +1,56 @@
-# U4 · STEP 01 ｜ reviewer：交付前的最後一道人牆
+# U4 · STEP 01 ｜ ops agent：把補貨判斷變成可跑的流程
 
-> **這堂完成物**：ReAct 修錯（複習）、reviewer 檢查、build、commit/push，並把整套流程固化成可重用的 SOP。
-> **你現在在流水線**：`專案跑起來 → 檢查資料 → 資料合約 → AI 串接 → Dashboard → 修錯 → 【reviewer 驗收 → build / commit / push】`
+> **這堂完成物**：用 CrewAI-style 角色流程讀庫存 CSV，產出同一份 `data-lab/report.json`，再交給 U3 的 Dashboard 與 LINE Flex payload。
+> **你現在在流水線**：`專案跑起來 → 檢查資料 → 資料合約 → AI 串接 → LINE Flex → 【ops agent 自動化】→ GitHub Actions → reviewer / build / commit`
 
-## 0. 先認得三個 AI 走鐘的毛病
+## 0. 先認得三個角色
 
-| 毛病 | 症狀 | 一句話拉回 |
+打開 `ops-agent-lab/role-cards.md`。今天不是先追求「真的裝 CrewAI」，而是先看懂 agent workflow 的拆法：
+
+| 角色 | 做什麼 | 不能做什麼 |
 |---|---|---|
-| **Context Drift** 越改越偏 | 只要改標題，它順手改版面／資料 | 「請回到原本任務，這次**只**處理 X，其他不要改。」 |
-| **Prompt Debt** 越補越亂 | 零碎要求補到 AI 前後矛盾 | 「請先**整理目前最新狀態**、不要改：已完成什麼、要遵守什麼、下一步只做什麼。」 |
-| **Regression** 改 A 壞 B | 修好這個、弄壞那個 | 「請列出這次修改後需要**回歸檢查**的項目。」 |
+| data_checker | 讀庫存 CSV，找低庫存與缺貨品項 | 不直接呼叫 LINE |
+| ops_decider | 決定 `risk_level` 與是否需要推播 | 不新增下游格式 |
+| push_writer | 產出主管看得懂的補貨 action items | 不跳過人工審核 |
 
-這三句抄下來。課後你真正會天天用的，可能就是這三句。
+## 1. 本機先 dry run
 
-## 1. 跑一次 reviewer
+在 `ai-project-foundation-kit` 根目錄跑：
 
-前提：你手上有一次 U3 的修改還沒 commit（或現場照老師指定做一個小修改）。
+```bash
+python ops-agent-lab/run_ops_check.py
+```
 
-貼 `PROMPT-CARD.md` 的 **reviewer 卡**。
+**你應該看到**：一份 JSON，欄位仍是 U3 的七欄資料合約：
 
-**你應該看到**：AI 以固定格式回報，第一行就是 `Verdict：PASS 或 BLOCK`。
+```text
+report_date / risk_level / total_revenue / anomaly_count / top_product / top_channel / action_items
+```
 
-## 2. 看懂 reviewer 回報
+額外的 `agent_trace` 是給人審看的紀錄；Dashboard 與 LINE 腳本會忽略它。
 
-- **Verdict: PASS** → 看它的 Human Review 欄：**人還要親自看什麼**（畫面？輸出？）。做完才進 STEP-02。
-- **Verdict: BLOCK** → 看 Next Step 欄先修什麼。修完**重新跑一次 reviewer**，直到 PASS。
+## 2. 寫回 report.json，讓既有平台接手
 
-**人審重點**：reviewer 也是 AI，它的回報一樣要對照 `git diff` 抽查一次。
-reviewer 是幫你省力，不是幫你背書 —— 最後拍板的永遠是人。
+```bash
+python ops-agent-lab/run_ops_check.py --write-report
+node line-lab/sendLineAlert.js --flex
+```
 
-→ 下一步：`STEP-02-build-commit-push.md`。
+**你應該看到**：
+
+- `data-lab/report.json` 變成低庫存補貨通知。
+- `line-lab/line-flex-payload.json` 被產生。
+- 輸出仍是 `[mock] LINE_REAL_SEND is not 1, no request sent.`
+
+這就是平台整合的重點：agent 只負責產生合約資料；LINE OA、Dashboard、GitHub Actions 都吃同一份資料。
+
+## 3. 進階組：讓 AI 評估是否改成真 CrewAI
+
+貼 `PROMPT-CARD.md` 的 **CrewAI 轉換評估卡**。先讓 AI 產生計畫，不要直接改。人審重點：
+
+- 是否保留七欄資料合約？
+- 是否要求 API key 只放環境變數？
+- 是否說明新增套件與風險？
+- 是否仍保留人工審核與 mock 預設？
+
+→ 下一步：`STEP-02-build-commit-push.md`，把同一段流程放到 GitHub Actions。

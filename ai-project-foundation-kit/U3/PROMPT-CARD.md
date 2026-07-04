@@ -5,13 +5,13 @@
 ## 卡 1 ｜ Human-in-the-loop 審核（AI 只判斷，不改檔）
 
 ```text
-請檢查目前 LINE 通知內容（Dashboard payload 預覽中的文字）。
+請檢查目前 LINE 通知內容（Dashboard Flex payload 預覽中的人審摘要與 action_items）。
 不要改檔。
 請判斷這則通知是否適合送出，並列出：
 1. 通知風險等級
 2. 通知對象
 3. 是否需要人工確認
-4. 是否可以進入 --confirm 發送階段
+4. 是否可以進入 --flex --confirm 發送階段
 ```
 
 **驗收**：AI 沒改檔、有明確說是否需要人工確認、沒有直接叫你真送。
@@ -51,7 +51,7 @@ Blocker：哪裡需要人類決定
 完成後告訴我：改了哪裡、我要怎麼在畫面和終端機各驗收一次。
 ```
 
-**驗收**：擋牌消失、`node line-lab/sendLineAlert.js` 恢復 mock 成功、diff 只有 `report.json` 一行。
+**驗收**：擋牌消失、`node line-lab/sendLineAlert.js --flex` 恢復 mock 成功、diff 只有 `report.json` 一行。
 
 ## 卡 4 ｜（進階組加做）請 AI 擴充 Dashboard
 

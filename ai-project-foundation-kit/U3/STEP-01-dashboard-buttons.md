@@ -1,6 +1,6 @@
 # U3 · STEP 01 ｜ 用按鈕走完資料 → 畫面 → payload
 
-> **這堂完成物**：在 Dashboard 上完成「載入 → 檢查 → 預覽 → 人工審核 → mock 送出」，理解 mock 與真送的差別。
+> **這堂完成物**：在 Dashboard 上完成「載入 → 檢查 → Flex 預覽 → 人工審核 → mock 送出」，理解 mock 與真送的差別。
 > **你現在在流水線**：`專案跑起來 → 檢查資料 → 資料合約 → 【AI 串接 → Dashboard 呈現】→ 修錯 → 驗收 → 交付`
 >
 > **今天先求 mock 成功，不求真送成功。** 看到 `[mock]` 就是對，不是手機收到 LINE 才是對。
@@ -41,15 +41,15 @@
 **你應該看到**：綠色的「資料合約通過：必要欄位齊全，risk_level = high」。
 （紅色擋牌長什麼樣？STEP-03 你會親手把它弄出來。）
 
-## 4. Button 3：生成 LINE payload 預覽
+## 4. Button 3：生成 LINE Flex payload 預覽
 
-按下「生成 payload 預覽」。
+按下「生成 Flex payload 預覽」。
 
 **你應該看到**：
-- 上半：人看的通知文字（`[營運異常通知]` 開頭，風險等級、總營收、action items）
-- 下半：機器看的 payload JSON（`to` + `messages`）
+- 上半：人審摘要（風險等級、總營收、action items）
+- 下半：LINE OA 會吃的 Flex Message payload JSON（`to` + `messages[0].type = "flex"`）
 
-**對照一下（30 秒）**：打開 `line-lab/line-alert-payload.json`，通知文字和畫面上**逐字相同**。
+**對照一下（30 秒）**：在終端機跑 `node line-lab/sendLineAlert.js --flex`，再打開 `line-lab/line-flex-payload.json`，Flex 結構和畫面上相同。
 唯一不同是 `to`：網頁上永遠是示範 ID —— 真送對象由 `line-lab/.env` 決定，**token 與對象都不會進前端**。
 
 → 下一步：`STEP-02-hitl-review.md`，人工審核與 mock 送出。

@@ -7,7 +7,7 @@ import {
   validateReport,
   formatMoney,
   buildAlertText,
-  buildPayload,
+  buildFlexPayload,
   REAL_SEND_COMMAND,
   REAL_SEND_COMMAND_POWERSHELL,
 } from './reportContract.js';
@@ -54,18 +54,38 @@ function BlockerBanner({ errors }) {
   );
 }
 
-// payload 預覽:上面是人看的通知文字,下面是機器看的 JSON。
-// 通知文字和 line-lab/line-alert-payload.json 裡的完全一樣,可以打開來對照。
+// Flex payload 預覽:上面是人審摘要,下面是 LINE OA 會吃的 JSON。
+// JSON 和 node line-lab/sendLineAlert.js --flex 產出的 line-flex-payload.json 同結構。
 // 唯一不同:網頁上的 to 永遠是示範 ID;真送對象由 line-lab/.env 決定,不會進前端。
 function PayloadPreview({ report }) {
   return (
     <div className="dash-preview">
-      <p className="dash-caption">通知文字(LINE 收到的樣子;與 line-lab/line-alert-payload.json 的 text 逐字相同)</p>
+      <p className="dash-caption">人審摘要(送出前先看語氣、數字與 action items 是否合理)</p>
       <pre className="dash-pre">{buildAlertText(report)}</pre>
       <p className="dash-caption">
-        payload JSON。to 在網頁上永遠是示範 ID:真送對象由 line-lab/.env 決定,token 與對象都不會出現在前端。
+        LINE Flex Message payload JSON。可對照終端機指令產生的 line-lab/line-flex-payload.json。
+        to 在網頁上永遠是示範 ID:真送對象由 line-lab/.env 決定,token 與對象都不會出現在前端。
       </p>
-      <pre className="dash-pre">{JSON.stringify(buildPayload(report), null, 2)}</pre>
+      <pre className="dash-pre">{JSON.stringify(buildFlexPayload(report), null, 2)}</pre>
+    </div>
+  );
+}
+
+function PushReadiness({ report }) {
+  return (
+    <div className="dash-ready" aria-label="低庫存推播準備">
+      <div>
+        <span>推播主題</span>
+        <strong>{report.anomaly_count > 0 ? '低庫存補貨提醒' : '庫存狀態更新'}</strong>
+      </div>
+      <div>
+        <span>推播通道</span>
+        <strong>LINE OA Flex Message</strong>
+      </div>
+      <div>
+        <span>下一步</span>
+        <strong>到 U3 由人工審核後 mock 送出</strong>
+      </div>
     </div>
   );
 }
@@ -76,9 +96,10 @@ function ReviewerChecklist() {
     '畫面上的數字與 data-lab/report.json 一致',
     'risk_level 是 low / medium / high 之一,而且和資料相符',
     'action_items 是給人的明確指示,不是空話',
+    'Flex Message 的 altText、標題與 action_items 都看得懂',
     '收件對象正確(真送前要確認 LINE_TARGET_ID)',
     '已完成人工審核,才考慮真送',
-    '真送之前,先跑過一次 mock',
+    '真送之前,先跑過一次 --flex mock',
   ];
 
   return (
@@ -168,6 +189,7 @@ export default function Dashboard() {
                 ))}
               </ol>
             )}
+            <PushReadiness report={reportJson} />
           </div>
         )}
       </StepCard>
@@ -186,10 +208,10 @@ export default function Dashboard() {
         )}
       </StepCard>
 
-      <StepCard n={3} title="生成 LINE payload 預覽" done={showPayload && contractOk} disabled={!canPreview}>
+      <StepCard n={3} title="生成 LINE Flex payload 預覽" done={showPayload && contractOk} disabled={!canPreview}>
         {!showPayload || !contractOk ? (
           <button className="dash-btn" type="button" disabled={!canPreview} onClick={() => setShowPayload(true)}>
-            生成 payload 預覽
+            生成 Flex payload 預覽
           </button>
         ) : (
           <PayloadPreview report={reportJson} />
@@ -223,7 +245,7 @@ export default function Dashboard() {
           <div className="dash-mock">
             <code>[mock] LINE_REAL_SEND is not 1, no request sent.</code>
             <p className="dash-caption">
-              {mockResult.time} 完成。這是瀏覽器內的模擬:沒有呼叫 api.line.me,
+              {mockResult.time} 完成。這對應終端機的 `node line-lab/sendLineAlert.js --flex` mock:沒有呼叫 api.line.me,
               前端程式碼裡也沒有任何 token。真送只能在終端機執行。
             </p>
           </div>

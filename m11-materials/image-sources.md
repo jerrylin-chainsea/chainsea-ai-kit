@@ -65,5 +65,5 @@
 - Claude Code 插件面板:Plan mode 指示器、`shift+tab` 切換、`/model` 模型選單展開(C2)。
 - Claude Code diff 審閱、@ 檔案的實際畫面(C2)。
 - Codex 插件面板:Chat / Agent 模式、reasoning 設定(C4)。
-- 終端機實際輸出:`npm run dev`、`node line-lab/sendLineAlert.js`(修錯前後)、`git diff`(C1/C3,簡報已有自製框可替代)。
+- 終端機實際輸出:`npm run dev`、`node line-lab/sendLineAlert.js --flex`(修錯前後)、`git diff`(C1/C3,簡報已有自製框可替代)。
 - Dashboard 實機畫面:六步全綠、紅色擋牌出現(C3,簡報可用截圖或現場 demo)。

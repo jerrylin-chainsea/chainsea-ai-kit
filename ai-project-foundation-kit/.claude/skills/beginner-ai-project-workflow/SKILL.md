@@ -23,7 +23,7 @@ description: 初學者用 AI 接手 starter 專案的總守則。當使用者要
 
 5. **涉及資料與 AI 建議時**:先檢查資料是否完整、標出異常、沒有依據不可採用、高風險決策要人工確認(可搭配 `data-check-fixed-output` skill)
 
-6. **Git 收尾**:`npm run dev` / `node line-lab/sendLineAlert.js` 看結果 → `git status` → `git diff` → 使用者確認後才 commit
+6. **Git 收尾**:`npm run dev` / `node line-lab/sendLineAlert.js --flex` 看結果 → `git status` → `git diff` → 使用者確認後才 commit
 
 7. **Git 安全規則**:先確認是不是 Git 專案(不是才提醒 `git init`);不要主動執行 `reset`、`checkout`、`clean` 這類會丟改動的指令;commit 前請使用者確認 diff
 

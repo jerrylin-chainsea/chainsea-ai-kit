@@ -1,19 +1,28 @@
-# U4 · STEP 03 ｜ 把流程固化成 SOP：/ship-check
+# U4 · STEP 03 ｜ 把平台流程固化成 SOP：/ops-check 與 /ship-check
 
-> 這四堂課你走過的流程（讀 → 計畫 → 人審 → 小改 → reviewer → build → commit），
-> 不該只存在你的記憶裡。**寫成 Skill / 自訂指令，AI 每次自動照做** —— 這才是交接得出去的本事。
+> 你現在已經把 AI coding agent、LINE OA Flex、ops agent、GitHub Actions 串成一條交付線。
+> 最後一步是把它寫成 Skill / 自訂指令，讓下次不用靠記憶。
 
-## 1. Skill 是什麼（一句話）
+## 1. 建立 /ops-check
 
-Skill = 貼在牆上的新人工作守則。放在 `.claude/skills/<name>/SKILL.md`，
-打 `/<name>` 呼叫，相關情境也會自動觸發。
+建立檔案 `.claude/commands/ops-check.md`，內容：
 
-本 starter 已內建 5 支（打 `/skills` 或 `/help` 看得到）：
-`beginner-ai-project-workflow`、`data-check-fixed-output`、`debug-react`、`git-verify`、`review-diff`。
+```text
+請檢查 U11 ops agent 自動化流程。
+不要改檔。
 
-## 2. 動手建你自己的第一個指令：/ship-check
+請根據目前檔案與輸出回答：
+1. ops-agent-lab/run_ops_check.py 是否會產生符合 report.json 合約的資料？
+2. line-lab/sendLineAlert.js --flex 是否仍是 mock 優先？
+3. .github/workflows/u11-ops-check.yml 是否只產 artifact、不真送 LINE？
+4. 人工審核前還缺哪一個證據？
+```
 
-建立檔案 `.claude/commands/ship-check.md`，內容就是交付前檢查 prompt：
+存檔後在對話框打 `/ops-check`。
+
+## 2. 建立 /ship-check
+
+建立檔案 `.claude/commands/ship-check.md`，內容：
 
 ```text
 請根據目前 git status、git diff 與 build 結果，
@@ -26,24 +35,28 @@ Skill = 貼在牆上的新人工作守則。放在 `.claude/skills/<name>/SKILL.
 4. 如果要退回，最先該退哪個檔案
 ```
 
-存檔後在對話框打 `/ship-check`。
-
-**你應該看到**：AI 照四點回答，而且沒改任何檔。
 以後每次要 commit 前，一個指令就把「交付前四問」跑完。
 
-## 3. （老師示範）MCP 一頁概念
+## 3. MCP 一頁概念
 
-MCP = 幫 AI 接上外部工具的「安全的線」（例如讓 AI 開 Chrome 幫你截圖驗收）。
+MCP = 幫 AI 接上外部工具的「安全的線」。例如：
+
+- 讓 AI 讀 GitHub Actions 結果
+- 讓 AI 開瀏覽器做畫面驗收
+- 讓 AI 查內部文件或 issue
+
 裝之前永遠先問三件事：**它能讀什麼、能不能寫、會不會碰正式資料。**
-安裝細節不在主線 —— 想玩的看 `../m11-materials/M11-16h-實作教案.md` 附錄 C。
 
 ## 4. 結業
 
 四堂課的完整弧線：
 
-```
-U1 進得了專案 → U2 管得住 AI → U3 做得出功能 → U4 收得乾淨
+```text
+U1 進得了專案
+U2 管得住 AI coding agent
+U3 接得上 LINE OA Flex
+U4 放得進 ops agent / GitHub Actions / Skill / MCP
 ```
 
 > **你不是只會問 AI，你是會管理 AI 做事的人。**
-> AI 做出來不算完成，通過驗收才算完成 —— 這句話，帶去你的下一個專案。
+> AI 做出來不算完成，通過驗收才算完成。

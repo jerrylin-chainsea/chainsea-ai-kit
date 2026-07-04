@@ -1,31 +1,49 @@
 # U4 · 驗收單
 
-## 完成物
+## ops agent
 
-- [ ] 說得出三個 AI 走鐘毛病（Drift / Debt / Regression）與各自的一句話拉回
-- [ ] 跑過一次 reviewer 卡，拿到 Verdict（PASS 或 BLOCK）
-- [ ] BLOCK 時照 Next Step 修完並重跑到 PASS
+- [ ] 說得出 `data_checker` / `ops_decider` / `push_writer` 三個角色各做什麼
+- [ ] 跑過 `python ops-agent-lab/run_ops_check.py`，看過 dry-run JSON
+- [ ] 跑過 `python ops-agent-lab/run_ops_check.py --write-report`
+- [ ] `data-lab/report.json` 仍符合七欄資料合約
+- [ ] 跑過 `node line-lab/sendLineAlert.js --flex`，產生 `line-lab/line-flex-payload.json`
+
+## GitHub Actions
+
+- [ ] 看懂 `.github/workflows/u11-ops-check.yml` 的四個主要步驟
+- [ ] 知道 workflow 只產 artifact，不真送 LINE
+- [ ] 有遠端的班級：Actions 分頁手動跑過 `U11 Ops Agent Check`
+- [ ] 下載或檢查過 artifact：`report.json`、`line-flex-payload.json`
+
+## reviewer / build / commit
+
+- [ ] 跑過 reviewer 卡，拿到 Verdict（PASS 或 BLOCK）
 - [ ] reviewer 的回報有對照 `git diff` 抽查過
-- [ ] 交付前四問逐格答「是」：畫面輸出／diff／build／commit 訊息
 - [ ] `npm run build` 通過
-- [ ] 完成 commit（訊息講得出改了什麼、為什麼）；有遠端的班級完成 push
+- [ ] `git diff -- web-lab/package.json` 沒有輸出
+- [ ] 完成 commit；有遠端的班級完成 push
+
+## Skill / MCP
+
+- [ ] 建立 `.claude/commands/ops-check.md` 並成功打出 `/ops-check`
 - [ ] 建立 `.claude/commands/ship-check.md` 並成功打出 `/ship-check`
-- [ ] 說得出 Skill 是什麼、MCP 裝之前要先問哪三件事
+- [ ] 說得出 MCP 裝之前要先問哪三件事：能讀什麼、能不能寫、會不會碰正式資料
 
 ## DoD 對照
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
 | 畫面 | Dashboard 全流程仍正常（回歸確認） |
-| 輸出 | reviewer 固定格式回報、/ship-check 四點回答 |
+| 輸出 | ops agent JSON、Flex payload、Actions artifact、reviewer 固定格式 |
 | diff | reviewer PASS 且人工抽查一致 |
 | build | `✓ built` |
-| human review | Verdict 之外，你親自看過 Human Review 欄指定的項目 |
+| human review | Actions artifact 與真送前內容都由人審核 |
 
-## 最終繳交（整門課三件）
+## 最終繳交（整門課四件）
 
-1. 可互動的營運異常 Dashboard（載入 → 檢查 → 預覽 → 審核 → mock 全通）
-2. 一份 payload 預覽（畫面截圖或 `line-lab/line-alert-payload.json`）
-3. 一次 reviewer + build + commit 的交付紀錄截圖
+1. 可互動的營運 Dashboard（載入 → 檢查 → Flex 預覽 → 審核 → mock 全通）
+2. 一份 Flex payload（畫面截圖或 `line-lab/line-flex-payload.json`）
+3. 一次 ops agent / GitHub Actions artifact 紀錄
+4. 一次 reviewer + build + commit 的交付紀錄截圖
 
 > AI 做出來不算完成，通過驗收才算完成。

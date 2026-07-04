@@ -1,6 +1,6 @@
 # U2 · STEP 01 ｜ 資料合約：整個作品只有一份資料
 
-> **這堂完成物**：看得懂資料合約、會用 planner 先出計畫、會用 allowed files 和人審把 AI 管在範圍內。
+> **這堂完成物**：看得懂資料合約、會用 planner 先出計畫、會用 allowed files 和人審把 AI coding agent 管在範圍內。
 > **你現在在流水線**：`專案跑起來 → 【檢查資料 → 資料合約】→ AI 串接 → Dashboard → 修錯 → 驗收 → 交付`
 
 ## 1. 打開唯一的資料來源
@@ -47,4 +47,4 @@ data-lab/report.json ──► web-lab Dashboard（畫面）
 沒有合約 → 錯誤資料一路流到 LINE 通知，主管看到亂七八糟的訊息。
 有合約 → 畫面出現紅色擋牌、通知在送出前被阻擋。**合約就是防線**。
 
-→ 下一步：`STEP-02-workflow.md`，學會讓 AI 在這份合約上安全做事。
+→ 下一步：`STEP-02-workflow.md`，讓 AI 在 Dashboard 裡加一個倉儲推播準備功能，但只能改允許檔案。

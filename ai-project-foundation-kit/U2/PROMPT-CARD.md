@@ -15,7 +15,7 @@
 - 這次任務相關的檔案
 
 任務：
-我要完成「營運異常 Dashboard + LINE mock 通知」中的下一步：<這堂指定任務>
+我要完成「倉儲營運 Dashboard + LINE OA Flex 推播」中的下一步：<這堂指定任務>
 
 限制：
 1. 只能修改：<允許檔案清單>
@@ -33,7 +33,7 @@ E. 可能風險
 F. 哪一步需要人類拍板
 ```
 
-**驗收**：AI 只回 A–F，一個檔都沒動（`git status` 乾淨）。
+**驗收**：AI 只回 A–F，一個檔都沒動（`git status` 沒有新增變更）。
 
 ## 卡 2 ｜ 人審四題（現在可以按同意嗎？）
 
@@ -78,5 +78,20 @@ E. 哪些地方你沒有改
 ```
 
 搭配終端機：`git status` 看範圍 → `git restore <檔>` 還原 → 加更嚴格限制重下。
+
+## 本堂任務可直接填入
+
+```text
+這堂指定任務：
+在營運異常 Dashboard 載入 report.json 後，新增「低庫存推播準備」小區塊。
+區塊要顯示：
+1. 推播主題：低庫存補貨提醒
+2. 推播通道：LINE OA Flex Message
+3. 下一步：到 U3 由人工審核後 mock 送出
+
+允許檔案清單：
+- web-lab/src/Dashboard.jsx
+- web-lab/src/styles.css（只准在 Dashboard 區塊追加樣式）
+```
 
 > 完整版在 `prompts/02-plan-mode.md`（planner）與 `prompts/03-guardrails.md`（implementer 與護欄句型）。

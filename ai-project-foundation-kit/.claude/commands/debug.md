@@ -17,4 +17,4 @@ argument-hint: [錯誤訊息或現象，例如：Dashboard 出現資料合約錯
 你修的時候：只改必要檔案、改完告訴我改了哪裡、為什麼、我要怎麼確認修好了。
 
 > 參考本專案的教學用固定錯誤：`data-lab/report.json` 的 risk_level 只能是 low / medium / high，
-> 違反時 Dashboard 會出現擋牌、`node line-lab/sendLineAlert.js` 會在送出前阻擋。
+> 違反時 Dashboard 會出現擋牌、`node line-lab/sendLineAlert.js --flex` 會在送出前阻擋。

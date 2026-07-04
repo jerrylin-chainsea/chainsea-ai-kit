@@ -4,9 +4,10 @@
 
 ## 這個專案
 
-教學用「營運異常 Dashboard + LINE mock notifier」。
+教學用「倉儲營運 Dashboard + LINE OA Flex 推播 + ops agent 自動化」。
 啟動：`cd web-lab && npm run dev`（port 5180）。build：`npm run build`。
-通知腳本：`node line-lab/sendLineAlert.js`（預設 mock；真送需 `LINE_REAL_SEND=1` + `--confirm`，僅終端機）。
+通知腳本：`node line-lab/sendLineAlert.js --flex`（預設 mock；真送需 `LINE_REAL_SEND=1` + `--flex --confirm`，僅終端機）。
+ops agent：`python ops-agent-lab/run_ops_check.py --write-report` 會產出同一份 `data-lab/report.json`，再交給 Dashboard 與 LINE Flex 腳本。
 
 ## 工作模式
 
@@ -24,3 +25,4 @@
 - 不新增套件、不改 `package.json`、不重構。
 - token 不進程式碼、不進前端、不 commit。
 - `data-lab/report.json` 是唯一資料來源；`risk_level` 只能是 `low / medium / high`。
+- GitHub Actions 主線只產生 artifact，不在 CI 裡真送 LINE。

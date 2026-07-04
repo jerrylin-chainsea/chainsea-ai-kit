@@ -1,6 +1,6 @@
 # AGENTS.md ｜ AI 工作守則（所有 coding agent 都要遵守）
 
-這個專案是教學用的「營運異常 Dashboard + LINE mock notifier」。
+這個專案是教學用的「倉儲營運 Dashboard + LINE OA Flex 推播 + ops agent 自動化」。
 你（AI）是工讀生，人是主管。守則如下，違反任何一條都要先停下來回報。
 
 ## 工作順序（固定）
@@ -31,9 +31,10 @@
 
 | 堂 | 允許修改 |
 |---|---|
-| U1/U2 | `web-lab/src/data.js` |
-| U3 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊）、`data-lab/report.json`（練習用） |
-| U4 | 依 reviewer / 交付任務指定 |
+| U1 | `web-lab/src/data.js` |
+| U2 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊） |
+| U3 | `web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅 Dashboard 區塊）、`data-lab/report.json`（練習用）、`line-lab/sendLineAlert.js`（只在老師指定串接 LINE/Flex 時） |
+| U4 | `ops-agent-lab/**`、`.github/workflows/u11-ops-check.yml`、`data-lab/report.json`（產出檔）、`line-lab/line-flex-payload.json`（產出檔）、`.claude/commands/ops-check.md`、`.claude/commands/ship-check.md` |
 
 ## 完成的定義（DoD）
 

@@ -8,13 +8,13 @@
 | 改了 report.json 畫面沒反應 | 確認存檔；dev server 還在跑；重新整理頁面再看一次 |
 | 擋牌沒出現 | 確認你改的是 `data-lab/report.json`（不是別的檔）、值真的不在 low/medium/high 內 |
 | 按鈕是灰的按不了 | 前面的步驟還沒完成 —— 照 1→2→3 的順序來，合約沒過時後面全部鎖住是**正常設計** |
-| 真送指令不出現 | 要先生成 payload 預覽、**勾選**人工審核 checkbox，而且合約要是通過狀態 |
+| 真送指令不出現 | 要先生成 Flex payload 預覽、**勾選**人工審核 checkbox，而且合約要是通過狀態 |
 
 ## 終端機類
 
 | 狀況 | 解法 |
 |---|---|
-| `LINE_REAL_SEND=1 node ...` 在 PowerShell 報錯 | PowerShell 語法不同：`$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js` |
+| `LINE_REAL_SEND=1 node ...` 在 PowerShell 報錯 | PowerShell 語法不同：`$env:LINE_REAL_SEND="1"; node line-lab/sendLineAlert.js --flex` |
 | 跑完真送測試後，之後每次都想真送 | PowerShell 的環境變數會留著：`Remove-Item Env:LINE_REAL_SEND` 清掉 |
 | `node` 找不到 | 裝 Node.js LTS；裝完重開終端機 |
 
@@ -33,5 +33,6 @@
 | AI 修錯時想順便重構 | 不放行。貼：「只做 Minimal Patch，其他都不要動。」 |
 | AI 想改 `reportContract.js` 或 `sendLineAlert.js` | 本堂不允許 —— 它們是雙胞胎，改一邊會讓畫面和腳本不同步 |
 | AI 把資料手寫進 Dashboard.jsx | 不放行。資料只有一個來源：`data-lab/report.json` |
+| AI 做了 text payload，沒做 Flex | 拉回：「本堂主線是 LINE OA Flex Message，請保留 --flex payload」 |
 
 > 原則：**今天看到 `[mock]` 才算對，不是手機收到 LINE 才算對。**

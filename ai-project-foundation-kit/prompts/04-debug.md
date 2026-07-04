@@ -1,6 +1,6 @@
 # 04 · Debug(用 ReAct 修錯:先想、再做、再看)
 
-**什麼時候用:** 程式跑出來不對。例如 Dashboard 出現紅色擋牌、或 `node line-lab/sendLineAlert.js` 報「資料合約錯誤」。
+**什麼時候用:** 程式跑出來不對。例如 Dashboard 出現紅色擋牌、或 `node line-lab/sendLineAlert.js --flex` 報「資料合約錯誤」。
 
 **ReAct = Reason(先想)+ Act(做一個動作)+ Observe(看結果)。**
 **你要練的不是「會修 bug」,而是「只修規格違反,不順手重構」。**
@@ -40,5 +40,5 @@ Blocker:哪裡需要人類決定
 完成後告訴我:改了哪裡、我要怎麼在畫面和終端機各驗收一次。
 ```
 
-> 修好後兩邊都驗:畫面擋牌消失、`node line-lab/sendLineAlert.js` 恢復 mock 成功。
+> 修好後兩邊都驗:畫面擋牌消失、`node line-lab/sendLineAlert.js --flex` 恢復 mock 成功。
 > Expected 和 Actual 分不清的時候,你修的就不是 bug,是在重新設計需求 —— 停下來問人。

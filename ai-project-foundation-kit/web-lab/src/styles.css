@@ -401,6 +401,31 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
 .dash-kv strong { font-size: 17px; }
 .dash-actions { margin: 10px 0 0 22px; display: grid; gap: 6px; color: #35505c; }
 
+.dash-ready {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.dash-ready div {
+  border: 1px solid #d7e6ee;
+  border-radius: 10px;
+  background: #f7fbfd;
+  padding: 12px;
+  display: grid;
+  gap: 5px;
+}
+.dash-ready span {
+  color: var(--muted-solid);
+  font-size: 13px;
+  font-weight: 800;
+}
+.dash-ready strong {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
 .risk-pill {
   display: inline-block;
   padding: 4px 14px;
@@ -521,5 +546,6 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
 
 @media (max-width: 560px) {
   .dash-header h2 { font-size: 30px; }
+  .dash-ready { grid-template-columns: 1fr; }
   .dash-cmd { flex-direction: column; align-items: stretch; }
 }

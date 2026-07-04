@@ -24,9 +24,9 @@
 **不用按任何按鈕**，切回瀏覽器看 Dashboard：
 
 - 紅色擋牌出現：`資料合約錯誤: risk_level 必須是 low / medium / high，目前是 "嚴重"`
-- payload 預覽、mock 結果、真送指令**全部消失** —— 合約沒過，下游全部被擋
+- Flex payload 預覽、mock 結果、真送指令**全部消失** —— 合約沒過，下游全部被擋
 
-終端機對照：跑 `node line-lab/sendLineAlert.js`，**同一句錯誤**出現在終端機。
+終端機對照：跑 `node line-lab/sendLineAlert.js --flex`，**同一句錯誤**出現在終端機。
 一份合約、兩道防線（畫面 + 腳本），這就是 U2 說的「合約就是防線」。
 
 ## 3. 貼 ReAct 卡（先分析，不改檔）
@@ -42,7 +42,7 @@
 
 貼 **放行卡**。AI 把 `risk_level` 改回 `high`（或由你手動改回，一行的事）。
 
-**你應該看到**：擋牌消失、綠色通過回來、payload 預覽重新出現。
+**你應該看到**：擋牌消失、綠色通過回來、Flex payload 預覽重新出現。
 
 ## 5. 收尾：build + diff + commit
 
@@ -59,4 +59,4 @@ git commit -m "完成 Dashboard 通知流程與 ReAct 修錯練習"
 
 **你應該看到**：build 綠色通過；diff 只有本堂預期變更；`git diff -- web-lab/package.json` **沒有輸出**。
 
-> **收束一句**：今天你看到 `[mock]`、看到擋牌出現又消失、build 通過、diff 乾淨 —— 這就是「做得出功能」的完整證據。
+> **收束一句**：今天你看到 Flex payload、看到 `[mock]`、看到擋牌出現又消失、build 通過、diff 乾淨 —— 這就是「平台功能能交付」的完整證據。
