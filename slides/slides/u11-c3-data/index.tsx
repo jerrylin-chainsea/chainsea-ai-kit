@@ -128,7 +128,7 @@ const Shell = ({ slide, children }: { slide: SlideSpec; children: ReactNode }) =
       {slide.lead ? <div style={{ marginTop: 20 }}><Lead>{slide.lead}</Lead></div> : null}
       <div className="c3-rise" style={{ marginTop: 30 }}>{children}</div>
     </div>
-    <Foot label={slide.footer ?? 'U11 · C3 · 推播中心'} />
+    <Foot label={slide.footer ?? 'U11 · C3 · 訂單可視化 + LINE Flex'} />
   </div>
 );
 
@@ -272,18 +272,18 @@ const NetworkMock = () => (
 );
 
 const slides: SlideSpec[] = [
-  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '營運 Dashboard · 推播中心\n一顆按鈕,把 LINE Flex 推出去', lead: '今天的主角是 Dashboard 上的一顆「推播 LINE Flex」按鈕。走完:選範本、載入、檢查合約、看視覺預覽、人工審核、按鈕推播;而且學生可以真的送出。指令退到後台,按鈕才是主線。' },
+  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '訂單可視化 + LINE Flex\n看懂前後端怎麼互動', lead: '今天先看訂單資料如何變成 React component、CSS 狀態與 three.js 動畫，再走 LINE 推播中心:載入、檢查合約、Flex 預覽、人工審核、mock 推播。' },
 
-  { kind: 'analogy', eyebrow: '先建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-01(開頭)', title: '推播,其實就像餐廳的「出餐鈴」', analogy: '料理備好(payload 組好)→ 店長看一眼確認沒問題(人工審核)→ 按下出餐鈴(推播按鈕),菜才會送出去。\n\n以前我們是把一長串「出餐指令」抄到終端機;今天,我們把那顆鈴做進畫面裡。' },
+  { kind: 'analogy', eyebrow: '先建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: '資料不是表格而已，它會變成畫面與通知', analogy: '訂單資料先變成畫面狀態(status → 流程點、顏色、動畫位置)，再變成通知內容(payload → LINE Flex 卡片)。\n\nC3 要看懂的不是「AI 幫我做按鈕」，而是資料如何穿過前端、後端與平台。' },
 
-  { kind: 'bullets', eyebrow: '為什麼要改成按鈕', footer: 'U11·C3 ｜ 講義:U3/STEP-01(開頭)', title: '上一版:推播要複製指令到終端機', bullets: ['真正要推播的人(營運、客服)不會想開終端機貼指令。', '「複製一長串指令」很容易貼錯、漏參數,也看不到內容長怎樣。', '按鈕 + 視覺預覽,才是真實產品裡「推播」的樣子。', '所以今天:主線在 Dashboard 上按按鈕,終端機指令退成對照。'] },
+  { kind: 'bullets', eyebrow: '今天多學三個前端詞', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: '你不需要從零寫 React，但要看得懂專案怎麼拆', bullets: ['component：OrderFlow.jsx 裡的 OrderLane，把一筆訂單畫成一條流程。', 'CSS：styles.css 裡的 flow-dot / order-lane，決定狀態顏色與版面。', 'src：前端主要程式都在 web-lab/src，不要看到資料夾就慌。', 'three.js：OrderFlowCanvas.jsx 把訂單狀態變成流動箱子動畫。'] },
 
-  { kind: 'flow', eyebrow: '今日主線', footer: 'U11·C3 ｜ 講義:START-HERE.md(主線圖)', title: '一條流水線,兩種範本都走同一條', steps: ['選範本\n異常/訂單', '載入\n資料', '檢查\n資料合約', 'Flex\n視覺預覽', '人工審核\ncheckbox', '按鈕\n推播', 'ReAct\n修錯 · commit'] },
+  { kind: 'flow', eyebrow: '今日主線', footer: 'U11·C3 ｜ 講義:START-HERE.md(主線圖)', title: '同一份倉儲語境，走兩條線', steps: ['訂單資料\n狀態欄位', 'React\ncomponent', 'CSS\n狀態樣式', 'three.js\n可視化', 'API\n/api/send-line-flex', 'LINE Flex\nmock', 'ReAct\n修錯 · commit'] },
 
   { kind: 'shot', eyebrow: '今日成果畫面', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '這就是今天要做出來的「推播中心」', img: pushOverview, caption: '上面是範本切換(營運異常 / 訂單資訊),下面是五步:載入 → 檢查 → 預覽 → 人審 → 推播。整條線在同一個畫面上完成。' },
 
   { kind: 'cards', eyebrow: '完成的定義 · DoD', footer: 'U11·C3 ｜ 講義:START-HERE.md(DoD)', title: 'AI/系統做出來不算完成,通過驗收才算完成', cards: [
-    { title: '畫面', body: '兩種範本都走通、擋牌能出現也能消失。', color: C.orange },
+    { title: '畫面', body: '訂單可視化正常、兩種 Flex 範本都走通、擋牌能出現也能消失。', color: C.orange },
     { title: '推播', body: '按鈕按下去,看到 [mock] 或真送成功。', color: C.blue },
     { title: 'diff', body: 'git diff 只有本堂允許檔案。', color: C.amber },
     { title: 'build', body: 'npm run build 綠色通過、bundle 無 token。', color: C.red },
@@ -291,16 +291,27 @@ const slides: SlideSpec[] = [
   ] },
 
   // ── 段 1 ─────────────────────────────────────────────
-  { kind: 'section', sectionNo: '1', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:15 - 1:20', title: '按鈕走主線:選範本 → 載入 → 檢查 → 預覽', lead: '一鍵啟動,切到「營運異常 Dashboard」。先只用畫面上的按鈕把主線走一遍,還不送出。' },
+  { kind: 'section', sectionNo: '1', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:15 - 1:20', title: '先看訂單可視化，再進推播中心', lead: '一鍵啟動，先切到「訂單可視化」看資料如何驅動畫面，再切到「LINE 推播中心」走按鈕主線。' },
 
-  { kind: 'code', eyebrow: '段 1 · 資料來源', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '一種範本,對應一份資料合約', label: 'data-lab/report.json(營運異常範本的唯一資料來源)', code: `{
-  "report_date": "2026-07-02",
+  { kind: 'cards', eyebrow: '段 1 · 訂單可視化', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1–2', title: '一筆訂單會影響四種畫面訊號', cards: [
+    { title: 'status', body: '待揀貨 / 已揀貨 / 待出貨 / 缺料等待，決定流程點位置與顏色。', color: C.orange },
+    { title: 'zone', body: '顯示訂單所在區域，讓後台與動畫有一致語言。', color: C.blue },
+    { title: 'amount', body: '顯示風險金額，不只是裝飾數字。', color: C.amber },
+    { title: 'eta', body: '對營運來說，下一步要看 ETA 是否會延遲。', color: C.red },
+  ] },
+
+  { kind: 'code', eyebrow: '段 1 · 前端檔案', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '三個檔案先看懂，不需要整個 React 都會', label: 'web-lab/src', code: `OrderFlow.jsx        // React component:一筆訂單畫成一條 lane
+OrderFlowCanvas.jsx  // three.js:訂單流動動畫
+styles.css           // CSS:狀態顏色、版面、RWD` },
+
+  { kind: 'code', eyebrow: '段 1 · LINE 資料來源', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §3', title: '推播範本,對應一份資料合約', label: 'data-lab/report.json(營運異常範本)', code: `{
+  "report_date": "2026-07-05",
   "risk_level": "high",
-  "total_revenue": 128400,
-  "anomaly_count": 5,
-  "top_product": "耳掛咖啡",
-  "top_channel": "LINE",
-  "action_items": ["先人工確認第 8 列與第 17 列營收資料。", "暫停把異常列納入週報。"]
+  "total_revenue": 31680,
+  "anomaly_count": 4,
+  "top_product": "冷鏈保溫箱 32L",
+  "top_channel": "B2B Portal",
+  "action_items": ["補貨 冷鏈保溫箱 32L", "主管確認 ETA 與收件對象"]
 }` },
 
   { kind: 'cards', eyebrow: '段 1 · 兩個範本', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1', title: '同一套流程,能推兩種不同訊息', cards: [
@@ -355,7 +366,7 @@ LINE_TARGET_ID=你的 userId 或 groupId
 LINE_REAL_SEND=1
 
 # 重要:改完 .env 一定要「重新啟動 npm run dev」才會生效
-# 之後在 Dashboard 按「推播 LINE Flex」→ 手機真的收到` },
+# 之後在 LINE 推播中心按「推播 LINE Flex」→ 手機真的收到` },
 
   { kind: 'bullets', eyebrow: '段 4 · 保底', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '現場狀況不阻塞課堂', bullets: ['沒有 LINE OA:看到 [mock] 就算過關(真送是加分)。', '按了沒反應 / 回 network error:多半是在 build/preview 模式,那沒有後端 —— 回到 npm run dev。', '改了 .env 沒生效:忘了重啟 dev。', 'JSON 改壞語法出現全螢幕錯誤:改回原樣即恢復。'] },
 
@@ -370,7 +381,7 @@ LINE_REAL_SEND=1
 # 後端:handlePush 也會回 contract_error(同一句錯誤)` },
 
   { kind: 'prompt', eyebrow: '段 5 · Prompt 卡 2', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 2', title: 'ReAct debug:先分析,不改檔', label: '固定學生 prompt', code: `你現在扮演 debugger。先不要改檔。
-目前問題:Dashboard 出現紅色擋牌,risk_level 變成中文「嚴重」,
+目前問題:LINE 推播中心出現紅色擋牌,risk_level 變成中文「嚴重」,
 但資料合約規定只能是 low / medium / high。
 請用以下格式回答:
 Expected / Actual / Reason / Act / Observe /
@@ -385,14 +396,14 @@ cd ..
 git status
 git diff
 git add .
-git commit -m "把推播改成 Dashboard 按鈕、加訂單範本、完成 ReAct 修錯"` },
+git commit -m "完成訂單可視化、LINE Flex mock 與 ReAct 修錯"` },
 
   { kind: 'bullets', eyebrow: '段 6 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['兩種範本都走通:載入 → 檢查 → 預覽 → 人審 → 推播。', '按鈕按下去看到 [mock](或設好 .env 後 sent)。', '未勾 checkbox 時推播按鈕是暗的、按不下去。', 'F12 只有 localhost/api/send-line-flex;瀏覽器沒有 api.line.me。', 'npm run build 通過、bundle grep 不到 token;.env 沒有被 commit。', 'ReAct 把「嚴重」修回合約允許值,擋牌消失、diff 乾淨。'] },
 
   { kind: 'cards', eyebrow: '收束 · 回顧四堂', title: '你從「會問 AI」正在變成「會做、會管」', cards: [
     { title: 'C1 進得了專案', body: '打開、跑起來、改一個字、存檔。' },
-    { title: 'C2 管得住 AI', body: '資料合約 + planner→人審→implementer。' },
-    { title: 'C3 接上平台(今天)', body: '按鈕推播 LINE Flex、token 留後端、ReAct 修錯。', color: C.orange },
+    { title: 'C2 管得住 AI', body: 'AGENTS/CLAUDE + planner→人審→implementer。' },
+    { title: 'C3 接上平台(今天)', body: '訂單可視化、按鈕推播 LINE Flex、token 留後端、ReAct 修錯。', color: C.orange },
     { title: 'C4 下一堂', body: '把流程自動化,再用三個 MCP 幫 AI 接上外部工具。' },
   ] },
 ];
@@ -408,7 +419,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
             {slide.lead ? <div style={{ marginTop: 28 }}><Lead>{slide.lead}</Lead></div> : null}
           </div>
         </div>
-        <div style={{ position: 'absolute', right: 108, bottom: 86, fontFamily: mono, color: C.muted, fontSize: 22 }}>推播中心 · 雙範本 · Human Review · 真送 · ReAct</div>
+        <div style={{ position: 'absolute', right: 108, bottom: 86, fontFamily: mono, color: C.muted, fontSize: 22 }}>訂單可視化 · 推播中心 · Human Review · ReAct</div>
         <Foot label="U11 · C3" />
       </div>
     );
@@ -433,7 +444,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
 const pages = slides.map((slide) => (() => <DeckPage slide={slide} />) as Page);
 
 export const meta: SlideMeta = {
-  title: 'U11-C3: 營運 Dashboard 推播中心 + LINE OA Flex(按鈕主線)',
+  title: 'U11-C3: 訂單可視化 + LINE OA Flex/API/token',
   createdAt: '2026-07-04T00:00:00.000Z',
 };
 
