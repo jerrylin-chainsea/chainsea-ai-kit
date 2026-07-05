@@ -1,7 +1,9 @@
 ﻿import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
 import { useSlidePageNumber } from '@open-slide/core';
 import type { ReactNode } from 'react';
-import warehouseAdminShot from './assets/warehouse-admin.png';
+import c2DashboardResultShot from './assets/c2-dashboard-result.png';
+import c2LogicFixShot from './assets/c2-logic-fix.png';
+import c2TestPassShot from './assets/c2-test-pass.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#f5f6f8', text: '#181a1f', accent: '#e2570d' },
@@ -72,7 +74,7 @@ const Eyebrow = ({ children }: { children: ReactNode }) => (
 );
 
 const Title = ({ children, size = 62 }: { children: ReactNode; size?: number }) => (
-  <div style={{ fontSize: size, fontWeight: 900, letterSpacing: '-.015em', lineHeight: 1.1, whiteSpace: 'pre-wrap' }}>{children}</div>
+  <div style={{ fontSize: size, fontWeight: 900, letterSpacing: 0, lineHeight: 1.1, whiteSpace: 'pre-wrap' }}>{children}</div>
 );
 
 const Lead = ({ children }: { children: ReactNode }) => (
@@ -88,6 +90,18 @@ const Shell = ({ eyebrow, title, lead, children, foot }: { eyebrow?: string; tit
       {children ? <div className="c2-rise" style={{ marginTop: 30 }}>{children}</div> : null}
     </div>
     <Foot label={foot} />
+  </div>
+);
+
+const EvidenceShell = ({ eyebrow, title, lead, children }: { eyebrow: string; title: ReactNode; lead: ReactNode; children: ReactNode }) => (
+  <div style={fill}>
+    <div style={pad}>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <div style={{ marginTop: 14 }}><Title size={48}>{title}</Title></div>
+      <div style={{ marginTop: 14, fontSize: 24, color: C.muted, lineHeight: 1.42, maxWidth: 1350 }}>{lead}</div>
+      <div className="c2-rise" style={{ marginTop: 22 }}>{children}</div>
+    </div>
+    <Foot />
   </div>
 );
 
@@ -191,21 +205,67 @@ const ContractDiagram = () => (
           <div style={{ fontSize: 24, color: C.muted, marginTop: 8 }}>C2 先讓 action queue 從訂單資料算出客服確認規則。</div>
         </div>
         <div style={{ background: '#eef4ff', border: '1px solid #cfe0fb', borderRadius: 16, padding: '22px 26px' }}>
-          <div style={{ color: C.blue, fontSize: 28, fontWeight: 850 }}>C3 訂單可視化 / LINE Flex</div>
-          <div style={{ fontSize: 24, color: C.muted, marginTop: 8 }}>C3 才進 API、payload、token 與 mock send。</div>
+          <div style={{ color: C.blue, fontSize: 28, fontWeight: 850 }}>後續課程</div>
+          <div style={{ fontSize: 24, color: C.muted, marginTop: 8 }}>C2 先把資料規則打穩；API、token、webhook 留到 C3。</div>
         </div>
       </div>
     </div>
   </div>
 );
 
+const ControlProcessBoard = () => {
+  const steps = [
+    { k: '01', title: '讀現況', body: '先開專案、看後台、找出資料從哪裡來。', color: C.blue },
+    { k: '02', title: '拆需求', body: '把一句話拆成資料、規則、畫面與驗收。', color: C.green },
+    { k: '03', title: 'Plan Mode', body: 'AI 只能提出 A-F 計畫，還不能改檔。', color: C.orange },
+    { k: '04', title: '最小實作', body: '只填 getPendingLineOrders，不改 UI、不碰 API。', color: C.amber },
+    { k: '05', title: '驗收交付', body: '跑測試、看畫面、看 diff、build 後才 commit。', color: C.red },
+  ];
+  return (
+    <div style={{ maxWidth: 1540 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14 }}>
+        {steps.map((step, i) => (
+          <div key={step.k} style={{ position: 'relative', minHeight: 210, background: C.card, border: `1px solid ${C.line}`, borderTop: `7px solid ${step.color}`, borderRadius: 16, padding: '24px 22px', boxShadow: '0 18px 44px -34px rgba(20,20,30,.45)' }}>
+            <div style={{ fontFamily: mono, color: step.color, fontSize: 19, fontWeight: 900 }}>{step.k}</div>
+            <div style={{ marginTop: 18, fontSize: 31, fontWeight: 900, lineHeight: 1.15 }}>{step.title}</div>
+            <div style={{ marginTop: 12, fontSize: 22, color: C.muted, lineHeight: 1.45 }}>{step.body}</div>
+            {i < steps.length - 1 ? <div style={{ position: 'absolute', right: -18, top: 96, width: 30, height: 30, borderRadius: 999, background: C.bg, color: C.faint, display: 'grid', placeItems: 'center', fontSize: 24, zIndex: 2 }}>→</div> : null}
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 22, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+        {[
+          ['不是', '不是把 prompt 一張張貼完，等 AI 自己說完成。', C.red],
+          ['是', '每個 prompt 都有角色、範圍、允許檔案與驗收點。', C.green],
+          ['老師要強調', '學生真正學到的是控制 AI 進入工程流程。', C.blue],
+        ].map(([title, body, color]) => (
+          <div key={title} style={{ background: '#f7f8fa', border: `1px solid ${C.line}`, borderLeft: `8px solid ${color}`, borderRadius: 14, padding: '18px 22px' }}>
+            <div style={{ fontSize: 24, fontWeight: 900, color }}>{title}</div>
+            <div style={{ marginTop: 8, fontSize: 23, color: C.muted, lineHeight: 1.38 }}>{body}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const DashboardMock = () => (
-  <div style={{ maxWidth: 1180, background: C.card, border: `1px solid ${C.line}`, borderRadius: 18, overflow: 'hidden', boxShadow: '0 26px 70px -42px rgba(30,30,40,.52)' }}>
+  <div style={{ maxWidth: 1040, background: C.card, border: `1px solid ${C.line}`, borderRadius: 18, overflow: 'hidden', boxShadow: '0 26px 70px -42px rgba(30,30,40,.52)' }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '11px 16px', background: '#eef2f5', borderBottom: `1px solid ${C.line}` }}>
       {['#ff5f57', '#febc2e', '#28c840'].map((color) => <span key={color} style={{ width: 12, height: 12, borderRadius: '50%', background: color }} />)}
       <span style={{ marginLeft: 10, fontFamily: mono, color: C.muted, fontSize: 17 }}>localhost:5180 · 倉儲後台</span>
     </div>
-    <img src={warehouseAdminShot} alt="" style={{ display: 'block', width: '100%', height: 'auto' }} />
+    <img src={c2DashboardResultShot} alt="" style={{ display: 'block', width: '100%', height: 'auto' }} />
+  </div>
+);
+
+const ScreenshotFrame = ({ src, label, maxWidth = 1120 }: { src: string; label: string; maxWidth?: number }) => (
+  <div style={{ maxWidth, background: C.card, border: `1px solid ${C.line}`, borderRadius: 18, overflow: 'hidden', boxShadow: '0 26px 70px -42px rgba(30,30,40,.52)' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '11px 16px', background: '#eef2f5', borderBottom: `1px solid ${C.line}` }}>
+      {['#ff5f57', '#febc2e', '#28c840'].map((color) => <span key={color} style={{ width: 12, height: 12, borderRadius: '50%', background: color }} />)}
+      <span style={{ marginLeft: 10, fontFamily: mono, color: C.muted, fontSize: 17 }}>{label}</span>
+    </div>
+    <img src={src} alt="" style={{ display: 'block', width: '100%', height: 'auto' }} />
   </div>
 );
 
@@ -233,12 +293,12 @@ const Cover: Page = () => (
 
 const CourseMap: Page = () => (
   <Shell eyebrow="你現在在哪裡" title="四堂課串成同一條交付線" lead="C2 是轉折點：從會打開專案，進到會控制 AI 的修改範圍。">
-    <Flow steps={['C1\n啟動專案\n看見成果', 'C2\n倉儲資料語言\nPlanner/Implementer', 'C3\nLINE OA Flex\nmock 通知', 'C4\nops agent\nActions/Skill']} />
+    <Flow steps={['C1\n啟動專案\n看見成果', 'C2\n填一個 helper\n跑完整驗收', 'C3\n可視化 / LINE\nAPI 概念', 'C4\nMCP / Skills\n學習 Blog']} />
   </Shell>
 );
 
 const TodayGoal: Page = () => (
-  <Shell eyebrow="今日成果" title="C2 做完要留下三樣東西" lead="這三樣會直接餵給 C3，所以今天的修改要小、可驗、可交接。">
+  <Shell eyebrow="今日成果" title="C2 做完要留下四樣東西" lead="這四樣會直接餵給 C3，所以今天的修改要小、可驗、可交接。">
     <Cards columns={4} items={[
       { title: '一份倉儲資料語言', body: '知道 warehouseData.js 裡 orders、channel、status、priority 各代表什麼。' },
       { title: '一套 AI 工作流', body: 'planner 先出 A-F 計畫，人類審核後 implementer 才能動手。' },
@@ -249,18 +309,48 @@ const TodayGoal: Page = () => (
 );
 
 const ControlledVibe: Page = () => (
-  <Shell eyebrow="核心觀念" title="Vibe coding 可以很快，但不受控就很危險" lead="C2 要教的是受控版本：自然語言需求 + 專案守則 + Plan Mode + 人審 + 測試驗收 + git diff。">
+  <Shell eyebrow="核心觀念" title="Vibe coding 是用自然語言驅動 AI 開發" lead="你描述需求，AI coding agent 讀專案、改檔案、跑指令、回報結果。C2 教的是受控版本：專案守則 + Plan Mode + 人審 + 測試驗收 + git diff。">
     <Cards columns={3} items={[
-      { title: '不是', body: '貼一句「幫我做」然後相信 AI 說完成。', color: C.red },
-      { title: '而是', body: '先界定資料、規則、畫面、測試與驗收。', color: C.green },
-      { title: '最後', body: '讓 agent 在允許檔案內做最小修改，通過驗收才 commit。', color: C.blue },
+      { title: '不受控', body: '貼一句「幫我做」然後相信 AI 說完成。', color: C.red },
+      { title: '受控', body: '先界定資料、規則、畫面、測試與驗收。', color: C.green },
+      { title: '可交付', body: 'agent 只在允許檔案內做最小修改，通過驗收才 commit。', color: C.blue },
     ]} />
+  </Shell>
+);
+
+const ControlledFlowShot: Page = () => (
+  <Shell eyebrow="課程入口" title="畫面上不是一直貼 prompt，而是跑一條開發流程" lead="這頁先把學生的注意力拉回主線：每一段 prompt 都對應到一個工程動作與驗收點。">
+    <ControlProcessBoard />
   </Shell>
 );
 
 const Schedule: Page = () => (
   <Shell eyebrow="4 小時節奏" title="先理解規格，再讓 AI 寫程式" lead="本堂課刻意慢在前半段。規格不清楚時，AI 寫越快，返工越快。">
     <Timeline />
+  </Shell>
+);
+
+const StageMeaning: Page = () => (
+  <Shell eyebrow="四段在教什麼" title="每一段只解決一個教學問題" lead="老師講這堂課時，可以用這四句話把學生拉回主線。">
+    <Cards columns={4} items={[
+      { title: '段 1：讀懂資料', body: '教學生看倉儲後台、orders、channel/status，以及 helper 會影響哪幾個畫面。', color: C.blue },
+      { title: '段 2：先要計畫', body: '教 AGENTS、CLAUDE、Plan Mode。學生審 A-F 計畫，不讓 AI 先改檔。', color: C.orange },
+      { title: '段 3：只填 helper', body: '教 implementer 做最小修改：完成 getPendingLineOrders，不改 UI、不碰 API。', color: C.green },
+      { title: '段 4：驗收交付', body: '教測試分層、測試腳本、畫面三處連動、diff、build、reviewer。', color: C.red },
+    ]} />
+  </Shell>
+);
+
+const HandoutSteps: Page = () => (
+  <Shell eyebrow="實際講義路線" title="今天不是自由發散，而是照這條路走" lead="每一段講解都對應到 U2 裡的一個檔案；學生跟著做，最後只會完成一個明確挖洞點。">
+    <Cards columns={3} items={[
+      { title: 'STEP 00', body: '先講 C2 到底在訓練什麼：控制 AI 做可驗收修改。', color: C.blue },
+      { title: 'STEP 01', body: '定義 vibe coding、AGENTS、CLAUDE、Plan Mode 與人審。', color: C.orange },
+      { title: 'STEP 02', body: '讀倉儲資料、訂單資料表，以及 getPendingLineOrders 挖洞點。', color: C.green },
+      { title: 'WORKSHEET', body: '把需求拆成資料、規則、畫面位置、驗收方式。', color: C.amber },
+      { title: 'STEP 03', body: 'planner 先出 A-F 計畫，人審通過後 implementer 才改檔。', color: C.red },
+      { title: 'STEP 04 / 05', body: '跑測試、看畫面、看 diff、build，再補部署概念。', color: C.blue },
+    ]} />
   </Shell>
 );
 
@@ -274,7 +364,7 @@ const AgentFiles: Page = () => (
   </Shell>
 );
 
-const Sec1: Page = () => <SectionSlide no="1" time="0:20 - 0:55" title="倉儲資料語言：warehouseData.js 與 warehouseLogic.js" lead="先讀懂資料，才有資格要求 AI 改畫面。C2 的核心是讓資料欄位成為規格，而不是口頭感覺。" />;
+const Sec1: Page = () => <SectionSlide no="1" time="0:55 - 1:30" title="倉儲資料語言：warehouseData.js 與 warehouseLogic.js" lead="先讀懂資料，才有資格要求 AI 改畫面。C2 的核心是讓資料欄位成為規格，而不是口頭感覺。" />;
 
 const DataContract: Page = () => (
   <Shell eyebrow="段 1 · warehouseData.js" title="今天的規則從訂單資料算出來" lead="AI 可以幫你寫判斷，但不能手寫假資料。規則要從 orders 裡的 channel/status 算出來。">
@@ -291,7 +381,7 @@ const DataContract: Page = () => (
 );
 
 const Fields: Page = () => (
-  <Shell eyebrow="段 1 · 欄位語言" title="每個欄位都要能解釋為什麼存在" lead="今天先讓倉儲後台正確顯示與整理；下一堂才把訂單資訊變成 LINE Flex payload。">
+  <Shell eyebrow="段 1 · 欄位語言" title="每個欄位都要能解釋為什麼存在" lead="今天先讓倉儲後台用資料說話；下一堂才把訂單資訊拿去做 LINE 與 API 流程。">
     <Cards items={[
       { title: 'channel', body: 'LINE OA 訂單需要客服確認收件人與 ETA。', color: C.red },
       { title: 'status', body: '已出貨不用提醒；尚未出貨才進 action queue。', color: C.blue },
@@ -308,11 +398,11 @@ const TwoDownstreams: Page = () => (
 );
 
 const Guardrails: Page = () => (
-  <Shell eyebrow="段 1 · 允許範圍" title="今天只允許改 倉儲後台相關檔案" lead="限制範圍不是綁手綁腳，是讓 AI 的輸出可以被驗收。">
+  <Shell eyebrow="段 1 · 允許範圍" title="今天只允許改一個 helper" lead="限制範圍不是綁手綁腳，是讓 AI 的輸出可以被驗收。">
     <Cards columns={3} items={[
-      { title: '可以改', body: 'web-lab/src/warehouseLogic.js', color: C.green },
-      { title: '不該改', body: 'package.json、line-lab、data-lab、任何 token 或 .env。', color: C.red },
-      { title: '要保留', body: '既有倉儲後台能跑、訂單可視化能讀、C3 LINE 主線不被破壞。', color: C.blue },
+      { title: '可以改', body: 'web-lab/src/warehouseLogic.js 裡的 getPendingLineOrders。', color: C.green },
+      { title: '不該改', body: 'WarehouseAdmin、styles、warehouseData、package、line-lab、token 或 .env。', color: C.red },
+      { title: '要保留', body: '畫面已經接好；學生只補資料規則，不重做後台。', color: C.blue },
     ]} />
   </Shell>
 );
@@ -328,11 +418,11 @@ npm run dev
   </Shell>
 );
 
-const Sec2: Page = () => <SectionSlide no="2" time="0:55 - 1:40" title="Planner：先要計畫，不要先要程式" lead="Plan mode 的目的，是把 AI 從「立刻動手」切到「先說清楚」。學生要先審計畫，再讓它實作。" />;
+const Sec2: Page = () => <SectionSlide no="2" time="1:30 - 2:15" title="Planner：先要計畫，不要先要程式" lead="Plan mode 的目的，是把 AI 從「立刻動手」切到「先說清楚」。學生要先審計畫，再讓它實作。" />;
 
 const WhyPlanner: Page = () => (
   <Shell eyebrow="段 2 · AI 工作流" title="Planner 只做規劃，不能改檔" lead="如果 AI 在 Plan mode 邊講邊改，就已經偏航。第一個驗收是 git status 必須乾淨。">
-    <Flow steps={['讀規則\nAGENTS/CLAUDE', '讀資料\nwarehouseData.js', '界定目標\nLINE OA 規則', '列 A-F 計畫\n不改檔', '人類審核\n批准/修正']} />
+    <Flow steps={['讀規則\nAGENTS/CLAUDE', '讀資料\nwarehouseData.js', '界定目標\n待確認規則', '列 A-F 計畫\n不改檔', '人類審核\n批准/修正']} />
   </Shell>
 );
 
@@ -348,8 +438,9 @@ const PlannerPrompt: Page = () => (
 - 目前 倉儲後台相關檔案
 
 目標：
-在倉儲後台 action queue 新增一條「LINE OA 訂單需要客服確認」規則。
-規則要從 orderItems 判斷 LINE OA 且尚未出貨的訂單；今天不真的送 LINE。
+完成 getPendingLineOrders(orderItems)。
+規則要從 orderItems 回傳 channel 是 LINE OA 且尚未出貨的訂單。
+這個 helper 會帶動 KPI、訂單明細、action queue；今天不改 UI，也不真的送 LINE。
 
 請只回覆：
 A. 建議修改哪些檔案
@@ -365,11 +456,11 @@ const ExpectedPlan: Page = () => (
   <Shell eyebrow="段 2 · 計畫長相" title="好的 planner 回覆應該像規格，不像作文" lead="學生審核時只看幾個關鍵點：範圍、資料、風險、驗收。">
     <Cards items={[
       { title: 'A 檔案範圍', body: '只點名 warehouseLogic.js；沒有碰 line-lab 或 package.json。' },
-      { title: 'B 修改內容', body: '在 buildActionQueue 加一條規則，不重寫整個後台。' },
+      { title: 'B 修改內容', body: '只完成 getPendingLineOrders，不改 WarehouseAdmin 或資料結構。' },
       { title: 'C 資料欄位', body: '讀 orderItems 的 channel 與 status，不手寫假資料。' },
-      { title: 'D 驗收方式', body: 'action queue 看得到規則，npm run build 通過，git diff 範圍乾淨。' },
+      { title: 'D 驗收方式', body: '測試腳本通過，KPI / 明細 / action queue 都被同一條規則帶動。' },
       { title: 'E 風險', body: '避免發送 LINE、避免寫死 token、避免改資料結構。' },
-      { title: 'F 順序', body: '先 UI 結構，再樣式，再 build，再 diff。' },
+      { title: 'F 順序', body: '先讀 helper 用在哪裡，再實作，再測試、看 diff、build。' },
     ]} />
   </Shell>
 );
@@ -386,12 +477,12 @@ const HumanReview: Page = () => (
   </Shell>
 );
 
-const Sec3: Page = () => <SectionSlide no="3" time="1:40 - 2:30" title="Implementer：小範圍修改倉儲邏輯" lead="人審通過後，才讓 AI 實作。這次不是重做整個頁面，而是在既有 action queue 裡補一條規則。" />;
+const Sec3: Page = () => <SectionSlide no="3" time="2:15 - 2:55" title="Implementer：小範圍修改倉儲邏輯" lead="人審通過後，才讓 AI 實作。這次不是重做整個頁面，而是把老師預留的 helper 補正確。" />;
 
 const TaskSpec: Page = () => (
-  <Shell eyebrow="段 3 · 實作目標" title="新增「LINE OA 訂單需要客服確認」規則" lead="這條規則要讓學生理解：資料先變成後台 action，C3 才進 LINE Flex payload 與 mock send。">
+  <EvidenceShell eyebrow="段 3 · 實作目標" title="完成「待確認訂單」判斷規則" lead="後台畫面已經接好。學生要完成的是資料 helper，讓同一條規則同步影響 KPI、明細與處理佇列。">
     <DashboardMock />
-  </Shell>
+  </EvidenceShell>
 );
 
 const ImplementerPrompt: Page = () => (
@@ -415,22 +506,29 @@ E. 是否有任何未完成或風險`}</Prompt>
   </Shell>
 );
 
+const LogicFixScreenshot: Page = () => (
+  <EvidenceShell eyebrow="段 3 · 實作證據" title="C2 的實作不是做整頁，而是完成一個資料規則" lead="這張圖用來示範學生最後真的要改的範圍：只填 getPendingLineOrders，不碰 API、token、package 或 C3 主線。">
+    <ScreenshotFrame src={c2LogicFixShot} label="dry run · web-lab/src/warehouseLogic.js" />
+  </EvidenceShell>
+);
+
 const VisualRules: Page = () => (
-  <Shell eyebrow="段 3 · UI 驗收" title="畫面要像工具，不像宣傳頁" lead="這是倉儲後台，不是 landing page。資訊要能掃描、比較、重複使用。">
+  <Shell eyebrow="段 3 · 畫面驗收" title="同一條 helper 要牽動三個畫面位置" lead="這裡不是要學生設計 UI，而是確認資料規則真的被既有畫面使用。">
     <Cards columns={3} items={[
-      { title: '清楚標題', body: 'LINE OA 訂單需要客服確認，讓人知道這條 action 的工作目的。' },
-      { title: '資料帶入', body: '顯示筆數、通路、狀態或 ETA，不寫死任意假資料。' },
-      { title: '狀態分明', body: '明確表示這只是 C2 後台提醒，不是已送出通知。' },
-      { title: '不誤導', body: '不要出現「已送出 LINE」這種 C2 不會發生的狀態。' },
-      { title: '不擠版', body: '桌機與窄螢幕都不能文字溢出或互相重疊。' },
-      { title: '不重構', body: '既有倉儲後台能跑，不為了漂亮而重寫整頁。' },
+      { title: 'KPI', body: '待確認訂單數字不再是 0，且金額來自訂單資料。' },
+      { title: '警示燈', body: '待確認訂單有筆數，點下去能看到對應問題。' },
+      { title: '明細', body: '明細列出尚未出貨、需要客服確認的訂單。' },
+      { title: '處理佇列', body: '出現客服確認 action，但不誤稱已送出 LINE。' },
+      { title: '資料來源', body: '不在 UI 寫死數字，全部從 orderItems 計算。' },
+      { title: '範圍', body: '畫面有反應即可，不為了美化重寫整頁。' },
     ]} />
   </Shell>
 );
 
 const QuickVerify: Page = () => (
-  <Shell eyebrow="段 3 · 立即檢查" title="改完不要先 commit，先看畫面與 diff" lead="AI 回報完成不代表完成。先用本機工具驗證。">
+  <Shell eyebrow="段 3 · 立即檢查" title="改完不要先 commit，先看 diff 與測試" lead="AI 回報完成不代表完成。先用本機工具驗證。">
     <Code label="terminal">{`cd ai-project-foundation-kit/web-lab
+node scripts/check-warehouse-logic.mjs
 npm run build
 
 cd ..
@@ -438,7 +536,7 @@ git status
 git diff -- web-lab/src/warehouseLogic.js
 
 # 檢查：是否只有允許檔案被改？
-# 檢查：倉儲後台 action queue 是否仍從資料計算？
+# 檢查：KPI / 明細 / action queue 是否由同一條 helper 帶動？
 # 檢查：C2 是否沒有真的送 LINE？`}</Code>
   </Shell>
 );
@@ -464,18 +562,24 @@ node scripts/check-warehouse-logic.mjs
   </Shell>
 );
 
+const TestPassScreenshot: Page = () => (
+  <EvidenceShell eyebrow="段 4 · 驗收證據" title="測試與 build 都通過，才進 reviewer" lead="這張圖讓學生看到完成定義不是 AI 回報，而是可以重跑的驗收證據。">
+    <ScreenshotFrame src={c2TestPassShot} label="dry run · terminal evidence" />
+  </EvidenceShell>
+);
+
 const VerificationStack: Page = () => (
   <Shell eyebrow="段 4 · 驗收堆疊" title="一個功能至少要過四層驗收" lead="AI 說完成只是第一句話，不是完成定義。">
     <Flow steps={['測試腳本\n資料規則成立', '畫面驗收\n三處連動', 'Git diff\n範圍乾淨', 'Build\n可打包', 'Reviewer\nPASS / BLOCK']} />
   </Shell>
 );
 
-const Sec4: Page = () => <SectionSlide no="4" time="2:30 - 4:00" title="Reviewer：救偏航、驗收、交接到 C3" lead="最後一段把學生從「AI 說好了」拉回工程交付：看錯誤、看 diff、看 build，然後只交付可驗證的修改。" />;
+const Sec4: Page = () => <SectionSlide no="4" time="2:55 - 4:00" title="Reviewer：救偏航、驗收、交接到 C3" lead="最後一段把學生從「AI 說好了」拉回工程交付：看錯誤、看 diff、看 build，然後只交付可驗證的修改。" />;
 
 const Pitfalls: Page = () => (
   <Shell eyebrow="段 4 · 常見偏航" title="看到這些狀況，先停下來，不要繼續加需求" lead="C2 的錯通常不是技術不會，而是 AI 擅自把範圍擴大。">
     <Cards items={[
-      { title: 'AI 改了 line-lab', body: '立刻要求回到 C2 範圍；LINE Flex 是 C3。', color: C.red },
+      { title: 'AI 改了 line-lab', body: '立刻要求回到 C2 範圍；LINE API 與推播是 C3。', color: C.red },
       { title: 'AI 改了 package.json', body: '問清楚為什麼需要新依賴；本堂原則是不新增依賴。', color: C.red },
       { title: 'AI 寫死假資料', body: '要求改回讀 warehouseData.js 欄位，不要在 UI 裡硬塞數字。', color: C.amber },
       { title: '畫面太像行銷頁', body: '收斂成後台 action：標題、資料來源、下一步。', color: C.blue },
@@ -501,9 +605,9 @@ const RescuePrompt: Page = () => (
 );
 
 const FinalReview: Page = () => (
-  <Shell eyebrow="段 4 · Final Reviewer" title="交付前四問" lead="這四問是 C2 的收尾，也會一路用到 C3、C4。">
+  <Shell eyebrow="段 4 · Final Reviewer" title="交付前四問" lead="這四問是 C2 的收尾，也會一路用到後續課程。">
     <Checklist items={[
-      '畫面是否真的新增 LINE OA 訂單客服確認規則，且內容來自 orderItems？',
+      'getPendingLineOrders 是否真的從 orderItems 找出 LINE OA 且尚未出貨的訂單？',
       '是否沒有碰 LINE token、真送邏輯、package.json？',
       'npm run build 是否通過？',
       'git diff 是否只剩允許檔案與本堂相關修改？',
@@ -521,12 +625,12 @@ git diff -- web-lab/src/warehouseLogic.js
 git status
 
 git add web-lab/src/warehouseLogic.js
-git commit -m "新增 LINE OA 訂單客服確認規則"`}</Code>
+git commit -m "完成待確認訂單判斷規則"`}</Code>
   </Shell>
 );
 
 const DeployConcept: Page = () => (
-  <Shell eyebrow="段 4 · 部署概念" title="C2 只講 build / dist / preview / deploy 的差別" lead="這裡不展開 DevOps，也不設定 GitHub Actions。學生先知道從原始碼到公開網站中間發生什麼事。">
+  <Shell eyebrow="段 4 · 部署概念" title="C2 只講 build / dist / preview / deploy 的差別" lead="這裡不展開 CI/CD，也不設定 GitHub Actions。學生先知道從原始碼到公開網站中間發生什麼事。">
     <Cards columns={4} items={[
       { title: 'dev', body: 'npm run dev：開發模式，快速看修改。', color: C.blue },
       { title: 'build', body: 'npm run build：把 src 打包成 dist。', color: C.green },
@@ -541,15 +645,15 @@ const Acceptance: Page = () => (
     <Cards items={[
       { title: '倉儲資料語言', body: '能說出 warehouseData.js 如何餵倉儲後台與訂單可視化。', color: C.green },
       { title: 'Planner', body: '有一份 A-F 計畫，且人審後才進 implementer。', color: C.blue },
-      { title: '倉儲後台', body: '有 LINE OA 訂單客服確認規則，沒有誤稱已送出 LINE。', color: C.orange },
+      { title: '倉儲後台', body: '有待確認訂單判斷規則，沒有誤稱已送出 LINE。', color: C.orange },
       { title: '工程驗收', body: 'build 通過、diff 範圍乾淨、commit 訊息清楚。', color: C.red },
     ]} />
   </Shell>
 );
 
 const BridgeToC3: Page = () => (
-  <Shell eyebrow="銜接下一堂" title="C3 接手的是同一個倉儲語境，而不是重做一遍" lead="C2 的輸出會在 C3 變成訂單可視化、Flex payload 預覽、人工審核 checkbox、mock send 與 blocked send。">
-    <Flow steps={['C2\nLINE OA 訂單客服確認規則', 'C3\nFlex payload 預覽', 'C3\nHuman-in-the-loop', 'C3\nmock send', 'C4\nops agent 自動產 report']} />
+  <Shell eyebrow="銜接下一堂" title="C3 接手的是同一個倉儲語境，而不是重做一遍" lead="C2 只把資料規則與驗收流程打穩。C3 才把訂單狀態拿去做可視化、API、webhook、token 與 LINE OA 概念。">
+    <Flow steps={['C2\n完成 helper\n看懂驗收', 'C3\n訂單可視化\n互動畫面', 'C3\nAPI / webhook\n互動邊界', 'C3\nLINE OA\n通知概念', 'C4\nMCP / Skills\n整合工作流']} />
   </Shell>
 );
 
@@ -558,7 +662,7 @@ const Close: Page = () => (
     <div style={pad}>
       <Eyebrow>收束</Eyebrow>
       <div style={{ marginTop: 28 }}><Title size={82}>今天學的不是一個區塊<br />而是怎麼讓 AI 可控地改專案</Title></div>
-      <div style={{ marginTop: 28, fontSize: 34, color: 'rgba(255,255,255,.72)', lineHeight: 1.5, maxWidth: 1380 }}>規格先清楚，AI 才能快。範圍先鎖住，交付才驗得過。下一堂我們把這份準備好的資料，送進 LINE OA Flex 流程。</div>
+      <div style={{ marginTop: 28, fontSize: 34, color: 'rgba(255,255,255,.72)', lineHeight: 1.5, maxWidth: 1380 }}>規格先清楚，AI 才能快。範圍先鎖住，交付才驗得過。下一堂我們再把這份準備好的倉儲語境，推進到可視化與 LINE OA 流程。</div>
     </div>
     <div style={{ position: 'absolute', left: 108, bottom: 42, fontFamily: mono, color: 'rgba(255,255,255,.48)', fontSize: 20 }}>U11 · 課2 · 完成</div>
   </div>
@@ -574,7 +678,10 @@ const pages = [
   CourseMap,
   TodayGoal,
   ControlledVibe,
+  ControlledFlowShot,
   Schedule,
+  StageMeaning,
+  HandoutSteps,
   AgentFiles,
   Sec1,
   DataContract,
@@ -590,10 +697,12 @@ const pages = [
   Sec3,
   TaskSpec,
   ImplementerPrompt,
+  LogicFixScreenshot,
   VisualRules,
   QuickVerify,
   TestTypes,
   TestScript,
+  TestPassScreenshot,
   VerificationStack,
   Sec4,
   Pitfalls,
@@ -611,7 +720,10 @@ export const notes: string[] = [
   '說明四堂課的連續性：C2 是控制 AI 修改範圍的核心。',
   '今天四個產出：倉儲資料語言、AI 工作流、後台規則、驗收證據。',
   '補定義：vibe coding 可以快，但沒有 guardrails 就不是可交付流程。',
+  '用一張流程圖讓學生先看到：讀現況、拆需求、Plan Mode、最小實作、驗收交付。',
   '時間表先講清楚，前半段會刻意慢，因為要先把規格講穩。',
+  '用四段教學地圖收束：讀資料、審計畫、填 helper、驗收交付。',
+  '對齊講義：今天照 U2 的 STEP 00 到 STEP 05 走，不自由發散。',
   '三個控制器：AGENTS、CLAUDE、Plan Mode；強調守則不是魔法鎖，還要驗收。',
   '段一進倉儲資料語言。提醒學生：不知道欄位意思，就不要讓 AI 改畫面。',
   '逐欄念 warehouseData.js，特別提醒 status / channel 的允許值。',
@@ -625,21 +737,23 @@ export const notes: string[] = [
   '示範什麼叫好的 A-F 計畫。',
   '人審檢查點，沒有通過就不要 implement。',
   '段三才開始實作。',
-  '展示LINE OA 訂單客服確認規則應該長什麼樣。',
+  '展示待確認訂單判斷規則應該長什麼樣。',
   '老師帶學生複製 Implementer Prompt。',
-  'UI 驗收聚焦倉儲後台工具感，不要變 landing page。',
-  '改完立刻 build 與 diff。',
+  '展示 dry-run 實作截圖：學生只完成 getPendingLineOrders，不擴大範圍。',
+  '畫面驗收聚焦同一條 helper 是否帶動 KPI、明細與處理佇列。',
+  '改完先跑測試與 build，再看 diff。',
   '補測試分層頁：unit / integration / e2e 只講概念，不展開框架。',
-  '新增測試腳本頁：這是本堂最小測試，不是大型測試框架。',
+  '測試腳本頁：這是本堂最小測試，不是大型測試框架。',
+  '展示 dry-run 驗收截圖：測試腳本與 build 都通過。',
   '補驗收堆疊：測試腳本、畫面、diff、build、reviewer。',
   '段四進 reviewer、救援與收尾。',
   '列出 AI 常見偏航。',
   '示範救援 Prompt，把 AI 拉回 C2 範圍。',
   '交付前四問。',
-  '部署概念頁：只講 dev/build/dist/preview/deploy 的差別，不展開 DevOps。',
+  '部署概念頁：只講 dev/build/dist/preview/deploy 的差別，不展開 CI/CD。',
   '收尾指令，build 通過與 diff 乾淨才 commit。',
   '完成定義。',
-  '銜接 C3：Flex payload、HITL、mock send。',
+  '銜接 C3：只提醒後續會進可視化、API/webhook、token 與 LINE OA 概念。',
   '收束：AI 可控交付比單次做出畫面更重要。',
 ];
 
