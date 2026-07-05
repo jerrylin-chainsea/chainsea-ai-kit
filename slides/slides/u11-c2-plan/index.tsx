@@ -57,7 +57,7 @@ const pad = { padding: '0 108px 42px', width: '100%' as const };
 
 const tone = (i: number) => [C.orange, C.blue, C.green, C.amber, C.red][i % 5];
 
-const Foot = ({ label = 'U11 · C2 · AGENTS/CLAUDE 與倉儲後台挖洞' }: { label?: string }) => {
+const Foot = ({ label = 'U11 · C2 · 受控 Vibe Coding 與倉儲後台' }: { label?: string }) => {
   const { current, total } = useSlidePageNumber();
   return (
     <div style={{ position: 'absolute', left: 108, right: 108, bottom: 42, borderTop: `1px solid ${C.line}`, paddingTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: mono, color: C.faint, fontSize: 19 }}>
@@ -159,12 +159,14 @@ const Timeline = () => (
   <div style={{ display: 'grid', gridTemplateColumns: '170px 1fr 1fr 280px', maxWidth: 1540, border: `1px solid ${C.line}`, borderRadius: 16, overflow: 'hidden', background: C.card }}>
     {['時間', '老師帶什麼', '學生做什麼', '產出'].map((h) => <div key={h} style={{ background: C.dark, color: '#fff', padding: '14px 18px', fontFamily: mono, fontSize: 18, fontWeight: 850 }}>{h}</div>)}
     {[
-      ['0:00-0:20', '回顧 C1 成品與今天主線', '啟動 web-lab', '倉儲後台跑起來'],
-      ['0:20-0:55', 'warehouseData.js 與 warehouseLogic.js', '讀欄位、看規則', '資料欄位表'],
-      ['0:55-1:40', 'Plan mode / planner', '複製 Planner Prompt', 'A-F 計畫'],
-      ['1:40-2:30', '人審與 implementer', '放行最小修改', 'LINE OA 訂單客服確認規則'],
-      ['2:30-3:20', '驗收與救援', '看 diff、修偏航', '乾淨修改範圍'],
-      ['3:20-4:00', 'build / commit / 銜接 C3', '收尾與展示', '可交付 commit'],
+      ['0:00-0:25', '受控 vibe coding', '理解為什麼不能只貼 prompt', 'C2 開發流程圖'],
+      ['0:25-0:55', 'AGENTS / CLAUDE / Plan Mode', '讀守則與允許檔案', '人審檢查點'],
+      ['0:55-1:30', '倉儲後台與資料合約', '讀 orders、channel、status', '需求拆解工作紙'],
+      ['1:30-2:15', 'Plan mode / planner', '複製 Planner Prompt 並審核', 'A-F 計畫'],
+      ['2:15-2:55', 'implementer 最小修改', '完成 getPendingLineOrders', '後台規則連動'],
+      ['2:55-3:30', '測試 / 畫面 / diff / build', '跑測試腳本與 reviewer', '驗收證據'],
+      ['3:30-3:50', 'build / dist / preview / deploy 概念', '看 dist 與 preview', '部署 mental model'],
+      ['3:50-4:00', 'commit / 銜接 C3', '收尾與展示', '可交付 commit'],
     ].map((row, i) => row.map((cell, j) => (
       <div key={`${i}-${j}`} style={{ padding: '13px 18px', borderTop: `1px solid ${C.line}`, fontSize: j === 0 ? 20 : 21, color: j === 0 ? C.orange : j === 3 ? C.green : C.ink, fontFamily: j === 0 ? mono : undefined, fontWeight: j === 0 || j === 3 ? 800 : 500, lineHeight: 1.35 }}>{cell}</div>
     )))}
@@ -222,8 +224,8 @@ const Cover: Page = () => (
   <div style={{ ...fill, background: C.dark, color: '#fff' }}>
     <div style={pad}>
       <Eyebrow>U11 · 第 2 堂 / 共 4 堂 · 4 小時</Eyebrow>
-      <div style={{ marginTop: 28 }}><Title size={92}>用守則與 Plan Mode 管住 AI<br />讓倉儲後台補上可驗收規則</Title></div>
-      <div style={{ marginTop: 28, fontSize: 34, color: 'rgba(255,255,255,.72)', lineHeight: 1.5, maxWidth: 1390 }}>今天不是自由做新網站。今天把 C1 的專案推進成可控交付：看懂 warehouseData.js，要求 AI 先出計畫，人審後才實作，最後用 build 與 diff 驗收。</div>
+      <div style={{ marginTop: 28 }}><Title size={92}>受控 Vibe Coding<br />用 AGENTS / CLAUDE / Plan Mode 完成倉儲後台</Title></div>
+      <div style={{ marginTop: 28, fontSize: 34, color: 'rgba(255,255,255,.72)', lineHeight: 1.5, maxWidth: 1390 }}>今天不是自由做新網站。今天把 C1 的專案推進成可控交付：先拆需求，先出計畫，人審後才實作，最後用測試腳本、畫面、diff、build 驗收。</div>
     </div>
     <div style={{ position: 'absolute', left: 108, bottom: 42, fontFamily: mono, color: 'rgba(255,255,255,.48)', fontSize: 20 }}>U11-C2 · Warehouse Admin Plan</div>
   </div>
@@ -237,10 +239,21 @@ const CourseMap: Page = () => (
 
 const TodayGoal: Page = () => (
   <Shell eyebrow="今日成果" title="C2 做完要留下三樣東西" lead="這三樣會直接餵給 C3，所以今天的修改要小、可驗、可交接。">
-    <Cards columns={3} items={[
+    <Cards columns={4} items={[
       { title: '一份倉儲資料語言', body: '知道 warehouseData.js 裡 orders、channel、status、priority 各代表什麼。' },
       { title: '一套 AI 工作流', body: 'planner 先出 A-F 計畫，人類審核後 implementer 才能動手。' },
-      { title: '一條後台 action rule', body: '新增 LINE OA 訂單客服確認規則，先預備 LINE Flex，C2 不真送。' },
+      { title: '一條後台規則', body: '完成 getPendingLineOrders，讓 KPI、明細與 action queue 同時連動。' },
+      { title: '一組驗收證據', body: '測試腳本、畫面、diff、build 通過，再補 build / preview / deploy 概念。' },
+    ]} />
+  </Shell>
+);
+
+const ControlledVibe: Page = () => (
+  <Shell eyebrow="核心觀念" title="Vibe coding 可以很快，但不受控就很危險" lead="C2 要教的是受控版本：自然語言需求 + 專案守則 + Plan Mode + 人審 + 測試驗收 + git diff。">
+    <Cards columns={3} items={[
+      { title: '不是', body: '貼一句「幫我做」然後相信 AI 說完成。', color: C.red },
+      { title: '而是', body: '先界定資料、規則、畫面、測試與驗收。', color: C.green },
+      { title: '最後', body: '讓 agent 在允許檔案內做最小修改，通過驗收才 commit。', color: C.blue },
     ]} />
   </Shell>
 );
@@ -248,6 +261,16 @@ const TodayGoal: Page = () => (
 const Schedule: Page = () => (
   <Shell eyebrow="4 小時節奏" title="先理解規格，再讓 AI 寫程式" lead="本堂課刻意慢在前半段。規格不清楚時，AI 寫越快，返工越快。">
     <Timeline />
+  </Shell>
+);
+
+const AgentFiles: Page = () => (
+  <Shell eyebrow="三個控制器" title="AGENTS、CLAUDE、Plan Mode 各管一件事" lead="守則檔是上下文，不是魔法鎖。真正的保險是人審、測試、diff、build。">
+    <Cards columns={3} items={[
+      { title: 'AGENTS.md', body: '共用專案守則：允許檔案、禁止動作、驗收要求。', color: C.green },
+      { title: 'CLAUDE.md', body: 'Claude Code 補充：先讀 AGENTS、使用 Plan Mode、固定回報格式。', color: C.blue },
+      { title: 'Plan Mode', body: '先讀檔與列 A-F 計畫，不先改檔；人審通過才 implement。', color: C.orange },
+    ]} />
   </Shell>
 );
 
@@ -420,6 +443,33 @@ git diff -- web-lab/src/warehouseLogic.js
   </Shell>
 );
 
+const TestTypes: Page = () => (
+  <Shell eyebrow="段 4 · 測試概念" title="測試有不同層級，今天只做最小版本" lead="不用一開始就學完整測試框架，但要知道測試不是只有一種。">
+    <Cards columns={4} items={[
+      { title: 'Unit test', body: '測一個小函式，例如 getPendingLineOrders 條件是否正確。', color: C.green },
+      { title: 'Integration test', body: '測幾個模組接起來，例如 summary 和 action queue 是否同步。', color: C.blue },
+      { title: 'E2E test', body: '從使用者角度操作整個畫面，例如點警示燈看明細。', color: C.orange },
+      { title: 'C2 今天', body: '先用一支測試腳本證明資料規則成立，不展開測試框架。', color: C.red },
+    ]} />
+  </Shell>
+);
+
+const TestScript: Page = () => (
+  <Shell eyebrow="段 4 · 測試" title="先用測試腳本證明規則不是寫假的" lead="這不是教大型測試框架，而是教學生第一個工程習慣：用可重跑的檢查證明功能成立。">
+    <Code label="terminal">{`cd ai-project-foundation-kit/web-lab
+node scripts/check-warehouse-logic.mjs
+
+# 通過後應該看到：
+# [pass] 開頭的訊息`}</Code>
+  </Shell>
+);
+
+const VerificationStack: Page = () => (
+  <Shell eyebrow="段 4 · 驗收堆疊" title="一個功能至少要過四層驗收" lead="AI 說完成只是第一句話，不是完成定義。">
+    <Flow steps={['測試腳本\n資料規則成立', '畫面驗收\n三處連動', 'Git diff\n範圍乾淨', 'Build\n可打包', 'Reviewer\nPASS / BLOCK']} />
+  </Shell>
+);
+
 const Sec4: Page = () => <SectionSlide no="4" time="2:30 - 4:00" title="Reviewer：救偏航、驗收、交接到 C3" lead="最後一段把學生從「AI 說好了」拉回工程交付：看錯誤、看 diff、看 build，然後只交付可驗證的修改。" />;
 
 const Pitfalls: Page = () => (
@@ -475,6 +525,17 @@ git commit -m "新增 LINE OA 訂單客服確認規則"`}</Code>
   </Shell>
 );
 
+const DeployConcept: Page = () => (
+  <Shell eyebrow="段 4 · 部署概念" title="C2 只講 build / dist / preview / deploy 的差別" lead="這裡不展開 DevOps，也不設定 GitHub Actions。學生先知道從原始碼到公開網站中間發生什麼事。">
+    <Cards columns={4} items={[
+      { title: 'dev', body: 'npm run dev：開發模式，快速看修改。', color: C.blue },
+      { title: 'build', body: 'npm run build：把 src 打包成 dist。', color: C.green },
+      { title: 'preview', body: 'npm run preview：本機預覽 build 後的結果。', color: C.orange },
+      { title: 'deploy', body: '把 dist 放到 GitHub Pages / Netlify / Vercel。正式流程後面再做。', color: C.red },
+    ]} />
+  </Shell>
+);
+
 const Acceptance: Page = () => (
   <Shell eyebrow="完成定義" title="C2 看到這些才算完成" lead="如果缺任何一項，就還不是可交付狀態。">
     <Cards items={[
@@ -504,7 +565,7 @@ const Close: Page = () => (
 );
 
 export const meta: SlideMeta = {
-  title: 'U11-C2: AGENTS/CLAUDE、Plan Mode 與倉儲後台挖洞',
+  title: 'U11-C2: 受控 Vibe Coding、AGENTS/CLAUDE、Plan Mode 與倉儲後台',
   createdAt: '2026-07-04T00:00:00.000Z',
 };
 
@@ -512,7 +573,9 @@ const pages = [
   Cover,
   CourseMap,
   TodayGoal,
+  ControlledVibe,
   Schedule,
+  AgentFiles,
   Sec1,
   DataContract,
   Fields,
@@ -529,10 +592,14 @@ const pages = [
   ImplementerPrompt,
   VisualRules,
   QuickVerify,
+  TestTypes,
+  TestScript,
+  VerificationStack,
   Sec4,
   Pitfalls,
   RescuePrompt,
   FinalReview,
+  DeployConcept,
   BuildCommit,
   Acceptance,
   BridgeToC3,
@@ -540,10 +607,12 @@ const pages = [
 ];
 
 export const notes: string[] = [
-  '開場先把舊 C2 的自由網站製作拿掉，明確說今天改成倉儲後台挖洞主線。',
+  '開場先把舊 C2 的自由網站製作拿掉，明確說今天是受控 vibe coding 與倉儲後台主線。',
   '說明四堂課的連續性：C2 是控制 AI 修改範圍的核心。',
-  '今天三個產出：倉儲資料語言、AI 工作流、倉儲後台挖洞區。',
+  '今天四個產出：倉儲資料語言、AI 工作流、後台規則、驗收證據。',
+  '補定義：vibe coding 可以快，但沒有 guardrails 就不是可交付流程。',
   '時間表先講清楚，前半段會刻意慢，因為要先把規格講穩。',
+  '三個控制器：AGENTS、CLAUDE、Plan Mode；強調守則不是魔法鎖，還要驗收。',
   '段一進倉儲資料語言。提醒學生：不知道欄位意思，就不要讓 AI 改畫面。',
   '逐欄念 warehouseData.js，特別提醒 status / channel 的允許值。',
   '把欄位和畫面、通知的用途連起來。',
@@ -560,10 +629,14 @@ export const notes: string[] = [
   '老師帶學生複製 Implementer Prompt。',
   'UI 驗收聚焦倉儲後台工具感，不要變 landing page。',
   '改完立刻 build 與 diff。',
+  '補測試分層頁：unit / integration / e2e 只講概念，不展開框架。',
+  '新增測試腳本頁：這是本堂最小測試，不是大型測試框架。',
+  '補驗收堆疊：測試腳本、畫面、diff、build、reviewer。',
   '段四進 reviewer、救援與收尾。',
   '列出 AI 常見偏航。',
   '示範救援 Prompt，把 AI 拉回 C2 範圍。',
   '交付前四問。',
+  '部署概念頁：只講 dev/build/dist/preview/deploy 的差別，不展開 DevOps。',
   '收尾指令，build 通過與 diff 乾淨才 commit。',
   '完成定義。',
   '銜接 C3：Flex payload、HITL、mock send。',
