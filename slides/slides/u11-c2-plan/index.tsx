@@ -342,14 +342,12 @@ const StageMeaning: Page = () => (
 );
 
 const HandoutSteps: Page = () => (
-  <Shell eyebrow="實際講義路線" title="今天不是自由發散，而是照這條路走" lead="每一段講解都對應到 U2 裡的一個檔案；學生跟著做，最後只會完成一個明確挖洞點。">
-    <Cards columns={3} items={[
-      { title: 'STEP 00', body: '先講 C2 到底在訓練什麼：控制 AI 做可驗收修改。', color: C.blue },
-      { title: 'STEP 01', body: '定義 vibe coding、AGENTS、CLAUDE、Plan Mode 與人審。', color: C.orange },
-      { title: 'STEP 02', body: '讀倉儲資料、訂單資料表，以及 getPendingLineOrders 挖洞點。', color: C.green },
-      { title: 'WORKSHEET', body: '把需求拆成資料、規則、畫面位置、驗收方式。', color: C.amber },
-      { title: 'STEP 03', body: 'planner 先出 A-F 計畫，人審通過後 implementer 才改檔。', color: C.red },
-      { title: 'STEP 04 / 05', body: '跑測試、看畫面、看 diff、build，再補部署概念。', color: C.blue },
+  <Shell eyebrow="學生入口" title="打開 U2 只看 START-HERE，照順序做" lead="不要讓學生在一堆檔案裡猜下一步。這堂的講義入口只有一個：U2/START-HERE.md。">
+    <Cards columns={4} items={[
+      { title: '先看現況', body: '啟動 web-lab，看倉儲後台與訂單可視化，不先改檔。', color: C.blue },
+      { title: '先跑失敗測試', body: 'C2-HOLE 還沒完成，測試失敗是今天的起點。', color: C.red },
+      { title: '再讓 AI 規劃', body: '貼 planner，先審 A-F 計畫，通過才 implement。', color: C.orange },
+      { title: '最後才交付', body: '測試、畫面、diff、build、reviewer 全過才 commit。', color: C.green },
     ]} />
   </Shell>
 );
@@ -723,7 +721,7 @@ export const notes: string[] = [
   '用一張流程圖讓學生先看到：讀現況、拆需求、Plan Mode、最小實作、驗收交付。',
   '時間表先講清楚，前半段會刻意慢，因為要先把規格講穩。',
   '用四段教學地圖收束：讀資料、審計畫、填 helper、驗收交付。',
-  '對齊講義：今天照 U2 的 STEP 00 到 STEP 05 走，不自由發散。',
+  '對齊講義：學生只從 U2/START-HERE.md 進入，不在多個 STEP 檔裡猜下一步。',
   '三個控制器：AGENTS、CLAUDE、Plan Mode；強調守則不是魔法鎖，還要驗收。',
   '段一進倉儲資料語言。提醒學生：不知道欄位意思，就不要讓 AI 改畫面。',
   '逐欄念 warehouseData.js，特別提醒 status / channel 的允許值。',

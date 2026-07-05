@@ -4,7 +4,6 @@ import type { ReactNode } from 'react';
 import pushOverview from './assets/push-center-overview.png';
 import flexAnomaly from './assets/flex-preview-anomaly.png';
 import flexOrder from './assets/flex-preview-order.png';
-import pushMock from './assets/push-mock-result.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#f5f6f8', text: '#181a1f', accent: '#e2570d' },
@@ -55,8 +54,7 @@ type Kind =
   | 'analogy'
   | 'ask'
   | 'shot'
-  | 'twoshot'
-  | 'network';
+  | 'twoshot';
 
 type CardSpec = { title: string; body: string; color?: string };
 type SlideSpec = {
@@ -249,42 +247,20 @@ const TwoShot = ({ slide }: { slide: SlideSpec }) => (
   </div>
 );
 
-const NetworkMock = () => (
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, maxWidth: 1540 }}>
-    <div style={{ background: '#111827', color: '#d1d5db', borderRadius: 18, overflow: 'hidden', border: '1px solid #263244' }}>
-      <div style={{ padding: '14px 20px', background: '#1f2937', fontFamily: mono, color: '#93c5fd' }}>F12 · Network(在瀏覽器看得到)</div>
-      <pre style={{ margin: 0, padding: 24, fontFamily: mono, fontSize: 22, lineHeight: 1.55 }}>{`POST  localhost:5180/api/send-line-flex
-  → 送出:{ template, reviewed:true }
-  → 沒有 token、沒有收件對象
-
-(整個分頁裡)沒有 api.line.me 這一支`}</pre>
-    </div>
-    <div style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 18, overflow: 'hidden' }}>
-      <div style={{ padding: '14px 20px', background: '#edf2ee', fontFamily: mono, color: C.muted }}>誰在打 api.line.me?</div>
-      <div style={{ padding: 24, display: 'grid', gap: 16, fontSize: 25 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 8 }}><b>瀏覽器</b><span>只打自己的後端 /api</span></div>
-        <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 8 }}><b>本機後端</b><span>帶 .env token 打 api.line.me</span></div>
-        <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 8 }}><b>token</b><span>只在後端,前端 bundle 沒有</span></div>
-        <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 8 }}><b>build 後</b><span>grep 不到 token / push URL</span></div>
-      </div>
-    </div>
-  </div>
-);
-
 const slides: SlideSpec[] = [
-  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '訂單可視化 + LINE Flex\n看懂前後端怎麼互動', lead: '今天先看訂單資料如何變成 React component、CSS 狀態與 three.js 動畫，再走 LINE 推播中心:載入、檢查合約、Flex 預覽、人工審核、mock 推播。' },
+  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '訂單可視化 + LINE OA Flex\n做一則真的會送出去的通知', lead: '今天先看訂單資料如何變成互動畫面，再把同一筆訂單做成 LINE Flex Message：載入資料、生成預覽、人工審核，最後真的推播到 LINE OA。' },
 
-  { kind: 'analogy', eyebrow: '先建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: '資料不是表格而已，它會變成畫面與通知', analogy: '訂單資料先變成畫面狀態(status → 流程點、顏色、動畫位置)，再變成通知內容(payload → LINE Flex 卡片)。\n\nC3 要看懂的不是「AI 幫我做按鈕」，而是資料如何穿過前端、後端與平台。' },
+  { kind: 'analogy', eyebrow: '先建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: '資料不是表格而已，它可以變成畫面，也可以變成訊息', analogy: '訂單資料先變成畫面狀態：流程點、顏色、動畫位置。\n\n接著同一筆訂單會變成 LINE Flex 卡片，真的送到 LINE OA。\n\nC3 要讓學生感覺到：原來資料不是死的，資料可以變成一個會被人收到的產品體驗。' },
 
   { kind: 'bullets', eyebrow: '今天多學三個前端詞', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: '你不需要從零寫 React，但要看得懂專案怎麼拆', bullets: ['component：OrderFlow.jsx 裡的 OrderLane，把一筆訂單畫成一條流程。', 'CSS：styles.css 裡的 flow-dot / order-lane，決定狀態顏色與版面。', 'src：前端主要程式都在 web-lab/src，不要看到資料夾就慌。', 'three.js：OrderFlowCanvas.jsx 把訂單狀態變成流動箱子動畫。'] },
 
-  { kind: 'flow', eyebrow: '今日主線', footer: 'U11·C3 ｜ 講義:START-HERE.md(主線圖)', title: '同一份倉儲語境，走兩條線', steps: ['訂單資料\n狀態欄位', 'React\ncomponent', 'CSS\n狀態樣式', 'three.js\n可視化', 'API\n/api/send-line-flex', 'LINE Flex\nmock', 'ReAct\n修錯 · commit'] },
+  { kind: 'flow', eyebrow: '今日主線', footer: 'U11·C3 ｜ 講義:U3/START-HERE.md', title: '同一筆訂單，走成一個真的通知', steps: ['訂單資料\n狀態欄位', 'React / CSS\n互動畫面', 'LINE Flex\n卡片預覽', '人工審核\ncheckbox', 'LINE OA\n真推播', '驗收\n收到訊息'] },
 
   { kind: 'shot', eyebrow: '今日成果畫面', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '這就是今天要做出來的「推播中心」', img: pushOverview, caption: '上面是範本切換(營運異常 / 訂單資訊),下面是五步:載入 → 檢查 → 預覽 → 人審 → 推播。整條線在同一個畫面上完成。' },
 
   { kind: 'cards', eyebrow: '完成的定義 · DoD', footer: 'U11·C3 ｜ 講義:START-HERE.md(DoD)', title: 'AI/系統做出來不算完成,通過驗收才算完成', cards: [
-    { title: '畫面', body: '訂單可視化正常、兩種 Flex 範本都走通、擋牌能出現也能消失。', color: C.orange },
-    { title: '推播', body: '按鈕按下去,看到 [mock] 或真送成功。', color: C.blue },
+    { title: '畫面', body: '訂單可視化正常，訂單資訊 Flex 預覽正確。', color: C.orange },
+    { title: '推播', body: '按鈕按下去，LINE OA / 群組 / 手機真的收到訊息。', color: C.blue },
     { title: 'diff', body: 'git diff 只有本堂允許檔案。', color: C.amber },
     { title: 'build', body: 'npm run build 綠色通過、bundle 無 token。', color: C.red },
     { title: 'human review', body: 'checkbox 是你勾的、修正是你放行的。', color: '#5a6270' },
@@ -304,20 +280,23 @@ const slides: SlideSpec[] = [
 OrderFlowCanvas.jsx  // three.js:訂單流動動畫
 styles.css           // CSS:狀態顏色、版面、RWD` },
 
-  { kind: 'code', eyebrow: '段 1 · LINE 資料來源', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §3', title: '推播範本,對應一份資料合約', label: 'data-lab/report.json(營運異常範本)', code: `{
-  "report_date": "2026-07-05",
-  "risk_level": "high",
-  "total_revenue": 31680,
-  "anomaly_count": 4,
-  "top_product": "冷鏈保溫箱 32L",
-  "top_channel": "B2B Portal",
-  "action_items": ["補貨 冷鏈保溫箱 32L", "主管確認 ETA 與收件對象"]
+  { kind: 'code', eyebrow: '段 1 · LINE 資料來源', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '今天要送出去的是這筆訂單', label: 'data-lab/orders.json', code: `{
+  "order_id": "SO-20260705-021",
+  "customer": "朗日餐飲集團",
+  "channel": "LINE OA",
+  "status": "待出貨",
+  "amount": 4860,
+  "eta": "15:10",
+  "items": [
+    { "name": "批發出貨封箱耗材組", "qty": 6 },
+    { "name": "溫控紀錄貼片", "qty": 8 }
+  ]
 }` },
 
-  { kind: 'cards', eyebrow: '段 1 · 兩個範本', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1', title: '同一套流程,能推兩種不同訊息', cards: [
-    { title: '營運異常(anomaly)', body: '讀 data-lab/report.json。推播營運風險:risk_level、營收、異常筆數、action_items。', color: C.orange },
-    { title: '訂單資訊(order)', body: '讀 data-lab/orders.json。推播訂單:客戶、通路、狀態、金額、品項明細。', color: C.blue },
-    { title: '共用的流程', body: '載入 → 檢查合約 → 預覽 → 人審 → 推播,兩個範本一模一樣。', color: C.amber },
+  { kind: 'cards', eyebrow: '段 1 · 今天先收斂', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: '先做好一則真的能送出的訂單通知', cards: [
+    { title: '訂單資訊', body: '讀 data-lab/orders.json。卡片內容是客戶、通路、狀態、金額、品項明細。', color: C.blue },
+    { title: 'Flex 預覽', body: '先看 LINE 上大概長什麼樣，不要急著送。', color: C.orange },
+    { title: '真推播', body: '人審後送到 LINE OA。收到訊息才是今天的核心成果。', color: C.green },
   ] },
 
   { kind: 'cards', eyebrow: '段 1 · Button 1-3', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '照順序按,每按一步就驗一步', cards: [
@@ -326,40 +305,39 @@ styles.css           // CSS:狀態顏色、版面、RWD` },
     { title: '3 生成 Flex 視覺預覽', body: '看到 LINE 上大概長怎樣的卡片;還可切「看 JSON」。', color: C.amber },
   ] },
 
-  { kind: 'twoshot', eyebrow: '段 1 · 視覺預覽', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §4', title: '預覽是「LINE 上長怎樣」,不是一串 JSON 作文', img: flexAnomaly, caption: '營運異常範本', img2: flexOrder, caption2: '訂單資訊範本(同流程、換資料)' },
-
-  { kind: 'ask', eyebrow: '段 1 · 先解疑', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1', title: '加一個新範本,要動幾個檔?', ask: '訂單資訊是不是要大改程式?', answer: '新範本 = 新資料合約 + 一對「雙胞胎」builder。前端 reportContract.js 負責畫面預覽(to 用示範 ID),後端 sendLineAlert.js 負責真送(to 用 .env)。兩邊欄位順序、錯誤訊息、bubble 結構逐字一致 —— 這就是這門課一直在練的「資料合約」紀律。' },
+  { kind: 'twoshot', eyebrow: '段 1 · 視覺預覽', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §4', title: '預覽是「LINE 上長怎樣」，不是一串 JSON 作文', img: flexOrder, caption: '今天主線：訂單資訊 Flex', img2: flexAnomaly, caption2: '補充範本：營運異常' },
 
   // ── 段 2 ─────────────────────────────────────────────
-  { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:20 - 2:10', title: 'Human-in-the-loop:勾了 checkbox,推播按鈕才亮', lead: '系統把通知準備好,不代表可以送。人審是發送前的閘門 —— 沒勾 checkbox,推播按鈕就是暗的。' },
+  { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:20 - 2:10', title: 'Human-in-the-loop：真的送出前，人要負責', lead: '系統把通知準備好，不代表可以送。人審是發送前的閘門，沒勾 checkbox，推播按鈕就是暗的。' },
 
-  { kind: 'prompt', eyebrow: '段 2 · Prompt 卡 1', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 1', title: 'Human-in-the-loop 檢查,不改檔', label: '固定學生 prompt', code: `請檢查目前推播中心的通知內容(Flex 視覺預覽裡的欄位與內容)。
+  { kind: 'prompt', eyebrow: '段 2 · Prompt 卡 1', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 1', title: 'Flex Message 內容審核，不改檔', label: '固定學生 prompt', code: `請檢查目前 LINE 推播中心的 Flex 視覺預覽。
 不要改檔。
-請判斷這則通知是否適合送出,並列出:
-1. 通知類型與對象
-2. 內容有沒有明顯錯誤或不該送的資訊
-3. 是否需要人工確認
-4. 可不可以按「推播 LINE Flex」` },
+請判斷:
+1. 這張卡片要送給誰
+2. 訂單編號、客戶、狀態、金額是否合理
+3. 文字看起來像不像真的營運通知
+4. 送出前還需要人類確認什麼
+5. 可不可以按「推播 LINE Flex」` },
 
-  { kind: 'shot', eyebrow: '段 2 · 按鈕推播', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §2', title: '按下「推播 LINE Flex」,mock 也看得到結果', img: pushMock, frame: 'localhost:5180', caption: '沒設定 token 時:後端回 [mock],沒有真的呼叫 api.line.me。看到這句就算過關 —— 不是手機收到才算對。' },
+  { kind: 'cards', eyebrow: '段 2 · 真送驗收', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §5', title: '按下「推播 LINE Flex」後，要真的收到', cards: [
+    { title: '畫面證據', body: '推播中心顯示已送出。', color: C.green },
+    { title: '手機證據', body: 'LINE OA / 群組 / 手機收到 Flex Message。', color: C.blue },
+    { title: '課堂證據', body: '可以截圖放進報告，token 不入鏡。', color: C.orange },
+  ] },
 
-  { kind: 'cards', eyebrow: '段 2 · 三種結果', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §3', title: '按鈕按下去,後端會回三種狀態', cards: [
-    { title: '[mock](安全預設)', body: '沒 token / LINE_REAL_SEND≠1。後端不打 LINE,回 mock。', color: C.blue },
-    { title: 'sent(真送成功)', body: '設好 .env 後,後端帶 token 打 api.line.me,回 LINE 200。', color: C.green },
-    { title: 'blocked / 合約錯', body: '沒勾人審、或資料合約沒過 → 直接擋下,不會送。', color: C.red },
+  { kind: 'cards', eyebrow: '段 2 · 三種狀態', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '如果結果不是收到訊息，就看狀態回頭修', cards: [
+    { title: 'sent', body: '主線成功：LINE OA 真的收到 Flex Message。', color: C.green },
+    { title: '[mock]', body: '設定還沒進真送模式，檢查 .env 與重啟 dev。', color: C.blue },
+    { title: 'blocked / 合約錯', body: '沒勾人審、或資料合約沒過，系統會擋下。', color: C.red },
   ] },
 
   // ── 段 3 ─────────────────────────────────────────────
-  { kind: 'section', sectionNo: '3', footer: '講義:U3/STEP-02 §4(token 安全)', time: '2:10 - 2:45', title: 'token 為什麼不能放前端?', lead: '按鈕能真送,但 token 一步都不能進瀏覽器。這一段把「安全」講清楚 —— 也是這堂最重要的觀念。' },
+  { kind: 'section', sectionNo: '3', footer: '講義:U3/API-FLOW.md', time: '2:10 - 2:35', title: '只講必要邊界：token 不能進前端', lead: '這不是 API 細節課。學生只要知道：Flex 是卡片資料，token 是 LINE OA 鑰匙，送出橋接由老師寫好。' },
 
   { kind: 'analogy', eyebrow: '段 3 · 建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: 'token 就像你家鑰匙', analogy: 'channel access token 代表「用你的 LINE 官方帳號發訊息」的權限。\n\n把它放進前端 = 把鑰匙貼在大門上,每個打開網頁的人都拿得到。\n\n所以:前端只按門鈴(呼叫自己的後端),真正開門(打 api.line.me)的是後端。鑰匙只留在後端。' },
 
-  { kind: 'network', eyebrow: '段 3 · F12 看得到', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: '真送之後,打開 F12 → Network 看誰在打誰' },
-
-  { kind: 'ask', eyebrow: '段 3 · 先解疑', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: '那這個「後端」在哪裡?', ask: '網頁怎麼會有後端?', answer: '這個 /api/send-line-flex 是 Vite dev server 的一小段程式,只在 npm run dev 時存在。npm run build 出來的靜態檔沒有它 —— 這正好是真實世界的一課:上線時前端只出畫面,後端(帶密鑰的那段)部署在別的地方。' },
-
   // ── 段 4 ─────────────────────────────────────────────
-  { kind: 'section', sectionNo: '4', footer: '講義:U3/STEP-02 §5', time: '2:45 - 3:05', title: '想真的送?設好 .env,學生也能真接', lead: '有 LINE OA 的同學,填好三個環境變數就能真的把 Flex 推到自己手機。沒有的同學,mock 完成就過關。' },
+  { kind: 'section', sectionNo: '4', footer: '講義:U3/STEP-02 §5', time: '2:35 - 3:05', title: '今天就真送：設好 .env，按鈕才算有成果', lead: '老師提供 LINE OA 設定值。學生完成 Flex 預覽與人審後，按下推播，真的在 LINE 收到訊息。' },
 
   { kind: 'code', eyebrow: '段 4 · 真送三條件', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §5', title: '複製 .env.example → 填三個變數 → 重啟 dev', label: 'line-lab/.env(不會被 commit)', code: `LINE_CHANNEL_ACCESS_TOKEN=你的 channel access token
 LINE_TARGET_ID=你的 userId 或 groupId
@@ -368,7 +346,7 @@ LINE_REAL_SEND=1
 # 重要:改完 .env 一定要「重新啟動 npm run dev」才會生效
 # 之後在 LINE 推播中心按「推播 LINE Flex」→ 手機真的收到` },
 
-  { kind: 'bullets', eyebrow: '段 4 · 保底', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '現場狀況不阻塞課堂', bullets: ['沒有 LINE OA:看到 [mock] 就算過關(真送是加分)。', '按了沒反應 / 回 network error:多半是在 build/preview 模式,那沒有後端 —— 回到 npm run dev。', '改了 .env 沒生效:忘了重啟 dev。', 'JSON 改壞語法出現全螢幕錯誤:改回原樣即恢復。'] },
+  { kind: 'bullets', eyebrow: '段 4 · 排錯', footer: 'U11·C3 ｜ 講義:U3/PITFALL.md', title: '真送沒成功時，先查這四件事', bullets: ['看到 [mock]：LINE_REAL_SEND 不是 1，或 dev server 沒重啟。', '按了沒反應 / network error：多半是在 build/preview 模式，回到 npm run dev。', '401 / 403：token 錯或過期，換老師提供的新 token。', '顯示成功但沒收到：檢查 LINE_TARGET_ID 是否是正確 userId / groupId。'] },
 
   // ── 段 5:ReAct 修錯(保留這堂的除錯訓練)──────────────
   { kind: 'section', sectionNo: '5', footer: '講義:U3/STEP-03-react-debug.md', time: '3:05 - 3:35', title: '製造合約錯 → ReAct 修好', lead: '親手把 risk_level 改成中文「嚴重」。擋牌會自己出現、推播按鈕變暗 —— 然後用固定格式把它修好。' },
@@ -396,14 +374,14 @@ cd ..
 git status
 git diff
 git add .
-git commit -m "完成訂單可視化、LINE Flex mock 與 ReAct 修錯"` },
+git commit -m "完成訂單可視化與 LINE OA Flex 真推播"` },
 
-  { kind: 'bullets', eyebrow: '段 6 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['兩種範本都走通:載入 → 檢查 → 預覽 → 人審 → 推播。', '按鈕按下去看到 [mock](或設好 .env 後 sent)。', '未勾 checkbox 時推播按鈕是暗的、按不下去。', 'F12 只有 localhost/api/send-line-flex;瀏覽器沒有 api.line.me。', 'npm run build 通過、bundle grep 不到 token;.env 沒有被 commit。', 'ReAct 把「嚴重」修回合約允許值,擋牌消失、diff 乾淨。'] },
+  { kind: 'bullets', eyebrow: '段 6 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['訂單資訊走通：載入 → 檢查 → 預覽 → 人審 → 推播。', 'LINE OA / 群組 / 手機真的收到 Flex Message。', '未勾 checkbox 時推播按鈕是暗的、按不下去。', 'token 只在 line-lab/.env，沒有進前端、簡報或 commit。', 'npm run build 通過。', 'ReAct 是加分：把「嚴重」修回合約允許值，擋牌消失。'] },
 
   { kind: 'cards', eyebrow: '收束 · 回顧四堂', title: '你從「會問 AI」正在變成「會做、會管」', cards: [
     { title: 'C1 進得了專案', body: '打開、跑起來、改一個字、存檔。' },
     { title: 'C2 管得住 AI', body: 'AGENTS/CLAUDE + planner→人審→implementer。' },
-    { title: 'C3 接上平台(今天)', body: '訂單可視化、按鈕推播 LINE Flex、token 留後端、ReAct 修錯。', color: C.orange },
+    { title: 'C3 做出真推播(今天)', body: '訂單可視化、Flex 預覽、人審、LINE OA 真推播。', color: C.orange },
     { title: 'C4 下一堂', body: '把流程自動化,再用三個 MCP 幫 AI 接上外部工具。' },
   ] },
 ];
@@ -436,7 +414,6 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
       {slide.kind === 'ask' && slide.ask ? <AskCard ask={slide.ask} answer={slide.answer ?? ''} /> : null}
       {slide.kind === 'shot' ? <Shot slide={slide} /> : null}
       {slide.kind === 'twoshot' ? <TwoShot slide={slide} /> : null}
-      {slide.kind === 'network' ? <NetworkMock /> : null}
     </Shell>
   );
 };
@@ -444,7 +421,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
 const pages = slides.map((slide) => (() => <DeckPage slide={slide} />) as Page);
 
 export const meta: SlideMeta = {
-  title: 'U11-C3: 訂單可視化 + LINE OA Flex/API/token',
+  title: 'U11-C3: 訂單可視化 + LINE OA Flex 真推播',
   createdAt: '2026-07-04T00:00:00.000Z',
 };
 
