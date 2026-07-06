@@ -4,6 +4,22 @@ import type { ReactNode } from 'react';
 import c2DashboardResultShot from './assets/c2-dashboard-result.png';
 import c2LogicFixShot from './assets/c2-logic-fix.png';
 import c2TestPassShot from './assets/c2-test-pass.png';
+import agentCommandShot from './assets/agent-01-command.png';
+import agentRunningShot from './assets/agent-02-running.png';
+import agentLibraryShot from './assets/agent-03-library.png';
+import agentCreateShot from './assets/agent-04-create.png';
+import agentLocationShot from './assets/agent-05-location.png';
+import agentMethodShot from './assets/agent-06-method.png';
+import agentGenerateShot from './assets/agent-07-generate.png';
+import agentToolsShot from './assets/agent-08-tools.png';
+import agentColorShot from './assets/agent-09-color.png';
+import agentMemoryShot from './assets/agent-10-memory.png';
+import agentConfirmShot from './assets/agent-11-confirm.png';
+import agentCreatedShot from './assets/agent-12-created.png';
+import agentRunShot from './assets/agent-13-run.png';
+import hudMarketplaceShot from './assets/hud-01-marketplace.png';
+import hudInstallShot from './assets/hud-02-install.png';
+import hudStatuslineShot from './assets/hud-03-statusline.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#f5f6f8', text: '#181a1f', accent: '#e2570d' },
@@ -177,9 +193,10 @@ const Timeline = () => (
       ['0:25-0:55', 'AGENTS / CLAUDE / Plan Mode', '讀守則與允許檔案', '人審檢查點'],
       ['0:55-1:30', '倉儲後台與資料合約', '讀 orders、channel、status', '需求拆解工作紙'],
       ['1:30-2:15', 'Plan mode / planner', '複製 Planner Prompt 並審核', 'A-F 計畫'],
-      ['2:15-2:55', 'implementer 最小修改', '完成 getPendingLineOrders', '後台規則連動'],
-      ['2:55-3:30', '測試 / 畫面 / diff / build', '跑測試腳本與 reviewer', '驗收證據'],
-      ['3:30-3:50', 'build / dist / preview / deploy 概念', '看 dist 與 preview', '部署 mental model'],
+      ['2:15-2:35', '/agents + Claude HUD', '把穩定 prompt 升級成 project agent，並看 context / agents', '可視化工作流'],
+      ['2:35-3:05', 'implementer 最小修改', '完成 getPendingLineOrders', '後台規則連動'],
+      ['3:05-3:35', '測試 / 畫面 / diff / build', '跑測試腳本與 reviewer', '驗收證據'],
+      ['3:35-3:50', 'build / dist / preview / deploy 概念', '看 dist 與 preview', '部署 mental model'],
       ['3:50-4:00', 'commit / 銜接 C3', '收尾與展示', '可交付 commit'],
     ].map((row, i) => row.map((cell, j) => (
       <div key={`${i}-${j}`} style={{ padding: '13px 18px', borderTop: `1px solid ${C.line}`, fontSize: j === 0 ? 20 : 21, color: j === 0 ? C.orange : j === 3 ? C.green : C.ink, fontFamily: j === 0 ? mono : undefined, fontWeight: j === 0 || j === 3 ? 800 : 500, lineHeight: 1.35 }}>{cell}</div>
@@ -266,6 +283,24 @@ const ScreenshotFrame = ({ src, label, maxWidth = 1120 }: { src: string; label: 
       <span style={{ marginLeft: 10, fontFamily: mono, color: C.muted, fontSize: 17 }}>{label}</span>
     </div>
     <img src={src} alt="" style={{ display: 'block', width: '100%', height: 'auto' }} />
+  </div>
+);
+
+const AgentShot = ({ src, label, height = 260 }: { src: string; label: string; height?: number }) => (
+  <div style={{ background: '#101418', border: '1px solid #2c333c', borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 60px -38px rgba(0,0,0,.58)' }}>
+    <div style={{ padding: '10px 14px', borderBottom: '1px solid #2c333c', color: '#dce7df', fontFamily: mono, fontSize: 16 }}>{label}</div>
+    <div style={{ height, display: 'grid', placeItems: 'center', background: '#15181f' }}>
+      <img src={src} alt="" style={{ display: 'block', maxWidth: '100%', maxHeight: '100%', width: '100%', height: '100%', objectFit: 'contain' }} />
+    </div>
+  </div>
+);
+
+const WideAgentShot = ({ src, label, height = 430 }: { src: string; label: string; height?: number }) => (
+  <div style={{ background: '#101418', border: '1px solid #2c333c', borderRadius: 18, overflow: 'hidden', boxShadow: '0 26px 70px -42px rgba(0,0,0,.62)' }}>
+    <div style={{ padding: '12px 18px', borderBottom: '1px solid #2c333c', color: '#dce7df', fontFamily: mono, fontSize: 17 }}>{label}</div>
+    <div style={{ height, display: 'grid', placeItems: 'center', background: '#15181f' }}>
+      <img src={src} alt="" style={{ display: 'block', maxWidth: '100%', maxHeight: '100%', width: '100%', height: '100%', objectFit: 'contain' }} />
+    </div>
   </div>
 );
 
@@ -475,7 +510,125 @@ const HumanReview: Page = () => (
   </Shell>
 );
 
-const Sec3: Page = () => <SectionSlide no="3" time="2:15 - 2:55" title="Implementer：小範圍修改倉儲邏輯" lead="人審通過後，才讓 AI 實作。這次不是重做整個頁面，而是把老師預留的 helper 補正確。" />;
+const SubAgentIntro: Page = () => (
+  <SectionSlide no="2.5" time="2:15 - 2:35" title="Prompt 用熟了，就升級成 sub-agent" lead="sub-agent 不是取代 Plan Mode，而是把已經穩定的 planner / reviewer prompt 固化成可重用角色。主線仍然由人審放行。" />
+);
+
+const AgentsTabs: Page = () => (
+  <Shell eyebrow="段 2.5 · /agents" title="先打開 Agents 面板，看三個位置" lead="Running 是正在跑的 agent；Library 是可用 agent；Create new agent 是把 prompt 固化的入口。">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, maxWidth: 1540 }}>
+      <WideAgentShot src={agentCommandShot} label="01 · 輸入 /agents" height={250} />
+      <WideAgentShot src={agentRunningShot} label="02 · Running：目前沒有背景 agent" height={250} />
+      <WideAgentShot src={agentLibraryShot} label="03 · Library：看到 user / project / built-in agents" height={250} />
+    </div>
+    <div style={{ marginTop: 22, fontSize: 25, color: C.muted, lineHeight: 1.45, maxWidth: 1500 }}>這一步只看位置，不建立功能。先讓學生知道 sub-agent 是「可被呼叫的角色」，不是新的專案或新的套件。</div>
+  </Shell>
+);
+
+const AgentCreateFlow: Page = () => (
+  <Shell eyebrow="段 2.5 · Create new agent" title="建立 Project agent：選位置、生成方式、描述任務" lead="這裡示範把 U2 的 planner / reviewer prompt 升級成一個專案內 agent。">
+    <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.2fr 1.2fr 1.7fr', gap: 15, maxWidth: 1540 }}>
+      <AgentShot src={agentCreateShot} label="04 · Create new agent" height={220} />
+      <AgentShot src={agentLocationShot} label="05 · Project (.claude/agents/)" height={220} />
+      <AgentShot src={agentMethodShot} label="06 · Generate with Claude" height={220} />
+      <AgentShot src={agentGenerateShot} label="07 · 描述 agent 任務" height={220} />
+    </div>
+    <div style={{ marginTop: 22 }}>
+      <Code label="給 Claude 的描述範例" size={20}>{`請建立一個 beginner-ai-project-workflow agent。
+when to use: 初學者要 AI 讀專案、規劃、驗收 starter project 時。
+behavior: 先讀 AGENTS/CLAUDE 與相關檔案；先回 planner A-F；不直接改檔；提醒人審後才 implement。`}</Code>
+    </div>
+  </Shell>
+);
+
+const AgentPermissionMemory: Page = () => (
+  <Shell eyebrow="段 2.5 · 權限與記憶" title="工具權限先保守，記憶選 Project scope" lead="課堂截圖示範 all tools；正式教 planner / reviewer 時，優先用 read-only。implementer agent 才需要寫入能力。">
+    <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr 1.1fr', gap: 18, maxWidth: 1540 }}>
+      <AgentShot src={agentToolsShot} label="08 · Tools：示範 all tools，但要講清楚風險" height={280} />
+      <AgentShot src={agentColorShot} label="09 · Color：方便辨識背景 agent" height={280} />
+      <AgentShot src={agentMemoryShot} label="10 · Memory：選 Project scope" height={280} />
+    </div>
+    <div style={{ marginTop: 24 }}>
+      <Cards columns={3} items={[
+        { title: 'Planner / Reviewer', body: '先用 read-only；它們只讀規格、看 diff、回 PASS/BLOCK。', color: C.green },
+        { title: 'Implementer', body: '需要寫入時才開 edit tools；而且必須有人審核准。', color: C.orange },
+        { title: 'Project memory', body: '讓這個 repo 的流程被記住，不污染個人全域設定。', color: C.blue },
+      ]} />
+    </div>
+  </Shell>
+);
+
+const AgentConfirmSave: Page = () => (
+  <Shell eyebrow="段 2.5 · Confirm and save" title="存檔前先看三件事：名稱、位置、警告" lead="sub-agent 一旦存進 project，就會變成這個 repo 的工作角色。不要把過長、過寬、會越權的 prompt 直接收進去。">
+    <div style={{ display: 'grid', gridTemplateColumns: '1.55fr 0.8fr', gap: 18, maxWidth: 1540, alignItems: 'stretch' }}>
+      <WideAgentShot src={agentConfirmShot} label="11 · Confirm and save：檢查 name / location / tools / memory" height={420} />
+      <WideAgentShot src={agentCreatedShot} label="12 · Library：Project agents 出現新 agent" height={420} />
+    </div>
+    <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, maxWidth: 1540 }}>
+      <div style={{ background: '#eef7f2', border: '1px solid #bfe6d4', borderRadius: 14, padding: '16px 20px', fontSize: 23, color: '#0f5038', lineHeight: 1.36 }}>名稱要說明用途，不要叫 test-agent。</div>
+      <div style={{ background: '#fbf3ee', border: '1px solid #f1d4c4', borderRadius: 14, padding: '16px 20px', fontSize: 23, color: '#7a3511', lineHeight: 1.36 }}>Project location：這堂要放在 .claude/agents/。</div>
+      <div style={{ background: '#eef4ff', border: '1px solid #cfe0fb', borderRadius: 14, padding: '16px 20px', fontSize: 23, color: '#21457f', lineHeight: 1.36 }}>警告不是錯誤；它提醒你權限和 prompt 長度。</div>
+    </div>
+  </Shell>
+);
+
+const AgentRunDemo: Page = () => (
+  <Shell eyebrow="段 2.5 · 實際呼叫" title="@agent 可以幫忙看，但 main thread 才能放行" lead="背景 agent 負責讀、整理、檢查；人類與主對話負責決策。">
+    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 22, maxWidth: 1540, alignItems: 'center' }}>
+      <WideAgentShot src={agentRunShot} label="13 · @agent-beginner-ai-project-workflow 檢視 web-lab" height={350} />
+      <div style={{ display: 'grid', gap: 16 }}>
+        <div style={{ background: C.card, border: `1px solid ${C.line}`, borderTop: `7px solid ${C.green}`, borderRadius: 16, padding: '22px 24px' }}>
+          <div style={{ fontSize: 29, fontWeight: 900, color: C.green }}>可以交給 agent</div>
+          <div style={{ marginTop: 10, fontSize: 24, lineHeight: 1.42, color: C.muted }}>讀 web-lab、整理檔案用途、檢查 prompt 是否符合 U2 範圍。</div>
+        </div>
+        <div style={{ background: C.card, border: `1px solid ${C.line}`, borderTop: `7px solid ${C.red}`, borderRadius: 16, padding: '22px 24px' }}>
+          <div style={{ fontSize: 29, fontWeight: 900, color: C.red }}>不能交給 agent</div>
+          <div style={{ marginTop: 10, fontSize: 24, lineHeight: 1.42, color: C.muted }}>自動放行 implementer、自動 commit、跳過人審或驗收。</div>
+        </div>
+      </div>
+    </div>
+  </Shell>
+);
+
+const ClaudeHudIntro: Page = () => (
+  <Shell eyebrow="段 2.5 · Claude HUD" title="讓學生看得到 Claude Code 正在發生什麼" lead="Claude HUD 是 Claude Code 的 statusline plugin，會把 context、usage、active tools、running agents 與 todo progress 顯示在輸入框下方。">
+    <Cards columns={4} items={[
+      { title: 'Context usage', body: '學生知道什麼時候快塞滿，不再盲目一直貼 prompt。', color: C.blue },
+      { title: 'Usage / weekly', body: '課堂現場可以先看到用量狀態，避免突然卡住。', color: C.orange },
+      { title: 'Tools / agents', body: '配合 /agents 練習時，看得到背景 agent 是否正在跑。', color: C.green },
+      { title: 'Todo progress', body: '讓 plan / implement / test 的待辦狀態更透明。', color: C.amber },
+    ]} />
+    <div style={{ marginTop: 26 }}>
+      <Flow steps={[
+        'Plan Mode\n先看 context',
+        'Sub-agent\n看 running agents',
+        'Implementer\n看工具活動',
+        'Human review\n人來決定放行',
+      ]} />
+    </div>
+    <div style={{ marginTop: 22, fontSize: 24, color: C.muted, lineHeight: 1.45, maxWidth: 1460 }}>這不是新的開發流程；它只是把 Claude Code 的狀態攤開，幫學生更早發現 context、用量與背景任務問題。</div>
+  </Shell>
+);
+
+const ClaudeHudInstall: Page = () => (
+  <Shell eyebrow="段 2.5 · 安裝 Claude HUD" title="三步裝好：marketplace、install、setup" lead="課堂流程用最短路徑：加入 marketplace、安裝 plugin、重開 Claude Code 後執行 setup。">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, maxWidth: 1540 }}>
+      <WideAgentShot src={hudMarketplaceShot} label="01 · /plugin marketplace add jarrodwatts/claude-hud" height={240} />
+      <WideAgentShot src={hudInstallShot} label="02 · /plugin install claude-hud" height={240} />
+    </div>
+    <div style={{ marginTop: 18, display: 'grid', gridTemplateColumns: '1.08fr 0.92fr', gap: 18, maxWidth: 1540, alignItems: 'stretch' }}>
+      <WideAgentShot src={hudStatuslineShot} label="03 · 重開 Claude Code 後執行 /claude-hud:setup" height={175} />
+      <Code label="Claude Code commands" size={18}>{`/plugin marketplace add jarrodwatts/claude-hud
+/plugin install claude-hud
+
+# 重開 Claude Code
+/claude-hud:setup`}</Code>
+    </div>
+    <div style={{ marginTop: 16, fontSize: 22, color: C.muted, lineHeight: 1.42, maxWidth: 1540 }}>現場如果看不到 setup 指令，可先補跑 README 裡的 /reload-plugins；Windows 若顯示沒有 JavaScript runtime，先安裝 Node.js LTS。</div>
+  </Shell>
+);
+
+const Sec3: Page = () => <SectionSlide no="3" time="2:35 - 3:05" title="Implementer：小範圍修改倉儲邏輯" lead="人審通過後，才讓 AI 實作。這次不是重做整個頁面，而是把老師預留的 helper 補正確。" />;
 
 const TaskSpec: Page = () => (
   <EvidenceShell eyebrow="段 3 · 實作目標" title="完成「待確認訂單」判斷規則" lead="後台畫面已經接好。學生要完成的是資料 helper，讓同一條規則同步影響 KPI、明細與處理佇列。">
@@ -692,6 +845,14 @@ const pages = [
   PlannerPrompt,
   ExpectedPlan,
   HumanReview,
+  SubAgentIntro,
+  AgentsTabs,
+  AgentCreateFlow,
+  AgentPermissionMemory,
+  AgentConfirmSave,
+  AgentRunDemo,
+  ClaudeHudIntro,
+  ClaudeHudInstall,
   Sec3,
   TaskSpec,
   ImplementerPrompt,
@@ -734,6 +895,14 @@ export const notes: string[] = [
   '老師帶學生複製 Planner Prompt。',
   '示範什麼叫好的 A-F 計畫。',
   '人審檢查點，沒有通過就不要 implement。',
+  '段 2.5：把穩定 prompt 升級成 sub-agent，但不跳過人審。',
+  '打開 /agents，先看 Running 與 Library 的位置。',
+  '示範 Create new agent：選 Project、Generate with Claude、描述任務。',
+  '說明 tools 與 memory：planner/reviewer 優先 read-only，project memory 不污染全域。',
+  'Confirm and save 前看名稱、位置與警告；警告是權限提醒，不是錯誤。',
+  '實際用 @agent 檢視 web-lab；主線仍由 main thread 和人類拍板。',
+  '介紹 Claude HUD：它把 context、usage、active tools、running agents 與 todo progress 放到輸入框下方。',
+  '安裝 Claude HUD：marketplace add、plugin install、重開 Claude Code、執行 /claude-hud:setup。',
   '段三才開始實作。',
   '展示待確認訂單判斷規則應該長什麼樣。',
   '老師帶學生複製 Implementer Prompt。',
