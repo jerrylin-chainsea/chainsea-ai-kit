@@ -252,13 +252,19 @@ const slides: SlideSpec[] = [
 
   { kind: 'analogy', eyebrow: 'U2 回顧 → U3 定位', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: 'U2 管住的是 AI 改 code；U3 換成資料真的送出去', analogy: 'U2 練的是：AI 改程式碼要可控，計畫先過人審，實作才小範圍動手。\n\n今天資料不再只留在畫面上：同一筆訂單會真的變成一則送到 LINE OA 的通知，送出去之前，一樣要先過人審。\n\n控制的對象從「AI 改了什麼」擴大成「系統送出了什麼」。' },
 
+  { kind: 'cards', eyebrow: '先講清楚全局 · Agentic Engineering', footer: 'U11·C3 ｜ 這三堂課同一條主線', title: '這三堂課，其實都是同一件事', lead: 'Agentic Engineering──設計「會做事」的 AI 系統──拆成三塊，U2 到 U4 各教一塊，今天輪到中間這塊。', cards: [
+    { title: 'U2 · 控制輸出', body: 'AI 能寫什麼 code：planner → 人審 → implementer，決定 AI 能改哪些檔案。', color: C.blue },
+    { title: 'U3 · 控制行動（今天）', body: 'AI 能不能對真實世界採取行動：human-in-the-loop 閘門 + token 工具邊界，決定這則通知能不能真的送出去。', color: C.orange },
+    { title: 'U4 · 擴充能力', body: 'AI 能碰到哪些外部工具、能不能多個角色協作：MCP 接外部工具、ops agent 三角色分工。', color: '#5a6270' },
+  ] },
+
   { kind: 'flow', eyebrow: '今日主線 · 大 picture', footer: 'U11·C3 ｜ 講義:U3/START-HERE.md', title: '一筆訂單，怎麼變成一則真的通知', steps: ['資料 data\n訂單欄位', 'payload\n包成固定格式', 'API\n呼叫自己的後端', 'token\n後端拿鑰匙開門', 'LINE OA\n真的送出'] },
 
   { kind: 'cards', eyebrow: '今天先講清楚五個詞', footer: 'U11·C3 ｜ 講義:U3/API-FLOW.md', title: '這五個詞，今天會一直用到', cards: [
     { title: '資料 data', body: '一筆訂單本身：客戶、通路、狀態、金額。今天放在 shopData.js 與 data-lab/orders.json。', color: C.orange },
     { title: 'payload', body: '把資料包成「別的系統看得懂」的固定格式，準備送出去的那包內容。', color: C.blue },
     { title: 'API', body: '一個固定的門：送對格式，它回你結果。今天呼叫的是自己的後端 /api/send-line-flex。', color: C.amber },
-    { title: 'token', body: '證明「有權限用這個 LINE OA 帳號發訊息」的密鑰，只放在 line-lab/.env。', color: C.red },
+    { title: 'token', body: '證明「有權限用這個 LINE OA 帳號發訊息」的密鑰，只放在 line-lab/.env。這就是 agentic engineering 說的工具邊界。', color: C.red },
     { title: 'webhook', body: 'LINE 平台主動打回來的訊息，方向跟今天的推播相反，先知道概念就好。', color: '#5a6270' },
   ] },
 
@@ -402,9 +408,9 @@ git commit -m "完成訂單看板與 LINE OA Flex 真推播"` },
 
   { kind: 'cards', eyebrow: '收束 · 回顧四堂', title: '從「會問 AI」到「會做、會管」', cards: [
     { title: 'C1 進得了專案', body: '打開、跑起來、改一個字、存檔。' },
-    { title: 'C2 管得住 AI', body: 'AGENTS/CLAUDE + planner→人審→implementer。' },
-    { title: 'C3 做出真推播(今天)', body: 'BOBA TIDE 訂單看板、Flex 預覽、人審、LINE OA 真推播。', color: C.orange },
-    { title: 'C4 下一堂', body: '把流程自動化,再用三個 MCP 幫 AI 接上外部工具。' },
+    { title: 'C2 管得住 AI', body: 'AGENTS/CLAUDE + planner→人審→implementer。(Agentic Engineering：控制輸出)' },
+    { title: 'C3 做出真推播(今天)', body: 'BOBA TIDE 訂單看板、Flex 預覽、人審、LINE OA 真推播。(Agentic Engineering：控制行動)', color: C.orange },
+    { title: 'C4 下一堂', body: '把流程自動化,再用三個 MCP 幫 AI 接上外部工具。(Agentic Engineering：擴充能力)' },
   ] },
 ];
 

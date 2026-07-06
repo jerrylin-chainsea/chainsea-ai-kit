@@ -578,13 +578,13 @@ const Recap: Page = () => {
   );
 };
 const CourseArc: Page = () => {
-  const arc = [['課1', '進得了專案,先看到成果'], ['課2', '管得住 AI(守則 + 工作流)'], ['課3', '接上平台(訂單可視化 + LINE OA Flex)'], ['課4', '自動化交付 + MCP + blog']];
+  const arc = [['課1', '進得了專案,先看到成果'], ['課2', '管得住 AI(守則 + 工作流)‧控制輸出'], ['課3', '接上平台(訂單可視化 + LINE OA Flex)‧控制行動'], ['課4', '自動化交付 + MCP + blog‧擴充能力']];
   return (
     <div style={fill}><div style={pad}><Eyebrow>整門課四堂 · 一條線</Eyebrow><Title size={50}>四堂課,串成一句話</Title>
       <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 36, maxWidth: 1500 }}>
         {arc.map(([a, b], i) => <div key={i} style={{ display: 'flex', gap: 20, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '18px 28px' }}><span style={{ fontFamily: mono, fontSize: 24, color: C.orange, fontWeight: 800, minWidth: 90 }}>{a}</span><span style={{ fontSize: 30, fontWeight: 700 }}>{b}</span></div>)}
       </div>
-      <div style={{ marginTop: 24 }}><Harvest>AI 很會做事,但它不是老闆;你已經學會當 AI 的主管。</Harvest></div>
+      <div style={{ marginTop: 24 }}><Harvest>AI 很會做事,但它不是老闆;你已經學會當 AI 的主管。這四堂課(控制輸出 → 控制行動 → 擴充能力),就是 Agentic Engineering 的完整入門。</Harvest></div>
     </div><Foot label="U11 · 課4 · 整門課" /></div>
   );
 };
@@ -643,7 +643,7 @@ const McpChromeDoc: Page = () => (
 const CoverMcp: Page = () => (
   <div style={fill}><div style={{ ...pad }}><Eyebrow>U11 · 第 4 堂 / 共 4 堂 · 4 小時 · 零基礎</Eyebrow>
     <div className="ts-rise" style={{ marginTop: 34 }}><div style={{ fontSize: 100, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.04 }}>幫 AI 接上<br />三條外部工具的線</div>
-      <Lead>先把 U3 的流程用 <B>ops agent + GitHub Actions</B> 快速收成自動化,再進今天的主線:<B>三個 MCP</B> ── 讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。學生親手裝。</Lead></div>
+      <Lead>U3 你已經做過一次 Agentic Engineering 的安全閘門(human-in-the-loop + token 邊界)。今天先把 U3 的流程用 <B>ops agent + GitHub Actions</B> 快速收成自動化,再進今天的主線:<B>三個 MCP</B> ── 讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。學生親手裝。</Lead></div>
   </div><div style={{ position: 'absolute', right: 110, bottom: 84, fontFamily: mono, fontSize: 21, color: C.faint }}>ops agent · Actions · 三個 MCP</div><Foot label="U11 · 課4" /></div>
 );
 const WhyMcp: Page = () => (
