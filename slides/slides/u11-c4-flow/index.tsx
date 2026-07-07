@@ -179,7 +179,7 @@ const Cover: Page = () => (
   </div><div style={{ position: 'absolute', right: 110, bottom: 84, fontFamily: mono, fontSize: 21, color: C.faint }}>AI 專案操作基礎 · 把流程固定下來</div><Foot label="U11 · 課4" /></div>
 );
 const Recap0: Page = () => {
-  const pts = ['課1:一鍵啟動、看過 NOVA 成品、改首頁標題、存檔', '課2:AGENTS/CLAUDE + planner→人審→implementer', '課3:訂單可視化、LINE Flex mock、ReAct 修錯'];
+  const pts = ['課1:一鍵啟動、看過 BOBA TIDE 成品、改首頁標題、存檔', '課2:AGENTS/CLAUDE + planner→人審→implementer', '課3:訂單看板、LINE Flex mock、ReAct 修錯'];
   return (
     <div style={fill}><div style={{ ...pad }}><Eyebrow>先回顧 · 我們走到哪了</Eyebrow><Title size={52}>三堂課,你已經會這些</Title>
       <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 38, maxWidth: 1480 }}>
@@ -210,17 +210,17 @@ const Roadmap: Page = () => {
 };
 
 const OpsAgentFlow: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>段 1 · ops agent</Eyebrow><Title size={50}>用三個角色,產出同一份 report.json</Title>
+  <div style={fill}><div style={pad}><Eyebrow>再多一個例子 · 自動化</Eyebrow><Title size={50}>一個小腳本,自動把資料變成建議</Title>
     <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18, marginTop: 34 }}>
-      {[['data_checker', '讀庫存 CSV,找低庫存與缺貨。'], ['ops_decider', '決定 risk_level 與是否需要推播。'], ['push_writer', '寫出補貨 action_items,產 report.json。']].map(([a, b]) => (
-        <div key={a} style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '24px 22px' }}><div style={{ fontFamily: mono, color: C.orange, fontSize: 24, fontWeight: 850 }}>{a}</div><div style={{ marginTop: 14, fontSize: 27, lineHeight: 1.4 }}>{b}</div></div>
+      {[['第一步:檢查資料', '讀庫存 CSV,找低庫存與缺貨。'], ['第二步:判斷風險', '算出 risk_level 與是否需要推播。'], ['第三步:寫成建議', '寫出補貨 action_items,產出 report.json。']].map(([a, b]) => (
+        <div key={a} style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: '24px 22px' }}><div style={{ fontFamily: mono, color: C.orange, fontSize: 22, fontWeight: 850 }}>{a}</div><div style={{ marginTop: 14, fontSize: 27, lineHeight: 1.4 }}>{b}</div></div>
       ))}
     </div>
     <div className="ts-rise" style={{ marginTop: 28 }}><PromptCard size={25} label="terminal">{`python ops-agent-lab/run_ops_check.py
 python ops-agent-lab/run_ops_check.py --write-report
 node line-lab/sendLineAlert.js --flex`}</PromptCard></div>
-    <div style={{ marginTop: 18 }}><Harvest>重點不是多一套格式,而是讓 agent 產出的資料仍然符合 U3 的資料合約。</Harvest></div>
-  </div><Foot label="U11 · 課4 · ops agent" /></div>
+    <div style={{ marginTop: 18 }}><Harvest>重點不是多一套格式,而是自動產出的資料,跟 U3 手動填的格式完全一樣。</Harvest></div>
+  </div><Foot label="U11 · 課4 · 自動化範例" /></div>
 );
 
 const ActionsFlow: Page = () => (
@@ -508,7 +508,7 @@ const McpCodebaseMemory: Page = () => (
       ['用途', '把程式碼庫索引成知識圖譜:AI 能查架構總覽、呼叫關係、找死碼,不用一檔一檔翻。'],
       ['安裝', <>Windows PowerShell 下載執行 <Key>install.ps1</Key>;mac/Linux 一行 <Key>curl -fsSL .../install.sh | bash</Key>(會自動幫 Claude Code 等 agent 設定好)。</>],
       ['固定操作', <>先請 AI <Key>index_repository</Key> 索引專案 → 再問架構問題。</>],
-      ['固定 prompt', '「請先索引這個專案,然後告訴我:整體架構長怎樣?WarehouseAdmin.jsx 與 warehouseLogic.js 怎麼互動?」'],
+      ['固定 prompt', '「請先索引這個專案,然後告訴我:整體架構長怎樣?ShopConsole.jsx 與 shopLogic.js 怎麼互動?」'],
       ['預期結果', 'AI 用圖譜回答架構與呼叫關係,不再逐檔猜。'],
       ['驗收', <><Key>/mcp</Key> 列出 codebase-memory;架構問題答得出檔案關係。</>],
       ['保底', '裝不起來 → 用 /init 讓 AI 讀專案,或直接看 README;不擋進度。'],
@@ -558,7 +558,7 @@ const Punchline: Page = () => (
   </div><div style={{ position: 'absolute', left: 110, bottom: 44, fontFamily: mono, fontSize: 19, color: 'rgba(255,255,255,0.5)' }}>U11 · 課4 · 記住這句</div></div>
 );
 const NineOutcomes: Page = () => {
-  const outs = ['一鍵啟動跑起專案', 'NOVA WAREHOUSE 首頁', '倉儲後台 action rule', '訂單可視化 three.js 動畫', '一次 planner A–F 計畫與人審', '一次小範圍 warehouseLogic 修改 + git diff', '一份 LINE Flex payload 預覽', '一次 mock 送出 + [blocked] 驗證', '一次 ReAct 修錯(擋牌出現又消失)', '一次 ops agent + Actions artifact', '一次 reviewer PASS + build 通過', 'Astro 技術 blog'];
+  const outs = ['一鍵啟動跑起專案', 'BOBA TIDE 首頁', '備料控制台 action rule', '訂單看板動態畫面', '一次 planner A–F 計畫與人審', '一次小範圍 shopLogic 修改 + git diff', '一份 LINE Flex payload 預覽', '一次 mock 送出 + [blocked] 驗證', '一次 ReAct 修錯(擋牌出現又消失)', '自建 /ops-check 與 /ship-check', '三個 MCP 親手裝起來', 'Astro 技術 blog'];
   return (
     <div style={fill}><div style={pad}><Eyebrow>整門課 · 你手上會有這些</Eyebrow><Title size={46}>你親手做出來的成果</Title>
       <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12, marginTop: 30, maxWidth: 1560 }}>
@@ -578,13 +578,13 @@ const Recap: Page = () => {
   );
 };
 const CourseArc: Page = () => {
-  const arc = [['課1', '進得了專案,先看到成果'], ['課2', '管得住 AI(守則 + 工作流)‧控制輸出'], ['課3', '接上平台(訂單可視化 + LINE OA Flex)‧控制行動'], ['課4', '自動化交付 + MCP + blog‧擴充能力']];
+  const arc = [['課1', '進得了專案,先看到成果'], ['課2', '管得住 AI(守則 + 工作流)‧控制輸出'], ['課3', '接上平台(訂單看板 + LINE OA Flex)‧控制行動'], ['課4', 'Skills + MCP + blog‧擴充能力']];
   return (
     <div style={fill}><div style={pad}><Eyebrow>整門課四堂 · 一條線</Eyebrow><Title size={50}>四堂課,串成一句話</Title>
       <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 36, maxWidth: 1500 }}>
         {arc.map(([a, b], i) => <div key={i} style={{ display: 'flex', gap: 20, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '18px 28px' }}><span style={{ fontFamily: mono, fontSize: 24, color: C.orange, fontWeight: 800, minWidth: 90 }}>{a}</span><span style={{ fontSize: 30, fontWeight: 700 }}>{b}</span></div>)}
       </div>
-      <div style={{ marginTop: 24 }}><Harvest>AI 很會做事,但它不是老闆;你已經學會當 AI 的主管。這四堂課(控制輸出 → 控制行動 → 擴充能力),就是 Agentic Engineering 的完整入門。</Harvest></div>
+      <div style={{ marginTop: 24 }}><Harvest>AI 很會做事,但它不是老闆;你已經學會當 AI 的主管。</Harvest></div>
     </div><Foot label="U11 · 課4 · 整門課" /></div>
   );
 };
@@ -643,8 +643,8 @@ const McpChromeDoc: Page = () => (
 const CoverMcp: Page = () => (
   <div style={fill}><div style={{ ...pad }}><Eyebrow>U11 · 第 4 堂 / 共 4 堂 · 4 小時 · 零基礎</Eyebrow>
     <div className="ts-rise" style={{ marginTop: 34 }}><div style={{ fontSize: 100, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.04 }}>幫 AI 接上<br />三條外部工具的線</div>
-      <Lead>U3 你已經做過一次 Agentic Engineering 的安全閘門(human-in-the-loop + token 邊界)。今天先把 U3 的流程用 <B>ops agent + GitHub Actions</B> 快速收成自動化,再進今天的主線:<B>三個 MCP</B> ── 讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。學生親手裝。</Lead></div>
-  </div><div style={{ position: 'absolute', right: 110, bottom: 84, fontFamily: mono, fontSize: 21, color: C.faint }}>ops agent · Actions · 三個 MCP</div><Foot label="U11 · 課4" /></div>
+      <Lead>U3 你已經做過一次 AI 安全閘門(human-in-the-loop + token 邊界)。今天先把常提醒 AI 的規矩寫成 <B>Skills</B>,再進主線:<B>三個 MCP</B> ── 讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。最後補一個自動化小範例、寫一篇技術 blog。</Lead></div>
+  </div><div style={{ position: 'absolute', right: 110, bottom: 84, fontFamily: mono, fontSize: 21, color: C.faint }}>Skills · 三個 MCP · 自動化 · blog</div><Foot label="U11 · 課4" /></div>
 );
 const WhyMcp: Page = () => (
   <div style={fill}><div style={{ ...pad }}><Eyebrow>先講為什麼</Eyebrow><Title size={52}>AI 很聰明,但它「看不到」你的工具</Title>
@@ -655,9 +655,9 @@ const WhyMcp: Page = () => (
   </div><Foot label="U11 · 課4 · 為什麼" /></div>
 );
 const RoadmapMcp: Page = () => {
-  const items = [['段 1', '自動化收尾', 'ops agent + Actions + 固化成工具', '0:20'], ['段 2', '三個 MCP(主線)', '看畫面 / 查文件 / 記專案,親手裝', '1:30'], ['段 3', '用得安全 + 收尾', '權限三問 + slash 型錄', '3:20']];
+  const items = [['段 1', 'Skills', '把常提醒 AI 的規矩,寫成固定指令', '0:15'], ['段 2', '三個 MCP(主線)', '看畫面 / 查文件 / 記專案,親手裝', '0:45'], ['段 3', '安全 + 自動化 + blog', '權限三問、自動產報表、技術紀錄', '2:45']];
   return (
-    <div style={fill}><div style={pad}><Eyebrow>今天的路線 · 三段 + 結業</Eyebrow><Title>前段快收,主線放在三個 MCP</Title>
+    <div style={fill}><div style={pad}><Eyebrow>今天的路線 · 三段 + 結業</Eyebrow><Title>先把規矩收乾淨,主線放在三個 MCP</Title>
       <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22, marginTop: 46 }}>
         {items.map(([a, b, c, t], i) => <div key={i} style={{ background: i === 1 ? '#fbf3ee' : C.card, border: `${i === 1 ? 2 : 1}px solid ${i === 1 ? C.orange : C.line}`, borderRadius: 16, padding: '24px 22px' }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontFamily: mono, fontSize: 21, color: C.orange, fontWeight: 700 }}>{a}</span><span style={{ fontFamily: mono, fontSize: 18, color: C.faint }}>{t}</span></div><div style={{ fontSize: 27, fontWeight: 800, marginTop: 12, lineHeight: 1.25 }}>{b}</div><div style={{ fontSize: 22, color: C.muted, marginTop: 8 }}>{c}</div></div>)}
       </div>
@@ -665,11 +665,11 @@ const RoadmapMcp: Page = () => {
     </div><Foot label="U11 · 課4 · 路線" /></div>
   );
 };
-const SecAuto: Page = () => <Section no="1" title="先把流程收成自動化(快速)" time="0:20 - 1:30" sub="U3 的 LINE Flex 流程,交給 ops agent 與 GitHub Actions 產 artifact,再 reviewer / build,最後封裝成 /ops-check、/ship-check。這段走快一點。" />;
+const SecAuto: Page = () => <Section no="1" title="把常提醒的事,寫成 Skills" time="0:15 - 0:45" sub="這三堂課你一直在提醒 AI 同一套規矩,與其每次重講,不如寫成一份固定指令,帶著走。" />;
 const AutoDone: Page = () => (
-  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 1 · 檢查點</Eyebrow><Title size={50}>自動化這段,你手上有這些</Title>
-    <div className="ts-rise" style={{ marginTop: 30 }}><Checkpoint items={['ops agent 三角色產出符合合約的 report.json', 'GitHub Actions 只產 artifact、不真送 LINE', 'reviewer 給 Verdict + 交付前四問都打勾', '自建 /ops-check 與 /ship-check,回固定格式、不改檔']} /></div>
-    <div style={{ marginTop: 20 }}><Harvest>流程固定好了。接下來:讓 AI 能自己去「碰」外部工具 —— 這就是 MCP。</Harvest></div>
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 1 · 檢查點</Eyebrow><Title size={50}>Skills 這段,你手上有這些</Title>
+    <div className="ts-rise" style={{ marginTop: 30 }}><Checkpoint items={['看得懂一份 Skill,知道它是 AI 的 SOP', '自建 /ops-check 與 /ship-check,回固定格式、不改檔']} /></div>
+    <div style={{ marginTop: 20 }}><Harvest>規矩固定好了。接下來:讓 AI 能自己去「碰」外部工具 —— 這就是 MCP。</Harvest></div>
   </div><Foot label="U11 · 課4 · 段1" /></div>
 );
 const BreakMcp: Page = () => <BreakSlide note="回來,今天的主線:把三個 MCP 一個一個裝起來、一個一個驗收。" />;
@@ -700,7 +700,7 @@ const PainContext7: Page = () => (
 );
 const PainCodebase: Page = () => (
   <Pain tag="MCP 三 · codebase-memory" title="專案一大,AI 一檔一檔猜、還常改越界"
-    pain={<>問「WarehouseAdmin 和 warehouseLogic 怎麼互動?」它得一檔一檔翻、常常猜錯,改東西還<B>誤傷別的檔</B>。</>}
+    pain={<>問「ShopConsole 和 shopLogic 怎麼互動?」它得一檔一檔翻、常常猜錯,改東西還<B>誤傷別的檔</B>。</>}
     fix={<>先 <Key>index_repository</Key> 把專案<B>索引成地圖</B>,架構、呼叫關係一問秒答。</>} />
 );
 const McpDone: Page = () => (
@@ -711,7 +711,7 @@ const McpDone: Page = () => (
 );
 const SecSafe: Page = () => <Section no="3" title="用得安全,再把指令收成一張表" time="3:20 - 3:50" sub="MCP 讓 AI 能碰外部資料,方便,但權限要給得剛剛好。最後把內建與自建的 slash 分清楚。" />;
 const RecapMcp: Page = () => {
-  const pts = [['自動化收尾', 'ops agent + Actions 產 artifact,固化成 /ops-check、/ship-check。'], ['chrome-devtools', '讓 AI 自己開瀏覽器、看 console、截圖驗收。'], ['context7', '把最新官方文件餵給 AI,不再用過時 API。'], ['codebase-memory', '把專案索引成地圖,問架構秒答。'], ['權限三問', '能讀什麼 / 能不能寫 / 會不會碰正式資料。']];
+  const pts = [['Skills', '把常提醒 AI 的規矩,寫成 /ops-check、/ship-check 這類固定指令。'], ['chrome-devtools', '讓 AI 自己開瀏覽器、看 console、截圖驗收。'], ['context7', '把最新官方文件餵給 AI,不再用過時 API。'], ['codebase-memory', '把專案索引成地圖,問架構秒答。'], ['自動化 + blog', '一個小腳本自動產生 report.json,再寫成技術 blog。']];
   return (
     <div style={fill}><div style={pad}><Eyebrow>這一堂我們學了這些</Eyebrow>
       <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 13, marginTop: 34, maxWidth: 1520 }}>
@@ -734,11 +734,11 @@ const AstroBlog: Page = () => (
     <div style={{ marginTop: 22 }}><Title size={62}>最後不是交一句「我用 AI 做了」<br />而是交一篇能被企業看懂的技術 blog</Title></div>
     <div className="ts-rise" style={{ marginTop: 28, display: 'grid', gridTemplateColumns: '1.05fr .95fr', gap: 24, alignItems: 'start' }}>
       <PromptCard size={24} label="Astro blog 文章主題">{`我如何用 AI coding agent
-接手並交付一個 NOVA WAREHOUSE 倉儲系統
+接手並交付一個 BOBA TIDE 手搖飲控制台系統
 
 必放:
 1. 企業題目怎麼拆
-2. 倉儲後台 / 訂單可視化 / LINE Flex 截圖
+2. 備料控制台 / 訂單看板 / LINE Flex 截圖
 3. component、CSS、API payload、token 邊界
 4. AGENTS.md / CLAUDE.md / Plan Mode
 5. build、mock、DevTools、diff 驗收證據`}</PromptCard>
@@ -752,22 +752,17 @@ const AstroBlog: Page = () => (
   </div><Foot label="U11 · 課4 · Astro blog" /></div>
 );
 
-export const meta: SlideMeta = { title: 'U11 課4:自動化收尾 + MCP / Skills + Astro 技術紀錄', createdAt: '2026-07-04T00:00:00.000Z' };
+export const meta: SlideMeta = { title: 'U11 課4:Skills + MCP + 自動化 + Astro 技術紀錄', createdAt: '2026-07-04T00:00:00.000Z' };
 
 export const notes: (string | undefined)[] = [
-  '各位同學好,最後一堂。今天分兩塊:前段快速把 U3 的流程收成自動化(ops agent + GitHub Actions + 固化成工具),後段是主線 —— 三個 MCP,讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案。學生親手裝。',
-  '先回顧走到哪。課一一鍵啟動、看過 NOVA WAREHOUSE 成品、改首頁標題存檔;課二 AGENTS/CLAUDE + planner 人審 implementer;課三訂單可視化與 LINE Flex mock、ReAct 修錯。今天把它自動化,再幫 AI 接上工具。',
-  '先講為什麼。AI 很聰明,但它看不到你的工具:進不了瀏覽器、看不到最新文件、也不知道你專案長怎樣,你只能一直複製貼上餵給它。打個比方,MCP 就是那張門禁卡 —— 在你授權範圍內讓 AI 自己去讀。',
-  '看路線。三段:段一自動化收尾(快速)、段二三個 MCP(今天主線、親手裝)、段三用得安全加 slash 收尾。段二是主角,三個 MCP 一個一個裝、一個一個驗收。',
-  '段一,先把流程收成自動化。這段走快一點:ops agent 產 report、Actions 產 artifact、reviewer 與四問把關、封裝成 /ops-check 與 /ship-check。',
-  'ops agent 三個角色:data_checker 讀庫存找低庫存缺貨、ops_decider 決定 risk_level、push_writer 寫 action_items 產 report.json。重點不是多一套格式,而是產出仍符合 U3 的資料合約。',
-  'GitHub Actions:排程可自動跑,但送出仍要人審。workflow 只 checkout、跑 ops agent 與 LINE Flex mock、上傳 artifact;不設定 LINE_REAL_SEND=1,所以只 mock、不真送。',
-  'reviewer 卡。commit 前讓另一個角色查一次帳:固定輸出第一行 Verdict,PASS 或 BLOCK。PASS 先做 Human Review 欄的事;BLOCK 照 Next Step 修。reviewer 是省力不是背書,回報要對照 git diff 抽查。',
-  '交付前四問,背起來:畫面輸出對了嗎、diff 只有預期變更嗎、build 過了嗎、commit 訊息說得出改了什麼為什麼嗎。四格都打勾,才叫交付。',
+  '各位同學好,最後一堂。今天分三塊:先把常提醒 AI 的規矩寫成 Skills,接著主線 —— 三個 MCP,讓 AI 自己開瀏覽器驗收、查最新文件、記住整個專案,最後補一個自動化小範例、寫一篇技術 blog。',
+  '先回顧走到哪。課一一鍵啟動、看過 BOBA TIDE 成品、改首頁標題存檔;課二 AGENTS/CLAUDE + planner 人審 implementer;課三訂單看板與 LINE Flex mock、ReAct 修錯。今天把常提醒的規矩寫成工具,再幫 AI 接上更多外部能力。',
+  '看路線。三段:段一 Skills(把規矩寫成固定指令)、段二三個 MCP(今天主線、親手裝)、段三用得安全 + 自動化範例 + blog。段二是主角,三個 MCP 一個一個裝、一個一個驗收。',
+  '段一,把常提醒 AI 的事寫成 Skills。這三堂課你一直在提醒 AI 同一套規矩,與其每次重講,不如寫成一份固定指令帶著走。',
   '把這些叮嚀寫成 Skill。打個比方 Skill 像給新人的工作守則,貼牆上每個人照做,你不用每次重講。放 .claude/skills/名字/SKILL.md,frontmatter 寫 name 與 description,打 /名字 呼叫,相關情境也會自動觸發。',
-  '動手一:建 .claude/commands/ops-check.md,檢查 ops agent 是否符合合約、Flex 是否仍 mock、Actions 是否只產 artifact。打 /ops-check,它回四點且不改檔。',
+  '動手一:建 .claude/commands/ops-check.md,檢查自動化腳本是否符合合約、Flex 是否仍 mock。打 /ops-check,它回四點且不改檔。',
   '動手二:建 .claude/commands/ship-check.md,把交付前四問封裝起來。打 /ship-check,它回是否可交付、最高風險、commit 訊息建議、要退先退哪個檔,一樣不改檔。',
-  '段一檢查點:ops agent 產出符合合約、Actions 只產 artifact 不真送、reviewer 有 Verdict 且四問打勾、自建的兩個指令回固定格式不改檔。流程固定好了,接下來讓 AI 能自己碰外部工具。',
+  '段一檢查點:看得懂一份 Skill、知道它是 AI 的 SOP;自建的兩個指令回固定格式、不改檔。規矩固定好了,接下來讓 AI 能自己碰外部工具。',
   '休息十分鐘。回來進今天的主線:三個 MCP,一個一個裝、一個一個驗收。',
   '段二,三個 MCP,今天的主角。每個都同一套節奏:先看它解決什麼痛 → 一行裝起來 → 固定操作用一次 → /mcp 驗收 → 裝不起來的保底。學生親手裝三個。',
   'MCP 是什麼?沒有 MCP 你要自己複製資料給 AI;有了 MCP,AI 可以在你授權範圍內自己去工具裡讀,像幫它接上一條條安全的線。右邊圖:AI ⇄ MCP ⇄ 瀏覽器 / 文件 / 程式碼庫。',
@@ -778,19 +773,20 @@ export const notes: (string | undefined)[] = [
   '這是官方頁面真截圖:chrome-devtools-mcp 是一個真的 MCP server。接上它 AI 就能自己開瀏覽器、看 console、截圖。本課的官方頁與 localhost 截圖就是用它拍的。MCP 不是魔法,是一條一條接上去的能力。',
   '痛一次,第二台。套件改版很快,AI 憑舊記憶用過時 API 寫給你,照著做一直報錯查半天。句尾加 use context7,把最新官方文件餵給它,它就照現在的用法回答。',
   'Context7 MCP 七要素卡:用途餵最新文件、一行安裝(免費金鑰選填)、固定操作(問套件用法句尾加 use context7)、固定 prompt、預期結果附文件出處、/mcp 驗收、被限流就看官網或換更強模型保底。',
-  '痛一次,第三台。專案一大,問「WarehouseAdmin 被誰用?」AI 得一檔一檔翻、常猜錯,改東西還誤傷別的檔。先 index_repository 把專案索引成地圖,架構、呼叫關係一問秒答。',
+  '痛一次,第三台。專案一大,問「ShopConsole 被誰用?」AI 得一檔一檔翻、常猜錯,改東西還誤傷別的檔。先 index_repository 把專案索引成地圖,架構、呼叫關係一問秒答。',
   'Codebase Memory MCP 七要素卡:把程式碼庫索引成知識圖譜,查架構、呼叫關係、死碼不用逐檔翻;全本地、免 API key。固定操作先 index_repository 再問架構;裝不起來用 /init 或看 README 保底。',
   '段二檢查點:/mcp 列得出三台;chrome-devtools 真的回報 console 加截圖、context7 答案附出處、codebase-memory 架構問題答得出檔案關係。MCP 不是魔法,是一條一條接上去的能力,裝越多 AI 能自己做的越多。',
   '段三,用得安全再收尾。MCP 讓 AI 能碰外部資料很方便,但權限要給得剛剛好。',
   'MCP 權限三問,裝之前先問:它能讀到什麼、能不能寫入、會不會碰到正式資料。能改的權限要更小心,別讓它直接動真實營運資料庫。',
   '把 slash 收成一張表:內建的有 /clear、/compact、/review、/status、/model、/permissions、/mcp;自建的放 .claude/commands,starter 內建五個,/ops-check 與 /ship-check 是你今天親手建的。Plan 是模式不是指令。',
   '段三檢查點:看得懂一份 Skill、親手建好 /ops-check 與 /ship-check、說得出 MCP 權限三問、分得清內建與自建 slash。',
+  '再多一個自動化例子。這個小腳本依序做三件事:檢查庫存 CSV、判斷風險、寫成補貨建議,自動產出跟 U3 一模一樣格式的 report.json,不用你手動填。',
+  '結業前,把成果收成 Astro 技術 blog。不是寫「我用 AI 做了」,而是寫企業題目怎麼拆、你改了哪些功能、component/CSS/API/token 邊界、AGENTS/CLAUDE/Plan Mode 如何限制 AI,以及 build、mock、DevTools、diff 這些驗收證據。',
   '最後,結業。四堂課走完了,把你真正帶走的東西一次盤點。',
   '整門課最重要的一句:會用 AI 一次不稀奇,能讓 AI 每次照流程做才是真本事。你學的從來不是某個工具,是一套讓 AI 穩定幫你做事的流程。',
-  '結業前,把成果收成 Astro 技術 blog。不是寫「我用 AI 做了」,而是寫企業題目怎麼拆、你改了哪些功能、component/CSS/API/token 邊界、AGENTS/CLAUDE/Plan Mode 如何限制 AI,以及 build、mock、DevTools、diff 這些驗收證據。',
-  '看一下你親手做出來的成果:一鍵啟動、NOVA 首頁、倉儲後台、訂單可視化、LINE Flex 推播 mock 與 blocked、ReAct 修錯、ops agent 與 Actions artifact、reviewer PASS、自建 /ops-check 與 /ship-check、三個 MCP,最後還有 Astro 技術 blog。',
-  '這一堂學了這些:自動化收尾(ops agent + Actions + 固化成工具)、三個 MCP(chrome-devtools 看畫面、context7 查文件、codebase-memory 記專案)、以及 MCP 權限三問。',
-  '整門課四堂串成一條線:課一進得了專案、課二管得住 AI、課三接上訂單可視化與 LINE OA Flex、課四自動化收尾再幫 AI 接上三個 MCP,並用 blog 說清楚成果。AI 很會做事但它不是老闆,你已經學會當 AI 的主管。',
+  '看一下你親手做出來的成果:一鍵啟動、BOBA TIDE 首頁、備料控制台、訂單看板動態畫面、LINE Flex 推播 mock 與 blocked、ReAct 修錯、自建 /ops-check 與 /ship-check、三個 MCP,最後還有 Astro 技術 blog。',
+  '這一堂學了這些:Skills(把規矩寫成固定指令)、三個 MCP(chrome-devtools 看畫面、context7 查文件、codebase-memory 記專案)、自動化小範例,以及一篇技術 blog。',
+  '整門課四堂串成一條線:課一進得了專案、課二管得住 AI、課三接上訂單看板與 LINE OA Flex、課四把規矩寫成 Skills 再幫 AI 接上三個 MCP,並用 blog 說清楚成果。AI 很會做事但它不是老闆,你已經學會當 AI 的主管。',
   '結業。你不再只是會問 AI,你會管理 AI 做事。把今天的 /ops-check、/ship-check 與三個 MCP 留著,下次接新專案照同一套流程走就好。四堂課辛苦了,我們下一個模組見。',
   '附錄加碼(時間夠再講):和 AI 處久了會遇到三個固定狀況,認得它們各用一句話拉回。',
   '三個毛病:Context Drift 越改越偏、Prompt Debt 越補越亂、Regression 改 A 壞 B。不是壞掉,是長時間互動的自然現象,重點是有沒有一句話拉回來。',
@@ -798,9 +794,9 @@ export const notes: (string | undefined)[] = [
 ];
 
 export default [
-  CoverMcp, Recap0, WhyMcp, RoadmapMcp,
-  // 段 1:自動化交付(壓縮,快速帶過)
-  SecAuto, OpsAgentFlow, ActionsFlow, ReviewerCard, FourQ, SkillHead, OpsCheck, ShipCheck, AutoDone,
+  CoverMcp, Recap0, RoadmapMcp,
+  // 段 1:Skills(把常提醒的規矩寫成固定指令)
+  SecAuto, SkillHead, OpsCheck, ShipCheck, AutoDone,
   BreakMcp,
   // 段 2:三個 MCP(主線,學生動手裝)
   SecMcp, McpHead, McpInstall,
@@ -810,8 +806,10 @@ export default [
   McpDone,
   // 段 3:用得安全 + slash 收尾
   SecSafe, McpSafety, SlashWrap, ToolsDone,
+  // 再一個自動化範例 + blog
+  OpsAgentFlow, AstroBlog,
   // 結業
-  Sec5, Punchline, NineOutcomes, RecapMcp, CourseArc, AstroBlog, End,
+  Sec5, Punchline, NineOutcomes, RecapMcp, CourseArc, End,
   // 附錄 · 加碼:AI 走鐘三句話拉回
   AppendixFlaws, FlawsIntro, FlawDone,
 ] satisfies Page[];
