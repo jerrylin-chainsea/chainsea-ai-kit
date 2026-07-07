@@ -454,12 +454,12 @@ const OpsCheck: Page = () => (
 // ══════════ 段 4:MCP(概念 + 老師示範;安裝細節在附錄)══════════
 const Sec4Mcp: Page = () => <Section no="4" title="MCP:概念與老師示範" time="3:25 - 3:50" sub="MCP 是幫 AI 接上外部工具的「安全的線」。今天只講概念、看老師示範;安裝細節放在附錄,想玩的課後照著做。" />;
 const McpHead: Page = () => (
-  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 4 · MCP</Eyebrow><Title size={54}>MCP:讓 AI 接上外部工具</Title>
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 2 · MCP</Eyebrow><Title size={54}>MCP:讓 AI 接上外部工具</Title>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 30 }}>
       <Analogy>沒有 MCP,你要自己把資料複製給 AI。有了 MCP,AI 可以<B>在你授權的範圍內</B>,自己去工具裡讀資料。像幫 AI 接上一條條安全的線。</Analogy>
     </div>
     <div className="ts-rise" style={{ marginTop: 34 }}><McpMap /></div>
-  </div><Foot label="U11 · 課4 · 段3" /></div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
 );
 const McpInstall: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>段 2 · 裝 MCP · 一行指令</Eyebrow><Title size={46}>三台今天要用的,裝法都一樣</Title>
@@ -474,7 +474,7 @@ const McpInstall: Page = () => (
       ['ok', '✓ 裝完打 /mcp 應該看到這三台'],
     ]} /></div>
     <div style={{ marginTop: 18 }}><Harvest>本課 starter 附了 .mcp.json(前兩台免手打);codebase-memory 的安裝腳本會自動幫你設定好。</Harvest></div>
-  </div><Foot label="U11 · 課4 · 段3" /></div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
 );
 const McpChrome: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>段 2 · MCP 一 · 七要素</Eyebrow><Title size={44}>Chrome DevTools MCP:驗收 web-lab</Title>
@@ -487,7 +487,7 @@ const McpChrome: Page = () => (
       ['驗收', <><Key>/mcp</Key> 列出 chrome-devtools;真的拿到截圖。</>],
       ['保底', '連不上 → 自己在瀏覽器按 F12 看 console。'],
     ]} /></div>
-  </div><Foot label="U11 · 課4 · 段3" /></div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
 );
 const McpContext7: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>段 2 · MCP 二 · 七要素</Eyebrow><Title size={44}>Context7 MCP:查套件最新文件</Title>
@@ -500,7 +500,7 @@ const McpContext7: Page = () => (
       ['驗收', <><Key>/mcp</Key> 列出 context7;答案附上文件出處。</>],
       ['保底', '沒金鑰被限流 → 改看官方網站,或 /model 換更強模型。'],
     ]} /></div>
-  </div><Foot label="U11 · 課4 · 段3" /></div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
 );
 const McpCodebaseMemory: Page = () => (
   <div style={fill}><div style={pad}><Eyebrow>段 2 · MCP 三 · 七要素</Eyebrow><Title size={44}>Codebase Memory MCP:讓 AI 記住整個專案</Title>
@@ -513,10 +513,10 @@ const McpCodebaseMemory: Page = () => (
       ['驗收', <><Key>/mcp</Key> 列出 codebase-memory;架構問題答得出檔案關係。</>],
       ['保底', '裝不起來 → 用 /init 讓 AI 讀專案,或直接看 README;不擋進度。'],
     ]} /></div>
-  </div><Foot label="U11 · 課4 · 附錄" /></div>
+  </div><Foot label="U11 · 課4 · 段2" /></div>
 );
 const McpSafety: Page = () => (
-  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 4 · MCP 的安全提醒</Eyebrow><Title size={50}>不是接越多越好</Title>
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 3 · MCP 的安全提醒</Eyebrow><Title size={50}>不是接越多越好</Title>
     <div className="ts-rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 34, maxWidth: 1500 }}>
       {[['它能讀到什麼?', '接上去之前,先搞清楚 AI 看得到哪些資料。'], ['它能不能寫入?', '只能讀,還是也能改?能改的權限要更小心。'], ['會不會碰到正式資料?', '別讓它直接動到真實營運的資料庫。']].map(([a, b], i) => (
         <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'center', background: C.card, border: `1px solid ${C.line}`, borderRadius: 14, padding: '18px 26px' }}><span style={{ flexShrink: 0, fontSize: 28 }}>🔒</span><div><span style={{ fontSize: 29, fontWeight: 800 }}>{a}</span><span style={{ fontSize: 26, color: C.muted }}>　{b}</span></div></div>
@@ -526,7 +526,7 @@ const McpSafety: Page = () => (
   </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 const SlashWrap: Page = () => (
-  <div style={fill}><div style={pad}><Eyebrow>段 4 · slash 收尾 · 內建 vs 自建</Eyebrow><Title size={46}>兩排指令,分清楚誰是誰</Title>
+  <div style={fill}><div style={pad}><Eyebrow>段 3 · slash 收尾 · 內建 vs 自建</Eyebrow><Title size={46}>兩排指令,分清楚誰是誰</Title>
     <div className="ts-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 22, marginTop: 28, maxWidth: 1580 }}>
       <div style={{ background: '#eef4ff', border: `2px solid ${BLUE}`, borderRadius: 16, padding: '22px 28px' }}>
         <div style={{ fontSize: 28, fontWeight: 800, color: BLUE }}>內建(打 /help 都看得到)</div>
@@ -543,9 +543,9 @@ const SlashWrap: Page = () => (
   </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 const ToolsDone: Page = () => (
-  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 4 · 檢查點</Eyebrow><Title size={52}>你把整套做法,變成了工具</Title>
+  <div style={fill}><div style={{ ...pad }}><Eyebrow>段 3 · 檢查點</Eyebrow><Title size={52}>你把整套做法,變成了工具</Title>
     <div className="ts-rise" style={{ marginTop: 32 }}><Checkpoint items={['看得懂一份 Skill,知道它是 AI 的 SOP', '親手建好 /ops-check 與 /ship-check,而且它們回固定格式、不改檔', '說得出 MCP 權限三問(能讀什麼、能不能寫、碰不碰正式資料)', '分得清內建 slash 與自建 slash']} /></div>
-  </div><Foot label="U11 · 課4 · 段4" /></div>
+  </div><Foot label="U11 · 課4 · 段3" /></div>
 );
 
 // ══════════ 結業 ══════════
@@ -635,8 +635,8 @@ const AppendixHead: Page = () => (
 
 // ── 官方頁佐證(真截圖)─────────────────────────────────
 const McpChromeDoc: Page = () => (
-  <RealShot img={mcpChromeShot} url="github.com/ChromeDevTools/chrome-devtools-mcp" eyebrow="段 4 · MCP 真實例子" title="Chrome DevTools MCP:這門課的網頁截圖,就是它拍的"
-    caption="這是一個真的 MCP server(給 coding agent 用的 Chrome DevTools)。接上它,AI 就能自己開瀏覽器、點頁面、看 console、截圖 ── 本課的官方頁與 localhost 截圖正是用它拍的。MCP 不是魔法,是一條一條接上去的能力。" foot="U11 · 課4 · 段3" />
+  <RealShot img={mcpChromeShot} url="github.com/ChromeDevTools/chrome-devtools-mcp" eyebrow="段 2 · MCP 真實例子" title="Chrome DevTools MCP:這門課的網頁截圖,就是它拍的"
+    caption="這是一個真的 MCP server(給 coding agent 用的 Chrome DevTools)。接上它,AI 就能自己開瀏覽器、點頁面、看 console、截圖 ── 本課的官方頁與 localhost 截圖正是用它拍的。MCP 不是魔法,是一條一條接上去的能力。" foot="U11 · 課4 · 段2" />
 );
 
 // ══════════ v3 重構:三個 MCP 變主線、前段壓縮 ══════════

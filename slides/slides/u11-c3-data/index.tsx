@@ -56,9 +56,11 @@ type Kind =
   | 'ask'
   | 'shot'
   | 'twoshot'
-  | 'threeshot';
+  | 'threeshot'
+  | 'atoms';
 
 type CardSpec = { title: string; body: string; color?: string };
+type AtomSpec = { act: string; see: string };
 type SlideSpec = {
   kind: Kind;
   eyebrow?: string;
@@ -66,6 +68,7 @@ type SlideSpec = {
   lead?: string;
   bullets?: string[];
   cards?: CardSpec[];
+  atoms?: AtomSpec[];
   code?: string;
   label?: string;
   steps?: string[];
@@ -167,6 +170,20 @@ const Cards = ({ cards }: { cards: CardSpec[] }) => (
         </div>
       );
     })}
+  </div>
+);
+
+// 動作 + 結果拆開顯示(借用 u11-c1-project/u11-c4-flow 既有的 Atom 慣例)
+const Atom = ({ n, act, see }: { n: number; act: string; see: string }) => (
+  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+    <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '50%', background: C.ink, color: '#fff', display: 'grid', placeContent: 'center', fontFamily: mono, fontWeight: 700, fontSize: 22 }}>{n}</span>
+    <div><div style={{ fontSize: 30, lineHeight: 1.4 }}>{act}</div><div style={{ fontSize: 23, color: C.green, marginTop: 5 }}>✓ 會看到:{see}</div></div>
+  </div>
+);
+
+const Atoms = ({ atoms }: { atoms: AtomSpec[] }) => (
+  <div style={{ display: 'grid', gap: 24, maxWidth: 1500 }}>
+    {atoms.map((a, i) => <Atom key={a.act} n={i + 1} act={a.act} see={a.see} />)}
   </div>
 );
 
@@ -293,6 +310,12 @@ const slides: SlideSpec[] = [
   // ── 段 1：看懂 API 與 payload ─────────────────────────
   { kind: 'section', sectionNo: '1', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:15 - 0:50', title: '看懂 API 與 payload：訂單怎麼「活」起來', lead: '按下「開始營業」，伺服端就開始跑模擬：訂單持續進來、庫存自動往下掉。前端每 3 秒問一次「有新資料嗎」，這一問一答就是 API。' },
 
+  { kind: 'atoms', eyebrow: '段 1 · 動手', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1–2', title: '先讓看板動起來', atoms: [
+    { act: '瀏覽器開 localhost:5180，切到「訂單看板」', see: '「尚未開始營業」的靜止畫面。' },
+    { act: '按「開始營業」', see: '訂單一筆筆跳出來、KPI 數字跳動、庫存數字往下掉。' },
+    { act: '按 F12 → Network，找 orders 這個請求', see: '每 3 秒多一筆 GET /api/orders。' },
+  ] },
+
   { kind: 'code', eyebrow: '段 1 · 真的請求、真的 payload', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1', title: '打開 DevTools → Network，看這個請求', label: 'GET /api/orders', code: `{
   "running": true,
   "stats": { "totalToday": 11, "active": 5, "blocked": 0, "revenue": 780 },
@@ -325,11 +348,11 @@ const slides: SlideSpec[] = [
   ]
 }` },
 
-  { kind: 'cards', eyebrow: '段 2 · 照順序按', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '每按一步就驗一步，三種範本都一樣', cards: [
-    { title: '1 載入資料', body: '訂單資訊/庫存警示優先讀看板即時資料；沒開店就退回靜態範例。', color: C.orange },
-    { title: '2 檢查資料合約', body: '綠色「資料合約通過:必要欄位齊全」。', color: C.blue },
-    { title: '3 生成 Flex 視覺預覽', body: '看到 LINE 上大概長怎樣的卡片,顏色跟著範本變;還可切「看 JSON」。', color: C.amber },
-    { title: '4 在看板改個數字', body: '訂單看板按「盤點 −5」，故意讓某項原料低於安全量，回推播中心就能看到「庫存警示」跟著變。', color: C.red },
+  { kind: 'atoms', eyebrow: '段 2 · 照順序按', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '每按一步就驗一步，三種範本都一樣', atoms: [
+    { act: '按「載入資料」', see: '欄位出現;訂單資訊/庫存警示的資料來自即時看板,沒開店則退回靜態範例。' },
+    { act: '按「檢查資料合約」', see: '綠色「資料合約通過:必要欄位齊全」。' },
+    { act: '按「生成 Flex 視覺預覽」', see: 'LINE 卡片樣式出現,顏色跟著範本變;可切「看 JSON」。' },
+    { act: '回訂單看板,對「波霸」按「盤點 −5」', see: '回推播中心,「庫存警示」頁籤內容跟著更新。' },
   ] },
 
   { kind: 'bullets', eyebrow: '段 2 · 一份資料合約，三種訊息', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §1', title: '資料一直在變，合約不能變', bullets: ['訂單資訊、庫存警示都優先讀即時看板的 /api/orders；沒開店或在 build/preview 模式才退回靜態範例檔。', '不管資料從哪裡來，檢查用的都是同一套七欄/六欄合約——reportContract.js 與 sendLineAlert.js 逐字一致，這是雙胞胎防線。', '合約不是自動化的阻礙，是護欄：資料可以一直變、一直有新訂單進來，但規則不能變。'] },
@@ -355,7 +378,7 @@ const slides: SlideSpec[] = [
 5. 可不可以按「推播 LINE Flex」` },
 
   // ── 段 5：真送流程 ───────────────────────────────────
-  { kind: 'section', sectionNo: '5', footer: '講義:U3/API-FLOW.md', time: '2:05 - 2:50', title: '真送流程：前端只按門鈴，後端才開門', lead: '前端永遠不會直接打 api.line.me。推播按鈕呼叫的是本機後端 /api/send-line-flex，token 只留在 line-lab/.env。' },
+  { kind: 'section', sectionNo: '5', footer: '講義:U3/API-FLOW.md', time: '2:05 - 2:50 · 有 LINE OA 才動手，沒有就看示範', title: '真送流程：前端只按門鈴，後端才開門', lead: '前端永遠不會直接打 api.line.me。推播按鈕呼叫的是本機後端 /api/send-line-flex，token 只留在 line-lab/.env。沒有 LINE OA 的同學，接下來看示範就好，不影響過關。' },
 
   { kind: 'analogy', eyebrow: '段 5 · 建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: 'token 就像你家鑰匙', analogy: 'channel access token 代表「用這個 LINE OA 帳號發訊息」的權限。\n\n放進前端 = 把鑰匙貼在大門上,打開網頁的每個人都拿得到。\n\n所以:前端只打自己的 /api/send-line-flex(按門鈴),真正打 api.line.me(開門)的是後端。鑰匙全程留在 line-lab/.env,不進前端、不進簡報、不進 git diff、不進截圖。' },
 
@@ -449,6 +472,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
       {slide.kind === 'shot' ? <Shot slide={slide} /> : null}
       {slide.kind === 'twoshot' ? <TwoShot slide={slide} /> : null}
       {slide.kind === 'threeshot' ? <ThreeShot slide={slide} /> : null}
+      {slide.kind === 'atoms' && slide.atoms ? <Atoms atoms={slide.atoms} /> : null}
     </Shell>
   );
 };
