@@ -424,6 +424,12 @@ Minimal Patch / Verify / Blocker` },
 
   { kind: 'flow', eyebrow: '段 6 · ReAct', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §3', title: '除錯不是瞎改,是固定節奏', steps: ['Expected\n合約允許值', 'Actual\nrisk_level=嚴重', 'Reason · Act\nObserve', 'Minimal Patch\n只改一行', 'Verify\n擋牌消失'] },
 
+  { kind: 'cards', eyebrow: '段 6 · 這套心法不只用在資料合約', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §6', title: 'AI 協作最常遇到的三個狀況,一句話拉回', cards: [
+    { title: 'Context Drift · 越改越偏', body: '只要求改標題,它連顏色版面都動了。拉回:「請回到原本任務,這次只處理標題,其他不要改。」', color: C.blue },
+    { title: 'Prompt Debt · 越補越亂', body: '零碎要求越補越亂,AI 也搞混。拉回:「請先整理目前狀態,列出已完成/仍要遵守的限制/下一步。」', color: C.amber },
+    { title: 'Regression · 改 A 壞 B', body: '改好要的地方,卻弄壞別的地方。拉回:「請列出這次修改需要回歸檢查的項目。」', color: C.red },
+  ] },
+
   // ── 段 7：驗收收束 ───────────────────────────────────
   { kind: 'code', eyebrow: '段 7 · 收尾', footer: 'U11·C3 ｜ 講義:U3/STEP-03 §5', time: '3:25 - 3:50', title: '最後照這組指令收乾淨', label: 'terminal', code: `cd web-lab
 npm run build
