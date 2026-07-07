@@ -5,6 +5,10 @@ import liveBoardRunning from './assets/live-board-running.png';
 import flexOrder from './assets/flex-preview-order.png';
 import flexInventory from './assets/flex-preview-inventory.png';
 import flexAnomaly from './assets/flex-preview-anomaly.png';
+import c3BoardIdle from './assets/c3-board-idle.png';
+import c3PushInitial from './assets/c3-push-initial.png';
+import c3FlexPreviewReady from './assets/c3-flex-preview-ready.png';
+import c3ReviewReady from './assets/c3-review-ready.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#f5f6f8', text: '#181a1f', accent: '#e2570d' },
@@ -295,7 +299,7 @@ const slides: SlideSpec[] = [
     { title: 'U4 · 擴充能力', body: 'AI 能碰到哪些外部工具、能不能多個角色協作：MCP 接外部工具、ops agent 三角色分工。', color: '#5a6270' },
   ] },
 
-  { kind: 'shot', eyebrow: '今日成果 · 平台會動', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '這就是今天要做出來的「營業中」平台', img: liveBoardRunning, caption: '真截圖:按下「開始營業」後,訂單持續進來、KPI 跳動、庫存自動往下掉,右上角是推播建議,連到下面的 LINE 推播中心。' },
+  { kind: 'twoshot', eyebrow: '今日成果 · 平台會動', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '這就是今天要做出來的「營業中」平台', img: c3BoardIdle, caption: '起點:切到訂單看板,先看到「開始營業」與 0 筆狀態。', img2: liveBoardRunning, caption2: '成功:按下「開始營業」後,訂單進來、KPI 跳動,推播建議開始出現。' },
 
   { kind: 'threeshot', eyebrow: '今日成果 · 三種顏色', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD.md', title: '同一套流程，推出三種顏色的卡片', img: flexOrder, caption: '訂單資訊 · 藍', img2: flexInventory, caption2: '庫存警示 · 琥珀', img3: flexAnomaly, caption3: '營運異常 · 紅' },
 
@@ -337,6 +341,8 @@ const slides: SlideSpec[] = [
   // ── 段 2：LINE OA 與 Flex Message ──────────────────────
   { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:50 - 1:30', title: '同一筆訂單，變成一張 LINE 卡片', lead: '訂單看板是給你看的畫面；Flex Message 是給 LINE OA 用的 payload。今天會做出三種：訂單資訊、庫存警示、營運異常。' },
 
+  { kind: 'shot', eyebrow: '段 2 · 起點畫面', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '先看到推播中心待命', img: c3PushInitial, caption: '起點:只有「載入資料」可以按。後面要照順序解鎖,不要直接跳到推播。' },
+
   { kind: 'code', eyebrow: '段 2 · 訂單資訊範本', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '沒開店時，先用這份範例練習', label: 'data-lab/orders.json', code: `{
   "order_id": "BT-20260706-018",
   "customer": "陳同學",
@@ -354,6 +360,8 @@ const slides: SlideSpec[] = [
     { act: '按「生成 Flex 視覺預覽」', see: 'LINE 卡片樣式出現,顏色跟著範本變;可切「看 JSON」。' },
     { act: '回訂單看板,對「波霸」按「盤點 −5」', see: '回推播中心,「庫存警示」頁籤內容跟著更新。' },
   ] },
+
+  { kind: 'shot', eyebrow: '段 2 · 成功畫面', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §4', title: 'Flex 預覽生成後，才進人審', img: c3FlexPreviewReady, caption: '成功:資料已載入、合約已通過,畫面出現 Flex 預覽與 payload。' },
 
   { kind: 'bullets', eyebrow: '段 2 · 一份資料合約，三種訊息', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §1', title: '資料一直在變，合約不能變', bullets: ['訂單資訊、庫存警示都優先讀即時看板的 /api/orders；沒開店或在 build/preview 模式才退回靜態範例檔。', '不管資料從哪裡來，檢查用的都是同一套七欄/六欄合約——reportContract.js 與 sendLineAlert.js 逐字一致，這是雙胞胎防線。', '合約不是自動化的阻礙，是護欄：資料可以一直變、一直有新訂單進來，但規則不能變。'] },
 
@@ -376,6 +384,8 @@ const slides: SlideSpec[] = [
 3. 文字看起來像不像真的營運通知
 4. 送出前還需要人類確認什麼
 5. 可不可以按「推播 LINE Flex」` },
+
+  { kind: 'shot', eyebrow: '段 4 · 人審放行', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §3', title: '勾選人工審核後，推播按鈕才亮起', img: c3ReviewReady, caption: '成功:checkbox 已勾選,推播按鈕可按；真送或 mock 由後端 .env 決定。' },
 
   // ── 段 5：真送流程 ───────────────────────────────────
   { kind: 'section', sectionNo: '5', footer: '講義:U3/API-FLOW.md', time: '2:05 - 2:50 · 有 LINE OA 才動手，沒有就看示範', title: '真送流程：前端只按門鈴，後端才開門', lead: '前端永遠不會直接打 api.line.me。推播按鈕呼叫的是本機後端 /api/send-line-flex，token 只留在 line-lab/.env。沒有 LINE OA 的同學，接下來看示範就好，不影響過關。' },

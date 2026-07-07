@@ -17,6 +17,8 @@ import agentRunShot from './assets/agent-13-run.png';
 import hudMarketplaceShot from './assets/hud-01-marketplace.png';
 import hudInstallShot from './assets/hud-02-install.png';
 import hudStatuslineShot from './assets/hud-03-statusline.png';
+import c2DashboardBeforeShot from './assets/c2-dashboard-before.png';
+import c2DashboardResultShot from './assets/c2-dashboard-result.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#f5f6f8', text: '#181a1f', accent: '#e2570d' },
@@ -238,6 +240,13 @@ const WideAgentShot = ({ src, label, height = 430 }: { src: string; label: strin
   </div>
 );
 
+const AppShot = ({ src, label, height = 500 }: { src: string; label: string; height?: number }) => (
+  <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 18, overflow: 'hidden', boxShadow: '0 26px 70px -42px rgba(20,37,31,.46)', maxWidth: 1540 }}>
+    <div style={{ padding: '12px 18px', background: '#eef2f5', borderBottom: `1px solid ${C.line}`, color: C.muted, fontFamily: mono, fontSize: 17 }}>{label}</div>
+    <img src={src} alt="" style={{ display: 'block', width: '100%', height, objectFit: 'cover', objectPosition: 'top center' }} />
+  </div>
+);
+
 const Checklist = ({ items }: { items: string[] }) => (
   <div style={{ display: 'grid', gap: 13, maxWidth: 1500 }}>
     {items.map((item, i) => (
@@ -353,6 +362,12 @@ git status
   </Shell>
 );
 
+const C2StartScreen: Page = () => (
+  <Shell eyebrow="正式動手前" title="先切到備料控制台，看起點畫面" lead="這是 U2 正式實作的起點。接下來只處理處理佇列規則，不碰 LINE 真送、不改其他頁面。">
+    <AppShot src={c2DashboardBeforeShot} label="起點畫面 · 備料控制台" />
+  </Shell>
+);
+
 const PromptIngredients: Page = () => (
   <Shell eyebrow="拆解" title="好的 AI coding prompt 至少要包含六件事" lead="不是 prompt 越長越好，而是該講的控制資訊不能漏。">
     <Cards columns={3} items={[
@@ -446,6 +461,12 @@ B. 每個檔案改了什麼
 C. 如何判斷 LINE OA 且尚未取餐
 D. 我現在要怎麼驗收
 E. 哪些地方你沒有改`}</Prompt>
+  </Shell>
+);
+
+const C2ResultScreen: Page = () => (
+  <Shell eyebrow="實作完成後" title="成功時，處理佇列要出現可驗收提醒" lead="成功不是 AI 說完成，而是控制台真的有資料算出的處理提醒；接著再用 diff、build 與 reviewer 確認範圍。">
+    <AppShot src={c2DashboardResultShot} label="完成畫面 · 處理佇列有提醒" />
   </Shell>
 );
 
@@ -651,6 +672,7 @@ const pages = [
   IntuitivePrompt,
   IntuitiveProblems,
   CleanCheckpoint,
+  C2StartScreen,
   PromptIngredients,
   PromptBeforeAfter,
   Guardrails,
@@ -658,6 +680,7 @@ const pages = [
   ExpectedPlan,
   HumanReview,
   ImplementerPrompt,
+  C2ResultScreen,
   ResultBeforeAfter,
   VerifyAndCheck,
   ReviewerPrompt,
@@ -687,6 +710,7 @@ export const notes: string[] = [
   '投影直覺 prompt，讓全班感覺這就是平常會貼的話。',
   '拆直覺版問題：需求、範圍、驗收都不清楚。',
   '正式 lab 前做 clean checkpoint；如果剛剛有人跟貼，先停下來找老師。',
+  '切到備料控制台確認起點畫面；這時還沒有開始讓 implementer 改檔。',
   '好 prompt 六要素：背景、目標、允許檔案、禁止事項、輸出格式、驗收方式。',
   '展示前後 prompt 對比：左邊像聊天，右邊像可審核的工作交辦。',
   '補三個控制器：AGENTS、CLAUDE、Plan Mode。',
@@ -694,6 +718,7 @@ export const notes: string[] = [
   '教全班審 planner：範圍、資料、驗收三件事。',
   '人審放行頁：沒有人核准，就不要進 implementer。',
   '正式貼 implementer prompt：只照批准計畫做最小修改。',
+  '回到備料控制台看完成畫面；處理佇列有資料算出的提醒才算可驗收。',
   '結果前後對比：受控版留下畫面、diff、build、reviewer 證據。',
   '驗收頁：AI 說完成不算完成，證據才算。',
   'reviewer 只檢查，不修改；輸出 PASS 或 BLOCK。',
