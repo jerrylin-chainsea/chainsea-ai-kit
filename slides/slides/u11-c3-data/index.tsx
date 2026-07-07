@@ -1,9 +1,10 @@
 import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
 import { useSlidePageNumber } from '@open-slide/core';
 import type { ReactNode } from 'react';
-import pushOverview from './assets/push-center-overview.png';
-import flexAnomaly from './assets/flex-preview-anomaly.png';
+import liveBoardRunning from './assets/live-board-running.png';
 import flexOrder from './assets/flex-preview-order.png';
+import flexInventory from './assets/flex-preview-inventory.png';
+import flexAnomaly from './assets/flex-preview-anomaly.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#f5f6f8', text: '#181a1f', accent: '#e2570d' },
@@ -54,7 +55,8 @@ type Kind =
   | 'analogy'
   | 'ask'
   | 'shot'
-  | 'twoshot';
+  | 'twoshot'
+  | 'threeshot';
 
 type CardSpec = { title: string; body: string; color?: string };
 type SlideSpec = {
@@ -72,8 +74,10 @@ type SlideSpec = {
   footer?: string;
   img?: string;
   img2?: string;
+  img3?: string;
   caption?: string;
   caption2?: string;
+  caption3?: string;
   frame?: string;
   analogy?: string;
   ask?: string;
@@ -247,8 +251,24 @@ const TwoShot = ({ slide }: { slide: SlideSpec }) => (
   </div>
 );
 
+// 三張並排:訂單資訊(藍) / 庫存警示(琥珀) / 營運異常(紅) 同時對照
+const ThreeShot = ({ slide }: { slide: SlideSpec }) => (
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, maxWidth: 1600, justifyItems: 'center' }}>
+    {[
+      [slide.img, slide.caption],
+      [slide.img2, slide.caption2],
+      [slide.img3, slide.caption3],
+    ].map(([img, caption], i) => (
+      <div key={i} style={{ display: 'grid', gap: 10, justifyItems: 'center' }}>
+        <BrowserShot img={img as string} frame={slide.frame} height={360} />
+        {caption ? <div style={{ fontSize: 21, color: C.muted, textAlign: 'center', lineHeight: 1.4 }}>{caption}</div> : null}
+      </div>
+    ))}
+  </div>
+);
+
 const slides: SlideSpec[] = [
-  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '從「看到資料」到\n「真的送出 LINE Flex」', lead: '今天把 BOBA TIDE 的一筆訂單，從訂單看板一路送成真的 LINE Flex 通知：生成預覽、人工審核，最後真的推播到 LINE OA。' },
+  { kind: 'cover', eyebrow: 'U11 · 第 3 堂 / 共 4 堂 · 4 小時', title: '一間「營業中」的手搖飲店，\n接上 LINE', lead: '訂單持續進來、庫存自己往下掉、改個數字警示就跳出來——今天做出一個真的在動的自動化管理平台，人審後真的推播到 LINE OA。' },
 
   { kind: 'analogy', eyebrow: 'U2 回顧 → U3 定位', footer: 'U11·C3 ｜ 講義:U3/STEP-01', title: 'U2 管住的是 AI 改 code；U3 換成資料真的送出去', analogy: 'U2 練的是：AI 改程式碼要可控，計畫先過人審，實作才小範圍動手。\n\n今天資料不再只留在畫面上：同一筆訂單會真的變成一則送到 LINE OA 的通知，送出去之前，一樣要先過人審。\n\n控制的對象從「AI 改了什麼」擴大成「系統送出了什麼」。' },
 
@@ -258,56 +278,43 @@ const slides: SlideSpec[] = [
     { title: 'U4 · 擴充能力', body: 'AI 能碰到哪些外部工具、能不能多個角色協作：MCP 接外部工具、ops agent 三角色分工。', color: '#5a6270' },
   ] },
 
-  { kind: 'flow', eyebrow: '今日主線 · 大 picture', footer: 'U11·C3 ｜ 講義:U3/START-HERE.md', title: '一筆訂單，怎麼變成一則真的通知', steps: ['資料 data\n訂單欄位', 'payload\n包成固定格式', 'API\n呼叫自己的後端', 'token\n後端拿鑰匙開門', 'LINE OA\n真的送出'] },
+  { kind: 'shot', eyebrow: '今日成果 · 平台會動', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '這就是今天要做出來的「營業中」平台', img: liveBoardRunning, caption: '真截圖:按下「開始營業」後,訂單持續進來、KPI 跳動、庫存自動往下掉,右上角是推播建議,連到下面的 LINE 推播中心。' },
 
-  { kind: 'cards', eyebrow: '今天先講清楚五個詞', footer: 'U11·C3 ｜ 講義:U3/API-FLOW.md', title: '這五個詞，今天會一直用到', cards: [
-    { title: '資料 data', body: '一筆訂單本身：客戶、通路、狀態、金額。今天放在 shopData.js 與 data-lab/orders.json。', color: C.orange },
-    { title: 'payload', body: '把資料包成「別的系統看得懂」的固定格式，準備送出去的那包內容。', color: C.blue },
-    { title: 'API', body: '一個固定的門：送對格式，它回你結果。今天呼叫的是自己的後端 /api/send-line-flex。', color: C.amber },
-    { title: 'token', body: '證明「有權限用這個 LINE OA 帳號發訊息」的密鑰，只放在 line-lab/.env。', color: C.red },
-    { title: 'webhook', body: 'LINE 平台主動打回來的訊息，方向跟今天的推播相反，先知道概念就好。', color: '#5a6270' },
-  ] },
-
-  { kind: 'shot', eyebrow: '今日成果畫面', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '這就是今天要做出來的「推播中心」', img: pushOverview, caption: '這張是推播中心 UI 示意：上面是範本切換(營運異常 / 訂單資訊)，下面是五步：載入 → 檢查 → 預覽 → 人審 → 推播，整條線在同一個畫面上完成。' },
+  { kind: 'threeshot', eyebrow: '今日成果 · 三種顏色', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD.md', title: '同一套流程，推出三種顏色的卡片', img: flexOrder, caption: '訂單資訊 · 藍', img2: flexInventory, caption2: '庫存警示 · 琥珀', img3: flexAnomaly, caption3: '營運異常 · 紅' },
 
   { kind: 'cards', eyebrow: '完成的定義 · DoD', footer: 'U11·C3 ｜ 講義:START-HERE.md(DoD)', title: 'AI / 系統做出來不算完成,通過驗收才算完成', cards: [
-    { title: '畫面', body: '訂單看板正常，訂單資訊 Flex 預覽正確。', color: C.orange },
-    { title: '推播', body: '按鈕按下去，LINE OA / 群組 / 手機真的收到訊息。', color: C.blue },
+    { title: '畫面', body: '看板動起來,三種顏色的 Flex 預覽都正確。', color: C.orange },
+    { title: '推播', body: '按鈕按下去,LINE OA / 群組 / 手機真的收到訊息。', color: C.blue },
     { title: 'diff', body: 'git diff 只有本堂允許檔案。', color: C.amber },
     { title: 'build', body: 'npm run build 綠色通過、bundle 無 token。', color: C.red },
     { title: 'human review', body: 'checkbox 是你勾的、修正是你放行的。', color: '#5a6270' },
   ] },
 
-  // ── 段 1：BOBA TIDE 情境，訂單怎麼進到訂單看板 ──────────
-  { kind: 'section', sectionNo: '1', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:15 - 0:50', title: 'BOBA TIDE 情境：訂單怎麼進到訂單看板', lead: '備料控制台的下一步，是把同一批訂單攤開成看得懂的看板：每一筆訂單的狀態變成一條畫面上的流程。' },
+  // ── 段 1：看懂 API 與 payload ─────────────────────────
+  { kind: 'section', sectionNo: '1', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:15 - 0:50', title: '看懂 API 與 payload：訂單怎麼「活」起來', lead: '按下「開始營業」，伺服端就開始跑模擬：訂單持續進來、庫存自動往下掉。前端每 3 秒問一次「有新資料嗎」，這一問一答就是 API。' },
 
-  { kind: 'code', eyebrow: '段 1 · 資料在哪', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1', title: '訂單看板讀的是這份 shopData.js', label: 'web-lab/src/shopData.js', code: `export const drinkOrders = [
-  {
-    id: 'BT-20260706-021',
-    customer: '林小姐',
-    channel: 'LINE OA',
-    status: '製作中',
-    amount: 65,
-    eta: '15:10',
-  },
-  // ...其他訂單
-];` },
+  { kind: 'code', eyebrow: '段 1 · 真的請求、真的 payload', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1', title: '打開 DevTools → Network，看這個請求', label: 'GET /api/orders', code: `{
+  "running": true,
+  "stats": { "totalToday": 11, "active": 5, "blocked": 0, "revenue": 780 },
+  "orders": [
+    { "id": "BT-20260707-050", "customer": "王先生", "channel": "LINE OA",
+      "status": "待製作", "amount": 230, "eta": "14:01" }
+  ],
+  "inventory": [
+    { "sku": "BT-P02", "product": "波霸", "stock": 6, "reorderPoint": 6 }
+  ],
+  "alerts": { "lineWaitingCount": 3, "lowStock": [ /* ... */ ] }
+}` },
 
-  { kind: 'cards', eyebrow: '段 1 · 一筆訂單的四個欄位', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §1–2', title: '這四個欄位決定畫面長怎樣', cards: [
-    { title: 'channel', body: 'LINE OA / 外送平台 / 櫃台。今天要真的送出去的是 LINE OA 這一種。', color: C.orange },
-    { title: 'status', body: '待製作 / 製作中 / 待取餐 / 已取餐 / 缺料等待，決定流程點位置與顏色。', color: C.blue },
-    { title: 'amount', body: '這筆訂單的金額，不是裝飾數字。', color: C.amber },
-    { title: 'eta', body: '客人預期什麼時候拿到；快超過就是提醒的理由。', color: C.red },
+  { kind: 'cards', eyebrow: '段 1 · 方向相反的兩件事', footer: 'U11·C3 ｜ 講義:U3/API-FLOW.md', title: '我們今天做的是「拉」，webhook 是「推」', cards: [
+    { title: '輪詢 polling（今天做的）', body: '前端主動每 3 秒問一次「有新資料嗎」——GET /api/orders，資料在你這邊主動更新。', color: C.blue },
+    { title: 'webhook（方向相反）', body: 'LINE 平台主動打進來通知「使用者傳訊息了」，你不用一直問，先知道概念就好。', color: '#5a6270' },
   ] },
 
-  { kind: 'code', eyebrow: '段 1 · 前端檔案', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '三個檔案先看懂，不需要整個 React 都會', label: 'web-lab/src', code: `OrderBoard.jsx        // React component:一筆訂單畫成一條 lane
-OrderBoardCanvas.jsx  // three.js:訂單狀態動畫
-styles.css            // CSS:狀態顏色、版面、RWD` },
+  // ── 段 2：LINE OA 與 Flex Message ──────────────────────
+  { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:50 - 1:30', title: '同一筆訂單，變成一張 LINE 卡片', lead: '訂單看板是給你看的畫面；Flex Message 是給 LINE OA 用的 payload。今天會做出三種：訂單資訊、庫存警示、營運異常。' },
 
-  // ── 段 2：Flex Message，同一筆訂單變成可預覽的 LINE 卡片 ──
-  { kind: 'section', sectionNo: '2', footer: '講義:U3/STEP-01-dashboard-buttons.md', time: '0:50 - 1:25', title: '同一筆訂單，變成一張 LINE 卡片', lead: '訂單看板是給你看的畫面；Flex Message 是給 LINE OA 用的 payload。兩邊講的是同一種資料語言。' },
-
-  { kind: 'code', eyebrow: '段 2 · 這筆會變成 Flex', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: 'LINE 推播中心讀的是這份範例', label: 'data-lab/orders.json', code: `{
+  { kind: 'code', eyebrow: '段 2 · 訂單資訊範本', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '沒開店時，先用這份範例練習', label: 'data-lab/orders.json', code: `{
   "order_id": "BT-20260706-018",
   "customer": "陳同學",
   "channel": "外送平台",
@@ -318,18 +325,17 @@ styles.css            // CSS:狀態顏色、版面、RWD` },
   ]
 }` },
 
-  { kind: 'bullets', eyebrow: '段 2 · 兩份資料不是同一份', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2', title: '訂單看板跟推播中心，讀的是兩個檔案', bullets: ['訂單看板讀 shopData.js 的整批 drinkOrders，用來畫看板上的每一條 lane。', 'LINE 推播中心的「訂單資訊」範本讀的是另一份 data-lab/orders.json，一次只示範送出「一筆」。', '兩邊欄位語言一致(channel / status / amount)，但檔案是分開的：改了 shopData.js，data-lab/orders.json 不會跟著變。'] },
-
-  { kind: 'cards', eyebrow: '段 2 · Button 1-3', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '照順序按,每按一步就驗一步', cards: [
-    { title: '1 載入範例資料', body: '畫面出現這筆訂單的欄位摘要：客戶、通路、狀態、金額、品項。', color: C.orange },
+  { kind: 'cards', eyebrow: '段 2 · 照順序按', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §2–4', title: '每按一步就驗一步，三種範本都一樣', cards: [
+    { title: '1 載入資料', body: '訂單資訊/庫存警示優先讀看板即時資料；沒開店就退回靜態範例。', color: C.orange },
     { title: '2 檢查資料合約', body: '綠色「資料合約通過:必要欄位齊全」。', color: C.blue },
-    { title: '3 生成 Flex 視覺預覽', body: '看到 LINE 上大概長怎樣的卡片;還可切「看 JSON」。', color: C.amber },
+    { title: '3 生成 Flex 視覺預覽', body: '看到 LINE 上大概長怎樣的卡片,顏色跟著範本變;還可切「看 JSON」。', color: C.amber },
+    { title: '4 在看板改個數字', body: '訂單看板按「盤點 −5」，故意讓某項原料低於安全量，回推播中心就能看到「庫存警示」跟著變。', color: C.red },
   ] },
 
-  { kind: 'twoshot', eyebrow: '段 2 · 視覺預覽', footer: 'U11·C3 ｜ 講義:U3/STEP-01 §4', title: '預覽是「LINE 上長怎樣」，不是一串 JSON 作文', img: flexOrder, caption: '今天主線：訂單資訊 Flex', img2: flexAnomaly, caption2: '補充範本：營運異常' },
+  { kind: 'bullets', eyebrow: '段 2 · 一份資料合約，三種訊息', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §1', title: '資料一直在變，合約不能變', bullets: ['訂單資訊、庫存警示都優先讀即時看板的 /api/orders；沒開店或在 build/preview 模式才退回靜態範例檔。', '不管資料從哪裡來，檢查用的都是同一套七欄/六欄合約——reportContract.js 與 sendLineAlert.js 逐字一致，這是雙胞胎防線。', '合約不是自動化的阻礙，是護欄：資料可以一直變、一直有新訂單進來，但規則不能變。'] },
 
   // ── 段 3：Mock vs Real ───────────────────────────────
-  { kind: 'section', sectionNo: '3', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:25 - 1:45', title: 'Mock 是安全預設，真送才是今天的主線', lead: '沒設定 token 時，系統會自動走 mock，不會真的打到 LINE。真送需要 .env 與重啟 dev server，是今天要做到的成果。' },
+  { kind: 'section', sectionNo: '3', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:30 - 1:50', title: 'Mock 是安全預設，真送才是今天的主線', lead: '沒設定 token 時，系統會自動走 mock，不會真的打到 LINE。真送需要 .env 與重啟 dev server，是今天要做到的成果。' },
 
   { kind: 'cards', eyebrow: '段 3 · 兩種模式', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §5', title: '差別在有沒有這三個條件都齊', cards: [
     { title: 'mock（預設 fallback）', body: '沒有 token、沒有 LINE_REAL_SEND=1：安全防線，不會真的呼叫 LINE。', color: C.blue },
@@ -337,7 +343,7 @@ styles.css            // CSS:狀態顏色、版面、RWD` },
   ] },
 
   // ── 段 4：Human-in-the-loop ──────────────────────────
-  { kind: 'section', sectionNo: '4', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:45 - 2:00', title: 'Human-in-the-loop：沒勾，就送不出去', lead: '系統把通知準備好，不代表可以送。人審是發送前的閘門，沒勾 checkbox，推播按鈕就是暗的。' },
+  { kind: 'section', sectionNo: '4', footer: '講義:U3/STEP-02-hitl-review.md', time: '1:50 - 2:05', title: 'Human-in-the-loop：沒勾，就送不出去', lead: '系統把通知準備好、把警示算出來，不代表可以送。人審是發送前的閘門，沒勾 checkbox，推播按鈕就是暗的。' },
 
   { kind: 'prompt', eyebrow: '段 4 · Prompt 卡 1', footer: 'U11·C3 ｜ 講義:U3/PROMPT-CARD 卡 1', title: 'Flex Message 內容審核，不改檔', label: '固定學生 prompt', code: `請檢查目前 LINE 推播中心的 Flex 視覺預覽。
 不要改檔。
@@ -349,7 +355,7 @@ styles.css            // CSS:狀態顏色、版面、RWD` },
 5. 可不可以按「推播 LINE Flex」` },
 
   // ── 段 5：真送流程 ───────────────────────────────────
-  { kind: 'section', sectionNo: '5', footer: '講義:U3/API-FLOW.md', time: '2:00 - 2:50', title: '真送流程：前端只按門鈴，後端才開門', lead: '前端永遠不會直接打 api.line.me。推播按鈕呼叫的是本機後端 /api/send-line-flex，token 只留在 line-lab/.env。' },
+  { kind: 'section', sectionNo: '5', footer: '講義:U3/API-FLOW.md', time: '2:05 - 2:50', title: '真送流程：前端只按門鈴，後端才開門', lead: '前端永遠不會直接打 api.line.me。推播按鈕呼叫的是本機後端 /api/send-line-flex，token 只留在 line-lab/.env。' },
 
   { kind: 'analogy', eyebrow: '段 5 · 建立直覺', footer: 'U11·C3 ｜ 講義:U3/STEP-02 §4', title: 'token 就像你家鑰匙', analogy: 'channel access token 代表「用這個 LINE OA 帳號發訊息」的權限。\n\n放進前端 = 把鑰匙貼在大門上,打開網頁的每個人都拿得到。\n\n所以:前端只打自己的 /api/send-line-flex(按門鈴),真正打 api.line.me(開門)的是後端。鑰匙全程留在 line-lab/.env,不進前端、不進簡報、不進 git diff、不進截圖。' },
 
@@ -404,12 +410,12 @@ git diff
 git add .
 git commit -m "完成訂單看板與 LINE OA Flex 真推播"` },
 
-  { kind: 'bullets', eyebrow: '段 7 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['訂單資訊走通：載入 → 檢查 → 預覽 → 人審 → 推播。', 'LINE OA / 群組 / 手機真的收到 Flex Message。', '未勾 checkbox 時推播按鈕是暗的、按不下去。', 'token 只在 line-lab/.env，沒有進前端、簡報或 commit。', 'npm run build 通過。', 'ReAct 是加分：把「嚴重」修回合約允許值，擋牌消失。'] },
+  { kind: 'bullets', eyebrow: '段 7 · 驗收標準', footer: 'U11·C3 ｜ 講義:U3/ACCEPTANCE.md', title: '看到這些才算完成', bullets: ['開始營業後看板會動:訂單持續進來、KPI 跳動、庫存自動往下掉。', '三種訊息(訂單資訊/庫存警示/營運異常)都能走完載入→檢查→預覽→人審→推播。', 'LINE OA / 群組 / 手機真的收到 Flex Message，顏色跟類型相符。', '未勾 checkbox 時推播按鈕是暗的、按不下去。', 'token 只在 line-lab/.env，沒有進前端、簡報或 commit。', 'npm run build 通過。ReAct 是加分:把「嚴重」修回合約允許值，擋牌消失。'] },
 
   { kind: 'cards', eyebrow: '收束 · 回顧四堂', title: '從「會問 AI」到「會做、會管」', cards: [
     { title: 'C1 進得了專案', body: '打開、跑起來、改一個字、存檔。' },
     { title: 'C2 管得住 AI', body: 'AGENTS/CLAUDE + planner→人審→implementer。(控制輸出)' },
-    { title: 'C3 做出真推播(今天)', body: 'BOBA TIDE 訂單看板、Flex 預覽、人審、LINE OA 真推播。(控制行動)', color: C.orange },
+    { title: 'C3 做出真推播(今天)', body: '會動的訂單看板、三色 Flex 預覽、人審、LINE OA 真推播。(控制行動)', color: C.orange },
     { title: 'C4 下一堂', body: '把流程自動化,再用三個 MCP 幫 AI 接上外部工具。(擴充能力)' },
   ] },
 ];
@@ -442,6 +448,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
       {slide.kind === 'ask' && slide.ask ? <AskCard ask={slide.ask} answer={slide.answer ?? ''} /> : null}
       {slide.kind === 'shot' ? <Shot slide={slide} /> : null}
       {slide.kind === 'twoshot' ? <TwoShot slide={slide} /> : null}
+      {slide.kind === 'threeshot' ? <ThreeShot slide={slide} /> : null}
     </Shell>
   );
 };
@@ -449,7 +456,7 @@ const DeckPage = ({ slide }: { slide: SlideSpec }) => {
 const pages = slides.map((slide) => (() => <DeckPage slide={slide} />) as Page);
 
 export const meta: SlideMeta = {
-  title: 'U11-C3: 從看到資料到真的送出 LINE Flex',
+  title: 'U11-C3: 一間營業中的手搖飲店，接上 LINE',
   createdAt: '2026-07-04T00:00:00.000Z',
 };
 
